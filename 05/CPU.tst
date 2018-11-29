@@ -10,7 +10,8 @@ output-list time%S0.4.0 inM%D0.6.0 instruction%B0.16.0 reset%B2.1.2 outM%D1.6.0 
 
 
 set instruction %B0011000000111001, // @12345
-tick, output, tock, output;
+tick, output;
+tock, output;
 
 set instruction %B1110110000010000, // D=A
 tick, output, tock, output;

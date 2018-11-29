@@ -39,23 +39,61 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
+    // decode raw instruction
+    Mux16(a=instruction, b[0..15]=false, sel=instruction[0], 
+    out=cIns, 
+    out[12]=writeM,
+    out[3]=a,  // a
+    out[4]=c1, // comp
+    out[5]=c2,
+    out[6]=c3,
+    out[7]=c4,
+    out[8]=c5,
+    out[9]=c6,
+    out[10]=d1, // dest
+    out[11]=d2,
+    out[12]=d3,
+    out[13]=j1, // jmp
+    out[14]=j2,
+    out[15]=j3);
+
+    Not(in=instruction[0], out=notI0);
+    Or(a=instruction[0], b=false, out=display0);
+    Or(a=instruction[1], b=false, out=display1);
+    Or(a=instruction[2], b=false, out=display2);
+    Or(a=instruction[3], b=false, out=display3);
+    Or(a=instruction[4], b=false, out=display4);
+    Or(a=instruction[5], b=false, out=display5);
+    Or(a=instruction[6], b=false, out=display6);
+
+    Or(a=instruction[7], b=false, out=display7);
+    Or(a=instruction[8], b=false, out=display8);
+    Or(a=instruction[9], b=false, out=display9);
+    Or(a=instruction[10], b=false, out=display10);
+    Or(a=instruction[11], b=false, out=display11);
+    Or(a=instruction[12], b=false, out=display12);
+    Or(a=instruction[13], b=false, out=display13);
+    Or(a=instruction[14], b=false, out=display14);
+
+    
+
     Mux16(a=inM, b=instruction, sel=notI0, out=aI);
     Or(a=notI0, b=instruction[10], out=aLoad);
     ARegister(in=aI, load=aLoad, out[0..15]=aR, out[0..14]=addressM);
-    Mux16(a=aR, b=inM, sel=instruction[3], out=AM);
+    Mux16(a=aR, b=inM, sel=a, out=AM);
 
-    DRegister(in=aluO, load=instruction[11], out=dO);
-    ALU(x=dO, y=AM, zx=instruction[4], nx=instruction[5], zy=instruction[6], ny=instruction[7], f=instruction[8], no=instruction[9], 
+    DRegister(in=aluO, load=d2, out=dO);
+    ALU(x=dO, y=AM, zx=c1, nx=c2, zy=c3, ny=c4, f=c5, no=c6, 
     out=aluO,out=outM, zr=zrO, ng=ngO);
 
-    Or(a=ngO, b=zrO, out=j1j2);
+    And(a=ngO, b=j1, out=j1O);
+    And(a=zrO, b=j2, out=j2O);
+
     Not(in=ngO, out=notNg);
     Not(in=zrO, out=notZr);
-    And(a=notNg, b=notZr, out=j3);
-    Or(a=j1j2, b=j3, out=jO);
+    And(a=notNg, b=notZr, out=j3O);
+    Or(a=j1O, b=j2O, out=j1j2O);    
+    Or(a=j1j2O, b=j3O, out=jO);
 
-    PC(in=aR, load=jO, inc=true, reset=reset, out[0..14]=pc);
-    Or16(a=instruction, b[0..15]=false, out=display);
-    Not(in=instruction[0], out=notI0);
-    And(a=notI0, b=instruction[12], out=writeM);
+    PC(in=aR, load=jO, inc=true, reset=reset, out[0..14]=pc);    
 }
