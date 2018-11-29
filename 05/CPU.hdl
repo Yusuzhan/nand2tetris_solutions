@@ -39,22 +39,23 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    Or(a=instruction[0], b=false, out=a);
-    Mux16(a=aluO, b=instrcution, sel=instruction[10], out=aI);
-    // A register
-    Register(in=aI, load=a, out=aO, out[0..14]=addressM);
-    Mux(a=aO, b=inM, sel=instrcution[3], out=AM);
-    // D register
-    Register(in=aluO, load=instruction[11], out=dO);
-    ALU(x=dO, y=AM, zx=instrcution[4], nx=instrcution[5], zy=instrcution[6], ny=instrcution[7], f=instrcution[8], no=instrcution[9], 
-    out=aluO,
-    out=outM, zr=zrO, ng=ngO);
-    // jump    
-    Or16(a=ngO, b=zrO, out=j1j2);
-    Not16(in=ngO, out=notNg);
-    Not16(in=zrO, out=notZr);
-    And16(a=notNg, b=notZr, out=j3);
-    Or16(a=j1j2, b=j3, out=jO);
-    PC(in=aO, load=jO, inc=true, reset=reset, out[0..14]=pc);
-    Or(a=false, b=instrcution[12], out=writeM);
+    Mux16(a=inM, b=instruction, sel=notI0, out=aI);
+    Or(a=notI0, b=instruction[10], out=aLoad);
+    ARegister(in=aI, load=aLoad, out[0..15]=aR, out[0..14]=addressM);
+    Mux16(a=aR, b=inM, sel=instruction[3], out=AM);
+
+    DRegister(in=aluO, load=instruction[11], out=dO);
+    ALU(x=dO, y=AM, zx=instruction[4], nx=instruction[5], zy=instruction[6], ny=instruction[7], f=instruction[8], no=instruction[9], 
+    out=aluO,out=outM, zr=zrO, ng=ngO);
+
+    Or(a=ngO, b=zrO, out=j1j2);
+    Not(in=ngO, out=notNg);
+    Not(in=zrO, out=notZr);
+    And(a=notNg, b=notZr, out=j3);
+    Or(a=j1j2, b=j3, out=jO);
+
+    PC(in=aR, load=jO, inc=true, reset=reset, out[0..14]=pc);
+    Or16(a=instruction, b[0..15]=false, out=display);
+    Not(in=instruction[0], out=notI0);
+    And(a=notI0, b=instruction[12], out=writeM);
 }
