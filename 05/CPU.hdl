@@ -72,28 +72,6 @@ CHIP CPU {
 
     Not(in=instruction[15], out=notI15);
 
-    Or(a=instruction[0], b=false, out=display0);
-    Or(a=instruction[1], b=false, out=display1);
-    Or(a=instruction[2], b=false, out=display2);
-    Or(a=instruction[3], b=false, out=display3);
-
-    Or(a=instruction[4], b=false, out=display4);
-    Or(a=instruction[5], b=false, out=display5);
-    Or(a=instruction[6], b=false, out=display6);
-    Or(a=instruction[7], b=false, out=display7);
-
-    Or(a=instruction[8], b=false, out=display8);
-    Or(a=instruction[9], b=false, out=display9);
-    Or(a=instruction[10], b=false, out=display10);
-    Or(a=instruction[11], b=false, out=display11);
-
-    Or(a=instruction[12], b=false, out=display12);
-    Or(a=instruction[13], b=false, out=display13);
-    Or(a=instruction[14], b=false, out=display14);
-    Or(a=instruction[15], b=false, out=display15);
-
-    
-
     Mux16(a=aluO, b=instruction, sel=notI15, out=aI);
     Or(a=notI15, b=d1, out=aLoad);
     ARegister(in=aI, load=aLoad, out[0..15]=aR, out[0..14]=addressM);
