@@ -6,29 +6,31 @@ A_COMMAND = 'A_COMMAND'
 C_COMMAND = 'C_COMMAND'
 L_COMMAND = 'L_COMMAND'
 # symbols
-SP = 0
-LCL = 1
-ARG = 2
-THIS = 3
-THAT = 4
-R0 = 0
-R1 = 1
-R2 = 2
-R3 = 3
-R4 = 4
-R5 = 5
-R6 = 6
-R7 = 7
-R8 = 8
-R9 = 9
-R10 = 10
-R11 = 11
-R12 = 12
-R13 = 13
-R14 = 14
-R15 = 15
-SCREEN = 16384  # 0x4000
-KBD = 24576  # 0x6000
+symbol_table = {
+    'SP': 0,
+    'LCL': 1,
+    'ARG': 2,
+    'THIS': 3,
+    'THAT': 4,
+    'R0': 0,
+    'R1': 1,
+    'R2': 2,
+    'R3': 3,
+    'R4': 4,
+    'R5': 5,
+    'R6': 6,
+    'R7': 7,
+    'R8': 8,
+    'R9': 9,
+    'R10': 10,
+    'R11': 11,
+    'R12': 12,
+    'R13': 13,
+    'R14': 14,
+    'R15': 15,
+    'SCREEN': 16384,  # 0x4000
+    'KBD': 24576  # 0x6000
+}
 
 asmname = sys.argv[1]
 print('file name is ', asmname)
@@ -41,34 +43,52 @@ for line in raw_lines:
     if line != '' and not line.startswith('//') and line != '\n':
         commands.append(line)
 lineNum = len(commands)
-cur = 0
+var_index = 16
+cur = -1
+validCount = -1
+
 
 # Parser
 
 
 def has_more_lines():
-    return cur < lineNum
+    return cur + 1 < lineNum
 
 
 def advance():
     global cur
-    current_line = commands[cur]
     cur = cur + 1
-    return current_line
+    current_line = commands[cur]
+    return current_line.split('//')[0].strip()
 
 
 def command_type(cmd):
+    global validCount
     if cmd.startswith('@'):
+        validCount += 1
         return A_COMMAND
-    elif cmd.startswith('(') and cmd.endswith(')'):
+    elif cmd.startswith('('):
         return L_COMMAND
     else:
+        validCount += 1
         return C_COMMAND
 
 
-def symbol(cmd):
-    # todo
-    return 0
+def save_var_symbol(cmd):
+    global var_index
+    var_name = cmd[1:]
+    symbol_table[var_name] = var_index
+    print('add VAR', var_name, var_index, 'to table')
+    var_index += 1
+    return bin(symbol_table[var_name])[2:].zfill(16)
+
+
+def label_symbol(cmd):
+    global cur
+    label = cmd[1:len(cmd) - 1]
+    if symbol_table.get(label) is None:
+        print('add ', label, validCount + 1, ' to symbol table')
+        symbol_table[label] = validCount + 1
 
 
 def dest(cmd):
@@ -114,12 +134,12 @@ def comp(cmd):
         return 'D+1'
     elif cmd.find('=D-1') > -1:
         return 'D-1'
-    elif cmd.find('=D') > -1 or cmd.find('D;') > -1:
-        return 'D'
     elif cmd.find('=D|A') > -1:
         return 'D|A'
     elif cmd.find('=D|M') > -1:
         return 'D|M'
+    elif cmd.find('=D') > -1 or cmd.find('D;') > -1:
+        return 'D'
     # starts with A
     elif cmd.find('=A+1') > -1:
         return 'A+1'
@@ -182,8 +202,14 @@ def gen_a(cmd):
     """
     16 bits
     """
-    i = int(cmd[1:])
-    return bin(i)[2:].zfill(16)
+    tar = cmd[1:]
+    if tar.isdigit():
+        return bin(int(tar))[2:].zfill(16)
+    else:
+        if not symbol_table.get(tar) is None:
+            return bin(symbol_table.get(tar))[2:].zfill(16)
+        else:  # save new variable into table
+            return save_var_symbol(cmd)
 
 
 def gen_dest(str):
@@ -226,7 +252,7 @@ def gen_comp(arg):
     elif arg == '!A':
         return 0b0110011
     elif arg == '!M':
-        return 0b1110011
+        return 0b1110001
     elif arg == '-D':
         return 0b0001111
     elif arg == '-A':
@@ -294,6 +320,15 @@ def gen_jump(arg):
 hackname = asmname.split('.')[0] + ".hack"
 outFile = open(hackname, 'w')
 
+# pass 1
+while has_more_lines():
+    cmd = advance()
+    type = command_type(cmd)
+    if type == L_COMMAND:
+        label_symbol(cmd)
+# pass 2
+cur = -1
+validCount = -1
 while has_more_lines():
     cmd = advance()
     type = command_type(cmd)
@@ -302,5 +337,3 @@ while has_more_lines():
     elif type == C_COMMAND:
         bincode = bin(C_PREFIX | gen_comp(comp(cmd)) << 6 | gen_dest(dest(cmd)) << 3 | gen_jump(jump(cmd)))[2:]
         outFile.write(bincode + "\n")
-    elif type == L_COMMAND:
-        outFile.write("L command not supported" + "\n")
