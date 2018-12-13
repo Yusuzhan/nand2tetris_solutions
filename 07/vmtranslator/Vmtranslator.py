@@ -28,3 +28,6 @@ while parser.has_more_commands():
 # py Vmtranslator.py ../StackArithmetic/SimpleAdd/SimpleAdd.vm
 # StackTest
 # py Vmtranslator.py ../StackArithmetic/StackTest/StackTest.vm
+
+# PopLocal
+# py Vmtranslator.py ../MemoryAccess/BasicTest/PopLocal.vm

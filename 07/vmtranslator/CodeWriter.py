@@ -138,6 +138,24 @@ class CodeWriter:
             self.output_file.write('M=D' + '\n')
             self.output_file.write('@SP' + '\n')
             self.output_file.write('M=M+1' + '\n')
+        elif segment() == 'local':
+            # LCL = LCL + index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=D+M' + '\n')
+            # D = MEM[stack - 1]
+            self.output_file.write('@SP' + '\n')
+            self.output_file.write('D=M' + '\n')
+            self.output_file.write('M=M-1' + '\n')
+            # MEM[LCL] = D
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=D' + '\n')
+            # LCL = LCL - index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=M-D' + '\n')
 
     def close(self):
         self.output_file.close()
