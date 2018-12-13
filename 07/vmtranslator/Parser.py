@@ -32,7 +32,7 @@ class Parser:
         hasMoreCommands() is true. Initially there is no current command. """
         self.cur_line = self.commands[self.cur].replace('\n', '')
         self.cur += 1
-        print('advance: ', self.cur_line)
+        print('\033[0;33;41m' + self.cur_line + '\033[0m')
         return self.cur_line
 
     def command_type(self):
@@ -50,25 +50,22 @@ class Parser:
         C_RETURN,
         C_CALL
         """
-        type = self.cur_line.strip().split(' ')[0]
+        type = self.cur_line.replace('\n', '').strip().split(' ')[0]
         if (
                 type == 'add' or
                 type == 'sub' or
                 type == 'neg' or
-                type == 'eg' or
+                type == 'eq' or
                 type == 'gt' or
                 type == 'lt' or
                 type == 'and' or
                 type == 'or' or
                 type == 'not'
         ):
-            print('vm code=', self.cur_line, 'type=C_ARITHMETIC')
             return C_ARITHMETIC
         elif type == 'push':
-            print('vm code=', self.cur_line, 'type=', C_PUSH)
             return C_PUSH
         elif type == 'pop':
-            print('vm code=', self.cur_line, 'type=C_POP')
             return C_POP
         else:
             return 'NOT_DEF'

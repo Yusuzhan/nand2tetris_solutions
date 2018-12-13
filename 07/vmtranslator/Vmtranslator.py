@@ -17,6 +17,7 @@ code_writer = CodeWriter(output_hack_file)
 while parser.has_more_commands():
     vm_cmd = parser.advance()
     cmd_type = parser.command_type()
+    print('command_type =', cmd_type)
     if cmd_type == C_PUSH or cmd_type == C_POP:
         code_writer.write_push_pop(vm_cmd, parser.arg1, parser.arg2)
     elif cmd_type == C_ARITHMETIC:
