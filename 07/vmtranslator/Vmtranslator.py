@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import codecs
 
 from CodeWriter import CodeWriter
 from Parser import *
@@ -9,7 +10,7 @@ file_name = sys.argv[1]
 file = open(file_name, 'r')
 output_file_name = file_name[0:len(file_name) - 3]
 print('generate output file ', output_file_name)
-output_hack_file = open(output_file_name + '.asm', 'w')
+output_hack_file = codecs.open(output_file_name + '.asm', 'w', 'utf-8')
 parser = Parser(file)
 code_writer = CodeWriter(output_hack_file)
 
@@ -21,3 +22,8 @@ while parser.has_more_commands():
     elif cmd_type == C_ARITHMETIC:
         code_writer.write_arithmetic(vm_cmd, parser.arg1, parser.arg2)
 
+
+# SimpleAdd
+# py Vmtranslator.py ../StackArithmetic/SimpleAdd/SimpleAdd.vm
+# StackTest
+# py Vmtranslator.py ../StackArithmetic/StackTest/StackTest.vm

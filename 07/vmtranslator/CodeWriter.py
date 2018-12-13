@@ -17,9 +17,16 @@ class CodeWriter:
             self.output_file.write('M=M-1' + '\n')
             self.output_file.write('A=M' + '\n')
             self.output_file.write('D=M' + '\n')
-            self.output_file.write('M=0' + '\n')
             self.output_file.write('A=A-1' + '\n')
             self.output_file.write('M=M+D' + '\n')
+        elif arg1 == 'eq':
+            self.output_file.write('@SP' + '\n')
+            self.output_file.write('M=M-1' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('D=M' + '\n')
+            self.output_file.write('A=A-1' + '\n')
+            self.output_file.write('M=D-M' + '\n')
+
 
     def write_push_pop(self, cmd, segment, index):
         """
