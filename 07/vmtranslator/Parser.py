@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+C_ARITHMETIC = 'C_ARITHMETIC'
+C_PUSH = 'C_PUSH'
+C_POP = 'C_POP'
+
+
 class Parser:
     """
     Parser: Handles the parsing of a single .vm file, and encapsulates access to the input code. It reads VM commands,
@@ -7,12 +13,14 @@ class Parser:
 
     def __init__(self, file):
         self.file = file
-        raw_lines = file.readlines()
         self.commands = list()
+        self.cur = 0
+        self.cur_line = ''
+        raw_lines = file.readlines()
         for line in raw_lines:
             if line != '' and not line.startswith('//') and line != '\n':
                 self.commands.append(line)
-        self.cur = 0
+
         print('total=', len(raw_lines), ', cmd=', len(self.commands))
 
     def has_more_commands(self):
@@ -22,19 +30,19 @@ class Parser:
     def advance(self):
         """Reads the next command from the input and makes it the current command. Should be called only if
         hasMoreCommands() is true. Initially there is no current command. """
-        line = self.commands[self.cur]
+        self.cur_line = self.commands[self.cur].replace('\n', '')
         self.cur += 1
-        print('advance: ', line)
-        return line
+        print('advance: ', self.cur_line)
+        return self.cur_line
 
     def command_type(self):
         """
         Returns the type of the current VM command.
         C_ARITHMETIC is returned for all the arithmetic commands.
         :return:
-        C_ARITHMETIC,
-        C_PUSH,
-        C_POP,
+        C_ARITHMETIC, # done
+        C_PUSH, # done
+        C_POP, # done
         C_LABEL,
         C_GOTO,
         C_IF,
@@ -42,7 +50,28 @@ class Parser:
         C_RETURN,
         C_CALL
         """
-        return 'C_ARITHMETIC'
+        type = self.cur_line.strip().split(' ')[0]
+        if (
+                type == 'add' or
+                type == 'sub' or
+                type == 'neg' or
+                type == 'eg' or
+                type == 'gt' or
+                type == 'lt' or
+                type == 'and' or
+                type == 'or' or
+                type == 'not'
+        ):
+            print('vm code=', self.cur_line, 'type=C_ARITHMETIC')
+            return C_ARITHMETIC
+        elif type == 'push':
+            print('vm code=', self.cur_line, 'type=', C_PUSH)
+            return C_PUSH
+        elif type == 'pop':
+            print('vm code=', self.cur_line, 'type=C_POP')
+            return C_POP
+        else:
+            return 'NOT_DEF'
 
     def arg1(self):
         """
@@ -50,11 +79,18 @@ class Parser:
         In the case of C_ARITHMETIC , the command itself ( add , sub , etc.) is returned.
         Should not be called if the current command is C_RETURN .
         """
-        return 'todo'
+        if self.command_type() == C_ARITHMETIC:
+            return self.cur_line.split(' ')[0]
+        elif self.command_type() == C_PUSH or self.command_type() == C_POP:
+            return self.cur_line.split(' ')[1]
+        return 'NOT_DEF'
 
     def arg2(self):
         """
         Returns the second argument of the current command.
         Should be called only if the current command is C_PUSH , C_POP , C_FUNCTION , or C_CALL
+        :return int
         """
+        if self.command_type() == 'C_PUSH' or self.command_type() == 'C_POP':
+            return self.cur_line.split(' ')[2]
         return 0
