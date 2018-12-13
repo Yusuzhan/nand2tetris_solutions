@@ -130,6 +130,14 @@ class CodeWriter:
         """
         print('write_push_pop cmd=', cmd)
         self.output_file.write('// ' + cmd + '\n')
+        if segment() == 'temp':
+            arg0 = cmd.replace('\n', '').strip().split(' ')[0]
+            if arg0 == 'push':
+                # push temp FOO
+                self.output_file.write('NOT DEF' + '\n')
+            else:
+                # pop temp FOO
+                self.output_file.write('NOT DEF' + '\n')
         if segment() == 'constant':
             self.output_file.write('@' + index() + '\n')
             self.output_file.write('D=A' + '\n')
@@ -144,12 +152,74 @@ class CodeWriter:
             self.output_file.write('D=A' + '\n')
             self.output_file.write('@LCL' + '\n')
             self.output_file.write('M=D+M' + '\n')
-            # D = MEM[stack - 1]
+            # sp = sp - 1; D = stack[sp]
             self.output_file.write('@SP' + '\n')
-            self.output_file.write('D=M' + '\n')
             self.output_file.write('M=M-1' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('D=M' + '\n')
             # MEM[LCL] = D
             self.output_file.write('@LCL' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('M=D' + '\n')
+            # LCL = LCL - index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=M-D' + '\n')
+        elif segment() == 'argument':
+            # LCL = LCL + index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=D+M' + '\n')
+            # sp = sp - 1; D = stack[sp]
+            self.output_file.write('@SP' + '\n')
+            self.output_file.write('M=M-1' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('D=M' + '\n')
+            # MEM[LCL] = D
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('M=D' + '\n')
+            # LCL = LCL - index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=M-D' + '\n')
+        elif segment() == 'this':
+            # LCL = LCL + index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=D+M' + '\n')
+            # sp = sp - 1; D = stack[sp]
+            self.output_file.write('@SP' + '\n')
+            self.output_file.write('M=M-1' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('D=M' + '\n')
+            # MEM[LCL] = D
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('M=D' + '\n')
+            # LCL = LCL - index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=M-D' + '\n')
+        elif segment() == 'that':
+            # LCL = LCL + index
+            self.output_file.write('@' + index() + '\n')
+            self.output_file.write('D=A' + '\n')
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('M=D+M' + '\n')
+            # sp = sp - 1; D = stack[sp]
+            self.output_file.write('@SP' + '\n')
+            self.output_file.write('M=M-1' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('D=M' + '\n')
+            # MEM[LCL] = D
+            self.output_file.write('@LCL' + '\n')
+            self.output_file.write('A=M' + '\n')
             self.output_file.write('M=D' + '\n')
             # LCL = LCL - index
             self.output_file.write('@' + index() + '\n')
