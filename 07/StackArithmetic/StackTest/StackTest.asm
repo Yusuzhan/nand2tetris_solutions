@@ -1,21 +1,18 @@
-// push constant 17
-@17
+@17 // push constant 17
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 17
-@17
+@17 // push constant 17
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// eq
-@SP
+@SP // eq
 M=M-1
 A=M
 D=M
@@ -33,24 +30,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_EQ_0)
-// push constant 17
-@17
+@17 // push constant 17
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 16
-@16
+@16 // push constant 16
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// eq
-@SP
+@SP // eq
 M=M-1
 A=M
 D=M
@@ -68,24 +62,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_EQ_1)
-// push constant 16
-@16
+@16 // push constant 16
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 17
-@17
+@17 // push constant 17
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// eq
-@SP
+@SP // eq
 M=M-1
 A=M
 D=M
@@ -103,24 +94,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_EQ_2)
-// push constant 892
-@892
+@892 // push constant 892
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 891
-@891
+@891 // push constant 891
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// lt
-@SP
+@SP // lt
 M=M-1
 A=M
 D=M
@@ -138,24 +126,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_LT_3)
-// push constant 891
-@891
+@891 // push constant 891
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 892
-@892
+@892 // push constant 892
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// lt
-@SP
+@SP // lt
 M=M-1
 A=M
 D=M
@@ -173,24 +158,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_LT_4)
-// push constant 891
-@891
+@891 // push constant 891
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 891
-@891
+@891 // push constant 891
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// lt
-@SP
+@SP // lt
 M=M-1
 A=M
 D=M
@@ -208,24 +190,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_LT_5)
-// push constant 32767
-@32767
+@32767 // push constant 32767
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 32766
-@32766
+@32766 // push constant 32766
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// gt
-@SP
+@SP // gt
 M=M-1
 A=M
 D=M
@@ -243,24 +222,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_GT_6)
-// push constant 32766
-@32766
+@32766 // push constant 32766
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 32767
-@32767
+@32767 // push constant 32767
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// gt
-@SP
+@SP // gt
 M=M-1
 A=M
 D=M
@@ -278,24 +254,21 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_GT_7)
-// push constant 32766
-@32766
+@32766 // push constant 32766
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 32766
-@32766
+@32766 // push constant 32766
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// gt
-@SP
+@SP // gt
 M=M-1
 A=M
 D=M
@@ -313,81 +286,70 @@ M=0
 A=M-1
 M=-1
 (LBL_NOT_GT_8)
-// push constant 57
-@57
+@57 // push constant 57
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 31
-@31
+@31 // push constant 31
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 53
-@53
+@53 // push constant 53
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// add
-@SP
+@SP // add
 M=M-1
 A=M
 D=M
 A=A-1
 M=M+D
-// push constant 112
-@112
+@112 // push constant 112
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// sub
-@SP
+@SP // sub
 M=M-1
 A=M
 D=M
 A=A-1
 M=M-D
-// neg
-@SP
+@SP // neg
 D=M-1
 A=D
 M=-M
-// and
-@SP
+@SP // and
 M=M-1
 A=M
 D=M
 A=A-1
 M=D&M
-// push constant 82
-@82
+@82 // push constant 82
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// or
-@SP
+@SP // or
 M=M-1
 A=M
 D=M
 A=A-1
 M=D|M
-// not
-@SP
+@SP // not
 D=M-1
 A=D
 M=!M

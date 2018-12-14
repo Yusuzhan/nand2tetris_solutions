@@ -9,9 +9,7 @@ full_file_name = sys.argv[1]
 # file_name = 'SimpleAdd.vm'
 file = open(full_file_name, 'r')
 output_file_name = full_file_name[0:len(full_file_name) - 3]
-print('generate output file ', output_file_name)
 short_file_name = full_file_name.split('/')[-1].replace('.vm', '')
-print('short file name=', short_file_name)
 output_hack_file = codecs.open(output_file_name + '.asm', 'w', 'utf-8')
 parser = Parser(file)
 code_writer = CodeWriter(output_hack_file)
@@ -25,20 +23,24 @@ while parser.has_more_commands():
     elif cmd_type == C_ARITHMETIC:
         code_writer.write_arithmetic(vm_cmd, parser.arg1, parser.arg2)
 
-# SimpleAdd
-# py Vmtranslator.py ../StackArithmetic/SimpleAdd/SimpleAdd.vm
-# StackTest
-# py Vmtranslator.py ../StackArithmetic/StackTest/StackTest.vm
+'''
+# StackArithmetic
 
-# PopLocal
-# py Vmtranslator.py ../MemoryAccess/BasicTest/PopLocal.vm
-# AccessTemp
-# py Vmtranslator.py ../MemoryAccess/MyTests/AccessTemp.vm
-# BasicTest
-# py Vmtranslator.py ../MemoryAccess/BasicTest/BasicTest.vm
+## SimpleAdd
+py Vmtranslator.py ../StackArithmetic/SimpleAdd/SimpleAdd.vm
 
-# PointerTest
-# py Vmtranslator.py ../MemoryAccess/PointerTest/PointerTest.vm
+## StackTest
+py Vmtranslator.py ../StackArithmetic/StackTest/StackTest.vm
 
-# StaticTest
-# py Vmtranslator.py ../MemoryAccess/StaticTest/StaticTest.vm
+
+# MemoryAccess
+
+## BasicTest
+py Vmtranslator.py ../MemoryAccess/BasicTest/BasicTest.vm
+
+## PointerTest
+py Vmtranslator.py ../MemoryAccess/PointerTest/PointerTest.vm
+
+## StaticTest
+py Vmtranslator.py ../MemoryAccess/StaticTest/StaticTest.vm
+'''
