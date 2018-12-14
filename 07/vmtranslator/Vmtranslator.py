@@ -35,3 +35,6 @@ while parser.has_more_commands():
 # py Vmtranslator.py ../MemoryAccess/MyTests/AccessTemp.vm
 # BasicTest
 # py Vmtranslator.py ../MemoryAccess/BasicTest/BasicTest.vm
+
+# PointerTest
+# py Vmtranslator.py ../MemoryAccess/PointerTest/PointerTest.vm

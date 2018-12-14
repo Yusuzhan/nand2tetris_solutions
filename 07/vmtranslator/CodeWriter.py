@@ -155,6 +155,33 @@ class CodeWriter:
             self.output_file.write('M=D' + '\n')
             self.output_file.write('@SP' + '\n')
             self.output_file.write('M=M+1' + '\n')
+        elif segment() == 'pointer':
+            pointer_lbl = ''
+            if index() == '0':
+                pointer_lbl = 'THIS'
+            else:
+                pointer_lbl = 'THAT'
+            if arg0 == 'pop':
+                # pop pointer X
+                # D=stack[sp]; sp=sp-1
+                self.output_file.write('@SP // ' + cmd + '\n')
+                self.output_file.write('M=M-1' + '\n')
+                self.output_file.write('@SP' + '\n')
+                self.output_file.write('A=M' + '\n')
+                self.output_file.write('D=M' + '\n')
+                # THIS=D
+                self.output_file.write('@' + pointer_lbl + '\n')
+                self.output_file.write('M=D' + '\n')
+            else:
+                # push pointer X
+                # D=THIS
+                self.output_file.write('@ ' + pointer_lbl + ' // ' + cmd + '\n')
+                self.output_file.write('D=M' + '\n')
+                self.output_file.write('@SP' + '\n')
+                self.output_file.write('A=M' + '\n')
+                self.output_file.write('M=D' + '\n')
+                self.output_file.write('@SP' + '\n')
+                self.output_file.write('M=M+1' + '\n')
         elif (segment() == 'local' or
               segment() == 'argument' or
               segment() == 'this' or
