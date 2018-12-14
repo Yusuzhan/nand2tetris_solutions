@@ -31,5 +31,7 @@ while parser.has_more_commands():
 
 # PopLocal
 # py Vmtranslator.py ../MemoryAccess/BasicTest/PopLocal.vm
+# AccessTemp
+# py Vmtranslator.py ../MemoryAccess/MyTests/AccessTemp.vm
 # BasicTest
 # py Vmtranslator.py ../MemoryAccess/BasicTest/BasicTest.vm

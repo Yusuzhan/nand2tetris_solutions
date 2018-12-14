@@ -1,0 +1,22 @@
+@20
+D=A
+@SP
+M=D
+@30
+D=A
+@LCL
+M=D
+@777
+D=A
+@38
+M=D
+@8 // push loacal 8
+D=A
+@LCL
+A=M+D
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1

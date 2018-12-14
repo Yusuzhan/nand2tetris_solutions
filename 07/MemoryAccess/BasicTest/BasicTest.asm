@@ -1,13 +1,11 @@
-// push constant 10
-@10
+@10 // push constant 10
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// pop local 0
-@0
+@0 // pop local 0
 D=A
 @LCL
 M=D+M
@@ -22,248 +20,211 @@ M=D
 D=A
 @LCL
 M=M-D
-// push constant 21
-@21
+@21 // push constant 21
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 22
-@22
+@22 // push constant 22
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// pop argument 2
-@2
+@2 // pop argument 2
 D=A
-@LCL
+@ARG
 M=D+M
 @SP
 M=M-1
 A=M
 D=M
-@LCL
+@ARG
 A=M
 M=D
 @2
 D=A
-@LCL
+@ARG
 M=M-D
-// pop argument 1
-@1
+@1 // pop argument 1
 D=A
-@LCL
+@ARG
 M=D+M
 @SP
 M=M-1
 A=M
 D=M
-@LCL
+@ARG
 A=M
 M=D
 @1
 D=A
-@LCL
+@ARG
 M=M-D
-// push constant 36
-@36
+@36 // push constant 36
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// pop this 6
-@6
+@6 // pop this 6
 D=A
-@LCL
+@THIS
 M=D+M
 @SP
 M=M-1
 A=M
 D=M
-@LCL
+@THIS
 A=M
 M=D
 @6
 D=A
-@LCL
+@THIS
 M=M-D
-// push constant 42
-@42
+@42 // push constant 42
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// push constant 45
-@45
+@45 // push constant 45
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// pop that 5
-@5
+@5 // pop that 5
 D=A
-@LCL
+@THAT
 M=D+M
 @SP
 M=M-1
 A=M
 D=M
-@LCL
+@THAT
 A=M
 M=D
 @5
 D=A
-@LCL
+@THAT
 M=M-D
-// pop that 2
-@2
+@2 // pop that 2
 D=A
-@LCL
+@THAT
 M=D+M
 @SP
 M=M-1
 A=M
 D=M
-@LCL
+@THAT
 A=M
 M=D
 @2
 D=A
-@LCL
+@THAT
 M=M-D
-// push constant 510
-@510
+@510 // push constant 510
 D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-// pop temp 6
-NOT DEF
-// push local 0
-@0
-D=A
-@LCL
-M=D+M
-@SP
+@SP // pop temp 6
 M=M-1
 A=M
 D=M
-@LCL
-A=M
+@R11
 M=D
-@0
+@0 // push local 0
 D=A
 @LCL
-M=M-D
-// push that 5
-@5
-D=A
-@LCL
-M=D+M
-@SP
-M=M-1
-A=M
+A=D+M
 D=M
-@LCL
+@SP
 A=M
 M=D
-@5
-D=A
-@LCL
-M=M-D
-// add
 @SP
+M=M+1
+@5 // push that 5
+D=A
+@THAT
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // add
 M=M-1
 A=M
 D=M
 A=A-1
 M=M+D
-// push argument 1
-@1
+@1 // push argument 1
 D=A
-@LCL
-M=D+M
-@SP
-M=M-1
-A=M
+@ARG
+A=D+M
 D=M
-@LCL
+@SP
 A=M
 M=D
-@1
-D=A
-@LCL
-M=M-D
-// sub
 @SP
+M=M+1
+@SP // sub
 M=M-1
 A=M
 D=M
 A=A-1
 M=M-D
-// push this 6
-@6
+@6 // push this 6
 D=A
-@LCL
-M=D+M
-@SP
-M=M-1
-A=M
+@THIS
+A=D+M
 D=M
-@LCL
+@SP
 A=M
 M=D
-@6
-D=A
-@LCL
-M=M-D
-// push this 6
-@6
-D=A
-@LCL
-M=D+M
 @SP
-M=M-1
-A=M
+M=M+1
+@6 // push this 6
+D=A
+@THIS
+A=D+M
 D=M
-@LCL
+@SP
 A=M
 M=D
-@6
-D=A
-@LCL
-M=M-D
-// add
 @SP
+M=M+1
+@SP // add
 M=M-1
 A=M
 D=M
 A=A-1
 M=M+D
-// sub
-@SP
+@SP // sub
 M=M-1
 A=M
 D=M
 A=A-1
 M=M-D
-// push temp 6
-NOT DEF
-// add
+@R11 // push temp 6
+D=M
 @SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // add
 M=M-1
 A=M
 D=M

@@ -1,0 +1,4 @@
+push constant 777
+push constant 888
+pop temp 5
+push temp 5
