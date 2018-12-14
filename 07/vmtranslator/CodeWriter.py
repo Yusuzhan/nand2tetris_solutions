@@ -122,7 +122,7 @@ class CodeWriter:
                                    + 'M=-1\n'
                                    + '(' + lbl_not_lt + ')\n')
 
-    def write_push_pop(self, cmd, segment, index):
+    def write_push_pop(self, cmd, segment, index, file_name):
         """
         Writes the assembly code that is the translation of the given command,
         where command is either C_PUSH or C_POP
@@ -130,9 +130,9 @@ class CodeWriter:
         print('write_push_pop cmd=', cmd)
         arg0 = cmd.replace('\n', '').strip().split(' ')[0]
         if segment() == 'temp':
+            temp_register_name = 'R' + str(int(index()) + 5)  # temp segment starts from 5
             if arg0 == 'push':
-                register_name = 'R' + str(int(index()) + 5)  # temp segment starts from 5
-                self.output_file.write('@' + register_name + ' // ' + cmd + '\n')
+                self.output_file.write('@' + temp_register_name + ' // ' + cmd + '\n')
                 self.output_file.write('D=M' + '\n')
                 self.output_file.write('@SP' + '\n')
                 self.output_file.write('A=M' + '\n')
@@ -140,12 +140,28 @@ class CodeWriter:
                 self.output_file.write('@SP' + '\n')
                 self.output_file.write('M=M+1' + '\n')
             else:
-                register_name = 'R' + str(int(index()) + 5)  # temp segment starts from 5
                 self.output_file.write('@SP' + ' // ' + cmd + '\n')
                 self.output_file.write('M=M-1' + '\n')
                 self.output_file.write('A=M' + '\n')
                 self.output_file.write('D=M' + '\n')
-                self.output_file.write('@' + register_name + '\n')
+                self.output_file.write('@' + temp_register_name + '\n')
+                self.output_file.write('M=D' + '\n')
+        if segment() == 'static':
+            static_register_name = file_name + '.' + index()  # temp segment starts from 5
+            if arg0 == 'push':
+                self.output_file.write('@' + static_register_name + ' // ' + cmd + '\n')
+                self.output_file.write('D=M' + '\n')
+                self.output_file.write('@SP' + '\n')
+                self.output_file.write('A=M' + '\n')
+                self.output_file.write('M=D' + '\n')
+                self.output_file.write('@SP' + '\n')
+                self.output_file.write('M=M+1' + '\n')
+            else:
+                self.output_file.write('@SP' + ' // ' + cmd + '\n')
+                self.output_file.write('M=M-1' + '\n')
+                self.output_file.write('A=M' + '\n')
+                self.output_file.write('D=M' + '\n')
+                self.output_file.write('@' + static_register_name + '\n')
                 self.output_file.write('M=D' + '\n')
         elif segment() == 'constant':
             self.output_file.write('@' + index() + ' // ' + cmd + '\n')
