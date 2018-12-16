@@ -4,7 +4,8 @@ class CodeWriter:
 
     """
 
-    def __init__(self, output_file):
+    def __init__(self, source_file, output_file):
+        self.source_file = source_file
         self.output_file = output_file
         self.label_index = 0
 
@@ -122,7 +123,7 @@ class CodeWriter:
                                    + 'M=-1\n'
                                    + '(' + lbl_not_lt + ')\n')
 
-    def write_push_pop(self, cmd, segment, index, file_name):
+    def write_push_pop(self, cmd, segment, index):
         """
         Writes the assembly code that is the translation of the given command,
         where command is either C_PUSH or C_POP
@@ -147,7 +148,7 @@ class CodeWriter:
                 self.output_file.write('@' + temp_register_name + '\n')
                 self.output_file.write('M=D' + '\n')
         if segment() == 'static':
-            static_register_name = file_name + '.' + index()  # temp segment starts from 5
+            static_register_name = self.source_file + '.' + index()  # temp segment starts from 5
             if arg0 == 'push':
                 self.output_file.write('@' + static_register_name + ' // ' + cmd + '\n')
                 self.output_file.write('D=M' + '\n')
@@ -242,6 +243,38 @@ class CodeWriter:
                 self.output_file.write('M=D' + '\n')
                 self.output_file.write('@SP' + '\n')
                 self.output_file.write('M=M+1' + '\n')
+
+    def write_if(self, vm_cmd, arg1):
+        '''
+        if-goto LOOP_START
+        // sp=sp-1; D=stack[sp]
+        @SP
+        M=M-1
+        A=M
+        D=M
+        // if D != 0; jump
+        @LBL
+        D;JNE
+        '''
+        print('write if cmd=', vm_cmd)
+        lbl_name = self.source_file + '$' + arg1()
+        self.output_file.write('@SP' + ' // ' + vm_cmd + '\n')
+        self.output_file.write('M=M-1' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@' + lbl_name + '\n')
+        self.output_file.write('D;JNE' + '\n')
+
+    def write_goto(self, vm_cmd, arg1):
+        print('write goto cmd=', vm_cmd)
+        lbl_name = self.source_file + '$' + arg1()
+        self.output_file.write('@' + lbl_name + '\n')
+        self.output_file.write('0;JMP' + '\n')
+
+    def write_label(self, vm_cmd, arg1):
+        print('write label cmd=', vm_cmd)
+        lbl_name = self.source_file + '$' + arg1()
+        self.output_file.write('(' + lbl_name + ')' ' // ' + vm_cmd + '\n')
 
     def close(self):
         self.output_file.close()

@@ -2,7 +2,12 @@
 C_ARITHMETIC = 'C_ARITHMETIC'
 C_PUSH = 'C_PUSH'
 C_POP = 'C_POP'
-
+C_LABEL = 'C_LABEL'
+C_GOTO = 'C_GOTO'
+C_IF = 'C_IF'
+C_FUNCTION = 'C_FUNCTION'
+C_RETURN = 'C_RETURN'
+C_CALL = 'C_CALL'
 
 class Parser:
     """
@@ -67,6 +72,10 @@ class Parser:
             return C_PUSH
         elif type == 'pop':
             return C_POP
+        elif type == 'label':
+            return C_LABEL
+        elif type == 'if-goto':
+            return C_IF
         else:
             return 'NOT_DEF'
 
@@ -78,9 +87,8 @@ class Parser:
         """
         if self.command_type() == C_ARITHMETIC:
             return self.cur_line.split(' ')[0]
-        elif self.command_type() == C_PUSH or self.command_type() == C_POP:
+        else:
             return self.cur_line.split(' ')[1]
-        return 'NOT_DEF'
 
     def arg2(self):
         """
