@@ -27,7 +27,7 @@ while parser.has_more_commands():
     elif cmd_type == C_IF:
         code_writer.write_if(vm_cmd, parser.arg1)
     elif cmd_type == C_GOTO:
-        code_writer.write_goto(vm_cmd, vm_cmd, parser.arg1)
+        code_writer.write_goto(vm_cmd, parser.arg1)
     elif cmd_type == C_FUNCTION:
         code_writer.write_function(vm_cmd)
     elif cmd_type == C_RETURN:

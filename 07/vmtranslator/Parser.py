@@ -76,6 +76,8 @@ class Parser:
             return C_LABEL
         elif type == 'if-goto':
             return C_IF
+        elif type == 'goto':
+            return C_GOTO
         else:
             return 'NOT_DEF'
 
