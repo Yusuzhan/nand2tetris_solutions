@@ -276,5 +276,14 @@ class CodeWriter:
         lbl_name = self.source_file + '$' + arg1()
         self.output_file.write('(' + lbl_name + ')' ' // ' + vm_cmd + '\n')
 
+    def write_function(self, vm_cmd, arg1, arg2):
+        print('write function cmd=', vm_cmd)
+
+    def write_return(self, vm_cmd):
+        print('write return cmd=', vm_cmd)
+
+    def write_call(self, vm_cmd):
+        print('write call cmd=', vm_cmd)
+
     def close(self):
         self.output_file.close()

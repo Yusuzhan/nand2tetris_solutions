@@ -78,6 +78,12 @@ class Parser:
             return C_IF
         elif type == 'goto':
             return C_GOTO
+        elif type == 'function':
+            return C_FUNCTION
+        elif type == 'return':
+            return C_RETURN
+        elif type == 'call':
+            return C_CALL
         else:
             return 'NOT_DEF'
 
