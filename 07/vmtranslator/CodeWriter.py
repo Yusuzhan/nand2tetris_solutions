@@ -416,5 +416,15 @@ class CodeWriter:
         self.output_file.write('0;JMP' + '\n')
         self.output_file.write('(' + ret_lbl + ')' + '\n')
 
+    @staticmethod
+    def write_bootstrap(output_file):
+        output_file.write('@261 // bootstrap\n')
+        output_file.write('D=A' + '\n')
+        output_file.write('@SP' + '\n')
+        output_file.write('M=D' + '\n')
+        output_file.write('@Sys.init' + '\n')
+        output_file.write('0;JMP' + '\n')
+        output_file.flush()
+
     def close(self):
         self.output_file.close()

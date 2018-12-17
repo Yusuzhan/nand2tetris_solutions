@@ -17,16 +17,19 @@ class Parser:
     comments.
     """
 
-    def __init__(self, file):
-        self.file = file
+    def __init__(self, source_file):
+        self.file = source_file
         self.commands = list()
         self.cur = 0
         self.cur_line = ''
-        raw_lines = file.readlines()
+        if source_file is not None:
+            self.set_source_file(source_file)
+
+    def set_source_file(self, source_file):
+        raw_lines = source_file.readlines()
         for line in raw_lines:
             if line != '' and not line.startswith('//') and line != '\n':
                 self.commands.append(line)
-
         print('total=', len(raw_lines), ', cmd=', len(self.commands))
 
     def has_more_commands(self):
