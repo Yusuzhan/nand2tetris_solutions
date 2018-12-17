@@ -278,8 +278,7 @@ class CodeWriter:
 
     def write_function(self, vm_cmd, func_name, arg_num):
         print('write function cmd=', vm_cmd)
-        lbl_name = self.source_file + '$' + func_name()
-        self.output_file.write('(' + lbl_name + ')' ' // ' + vm_cmd + '\n')
+        self.output_file.write('(' + func_name() + ')' ' // ' + vm_cmd + '\n')
         # repeat arg_num times: init local variables to 0
         for i in range(0, int(arg_num())):
             self.output_file.write('@SP' + '\n')
@@ -354,8 +353,68 @@ class CodeWriter:
         self.output_file.write('A=M' + '\n')
         self.output_file.write('0;JMP' + '\n')
 
-    def write_call(self, vm_cmd):
+    def write_call(self, vm_cmd, func_name, arg_num):
         print('write call cmd=', vm_cmd)
+        ret_lbl = 'LBL_RET_' + self.gen_label_index()
+        # sp=ret; sp=sp+1
+        self.output_file.write('@' + ret_lbl + '\n')
+        self.output_file.write('D=A' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('M=D' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('M=M+1' + '\n')
+        # sp=LCL; sp=sp+1
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('M=D' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('M=M+1' + '\n')
+        # ARG
+        self.output_file.write('@ARG' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('M=D' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('M=M+1' + '\n')
+        # THIS
+        self.output_file.write('@THIS' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('M=D' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('M=M+1' + '\n')
+        # THAT
+        self.output_file.write('@THAT' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('M=D' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('M=M+1' + '\n')
+        # ARG=SP-n-5
+        self.output_file.write('@5 // ARG=SP-n-5 \n')
+        self.output_file.write('D=A' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('D=M-D' + '\n')
+        if int(arg_num()) > 0:
+            self.output_file.write('@' + arg_num() + '\n')
+            self.output_file.write('D=D-A' + '\n')
+        self.output_file.write('@ARG' + '\n')
+        self.output_file.write('M=D' + '\n')
+        # LCL=SP
+        self.output_file.write('@SP // LCL=SP\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('M=D' + '\n')
+        # goto function
+        self.output_file.write('@' + func_name() + '\n')
+        self.output_file.write('0;JMP' + '\n')
+        self.output_file.write('(' + ret_lbl + ')' + '\n')
 
     def close(self):
         self.output_file.close()

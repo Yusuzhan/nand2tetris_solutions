@@ -33,7 +33,7 @@ while parser.has_more_commands():
     elif cmd_type == C_RETURN:
         code_writer.write_return(vm_cmd)
     elif cmd_type == C_CALL:
-        code_writer.write_call(vm_cmd)
+        code_writer.write_call(vm_cmd, parser.arg1, parser.arg2)
     else:
         output_hack_file.write('// ' + vm_cmd + ' not implemented yet \n')
 
@@ -68,4 +68,7 @@ python Vmtranslator.py ../../08/ProgramFlow/FibonacciSeries/FibonacciSeries.vm
 
 ## SimpleFunction
 py Vmtranslator.py ../../08/FunctionCalls/SimpleFunction/SimpleFunction.vm
+
+## NestedCall
+py Vmtranslator.py ../../08/FunctionCalls/NestedCall/Sys.vm
 '''
