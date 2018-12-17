@@ -1,0 +1,585 @@
+@261 // bootstrap
+D=A
+@SP
+M=D
+@BOOTSTRAP
+D=A
+@256
+M=D
+@Sys.init
+0;JMP
+(BOOTSTRAP)
+(Class2.set) // function Class2.set 0
+@0 // push argument 0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // pop static 0
+M=M-1
+A=M
+D=M
+@Class2.0
+M=D
+@1 // push argument 1
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // pop static 1
+M=M-1
+A=M
+D=M
+@Class2.1
+M=D
+@0 // push constant 0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5 // return
+D=A
+@LCL
+A=M-D
+D=M
+@14
+M=D
+@SP // *ARG = pop()
+M=M-1
+A=M
+D=M
+@ARG
+A=M
+M=D
+@ARG // SP = ARG + 1
+D=M
+@SP
+M=D+1
+@LCL // THAT=*(FRAME-1)
+D=M
+@1
+D=D-A
+A=D
+D=M
+@THAT
+M=D
+@LCL // THIS=*(FRAME-2)
+D=M
+@2
+D=D-A
+A=D
+D=M
+@THIS
+M=D
+@LCL
+D=M
+@3
+D=D-A
+A=D
+D=M
+@ARG
+M=D
+@LCL
+D=M
+@4
+D=D-A
+A=D
+D=M
+@LCL
+M=D
+@14
+A=M
+0;JMP
+(Class2.get) // function Class2.get 0
+@Class2.0 // push static 0
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@Class2.1 // push static 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // sub
+M=M-1
+A=M
+D=M
+A=A-1
+M=M-D
+@5 // return
+D=A
+@LCL
+A=M-D
+D=M
+@14
+M=D
+@SP // *ARG = pop()
+M=M-1
+A=M
+D=M
+@ARG
+A=M
+M=D
+@ARG // SP = ARG + 1
+D=M
+@SP
+M=D+1
+@LCL // THAT=*(FRAME-1)
+D=M
+@1
+D=D-A
+A=D
+D=M
+@THAT
+M=D
+@LCL // THIS=*(FRAME-2)
+D=M
+@2
+D=D-A
+A=D
+D=M
+@THIS
+M=D
+@LCL
+D=M
+@3
+D=D-A
+A=D
+D=M
+@ARG
+M=D
+@LCL
+D=M
+@4
+D=D-A
+A=D
+D=M
+@LCL
+M=D
+@14
+A=M
+0;JMP
+(Class1.set) // function Class1.set 0
+@0 // push argument 0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // pop static 0
+M=M-1
+A=M
+D=M
+@Class1.0
+M=D
+@1 // push argument 1
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // pop static 1
+M=M-1
+A=M
+D=M
+@Class1.1
+M=D
+@0 // push constant 0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5 // return
+D=A
+@LCL
+A=M-D
+D=M
+@14
+M=D
+@SP // *ARG = pop()
+M=M-1
+A=M
+D=M
+@ARG
+A=M
+M=D
+@ARG // SP = ARG + 1
+D=M
+@SP
+M=D+1
+@LCL // THAT=*(FRAME-1)
+D=M
+@1
+D=D-A
+A=D
+D=M
+@THAT
+M=D
+@LCL // THIS=*(FRAME-2)
+D=M
+@2
+D=D-A
+A=D
+D=M
+@THIS
+M=D
+@LCL
+D=M
+@3
+D=D-A
+A=D
+D=M
+@ARG
+M=D
+@LCL
+D=M
+@4
+D=D-A
+A=D
+D=M
+@LCL
+M=D
+@14
+A=M
+0;JMP
+(Class1.get) // function Class1.get 0
+@Class1.0 // push static 0
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@Class1.1 // push static 1
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@SP // sub
+M=M-1
+A=M
+D=M
+A=A-1
+M=M-D
+@5 // return
+D=A
+@LCL
+A=M-D
+D=M
+@14
+M=D
+@SP // *ARG = pop()
+M=M-1
+A=M
+D=M
+@ARG
+A=M
+M=D
+@ARG // SP = ARG + 1
+D=M
+@SP
+M=D+1
+@LCL // THAT=*(FRAME-1)
+D=M
+@1
+D=D-A
+A=D
+D=M
+@THAT
+M=D
+@LCL // THIS=*(FRAME-2)
+D=M
+@2
+D=D-A
+A=D
+D=M
+@THIS
+M=D
+@LCL
+D=M
+@3
+D=D-A
+A=D
+D=M
+@ARG
+M=D
+@LCL
+D=M
+@4
+D=D-A
+A=D
+D=M
+@LCL
+M=D
+@14
+A=M
+0;JMP
+(Sys.init) // function Sys.init 0
+@6 // push constant 6
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@8 // push constant 8
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LBL_RET_0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5 // ARG=SP-n-5 
+D=A
+@SP
+D=M-D
+@2
+D=D-A
+@ARG
+M=D
+@SP // LCL=SP
+D=M
+@LCL
+M=D
+@Class1.set
+0;JMP
+(LBL_RET_0)
+@SP // pop temp 0 // Dumps the return value
+M=M-1
+A=M
+D=M
+@R5
+M=D
+@23 // push constant 23
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@15 // push constant 15
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LBL_RET_1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5 // ARG=SP-n-5 
+D=A
+@SP
+D=M-D
+@2
+D=D-A
+@ARG
+M=D
+@SP // LCL=SP
+D=M
+@LCL
+M=D
+@Class2.set
+0;JMP
+(LBL_RET_1)
+@SP // pop temp 0 // Dumps the return value
+M=M-1
+A=M
+D=M
+@R5
+M=D
+@LBL_RET_2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5 // ARG=SP-n-5 
+D=A
+@SP
+D=M-D
+@ARG
+M=D
+@SP // LCL=SP
+D=M
+@LCL
+M=D
+@Class1.get
+0;JMP
+(LBL_RET_2)
+@LBL_RET_3
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@5 // ARG=SP-n-5 
+D=A
+@SP
+D=M-D
+@ARG
+M=D
+@SP // LCL=SP
+D=M
+@LCL
+M=D
+@Class2.get
+0;JMP
+(LBL_RET_3)
+(Sys$WHILE) // label WHILE
+@Sys$WHILE
+0;JMP

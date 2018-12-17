@@ -418,13 +418,20 @@ class CodeWriter:
 
     @staticmethod
     def write_bootstrap(output_file):
+        # SP = 256 + 5
         output_file.write('@261 // bootstrap\n')
         output_file.write('D=A' + '\n')
         output_file.write('@SP' + '\n')
         output_file.write('M=D' + '\n')
+        # MEM[256] = (BOOTSTRAP)
+        output_file.write('@BOOTSTRAP' + '\n')
+        output_file.write('D=A' + '\n')
+        output_file.write('@256' + '\n')
+        output_file.write('M=D' + '\n')
         output_file.write('@Sys.init' + '\n')
         output_file.write('0;JMP' + '\n')
-        output_file.flush()
+        output_file.write('(BOOTSTRAP)\n')
+        
 
     def close(self):
         self.output_file.close()
