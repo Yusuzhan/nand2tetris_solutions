@@ -245,7 +245,7 @@ class CodeWriter:
                 self.output_file.write('M=M+1' + '\n')
 
     def write_if(self, vm_cmd, arg1):
-        '''
+        """
         if-goto LOOP_START
         // sp=sp-1; D=stack[sp]
         @SP
@@ -255,7 +255,7 @@ class CodeWriter:
         // if D != 0; jump
         @LBL
         D;JNE
-        '''
+        """
         print('write if cmd=', vm_cmd)
         lbl_name = self.source_file + '$' + arg1()
         self.output_file.write('@SP' + ' // ' + vm_cmd + '\n')
@@ -276,11 +276,73 @@ class CodeWriter:
         lbl_name = self.source_file + '$' + arg1()
         self.output_file.write('(' + lbl_name + ')' ' // ' + vm_cmd + '\n')
 
-    def write_function(self, vm_cmd, arg1, arg2):
+    def write_function(self, vm_cmd, func_name, arg_num):
         print('write function cmd=', vm_cmd)
+        lbl_name = self.source_file + '$' + func_name()
+        self.output_file.write('(' + lbl_name + ')' ' // ' + vm_cmd + '\n')
+        # repeat arg_num times: init local variables to 0
+        for i in range(0, int(arg_num())):
+            self.output_file.write('@SP' + '\n')
+            self.output_file.write('A=M' + '\n')
+            self.output_file.write('M=0' + '\n')
+            self.output_file.write('@SP' + '\n')
+            self.output_file.write('M=M+1' + '\n')
 
     def write_return(self, vm_cmd):
         print('write return cmd=', vm_cmd)
+        # FRAME=LCL
+        # RET=*(FRAME-5)
+        # save RET to RAM[14]
+        self.output_file.write('@5' + ' // ' + vm_cmd + '\n')
+        self.output_file.write('D=A' + '\n')
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('A=M-D' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@14' + '\n')
+        self.output_file.write('M=D' + '\n')
+        # *ARG = pop()
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('M=M-1' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@ARG' + '\n')
+        self.output_file.write('M=D' + '\n')
+        # SP=ARG+1
+        self.output_file.write('@ARG' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@SP' + '\n')
+        self.output_file.write('M=D+1' + '\n')
+        # THAT=*(FRAME-1)
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@1' + '\n')
+        self.output_file.write('D=D-A' + '\n')
+        self.output_file.write('@THIS' + '\n')
+        self.output_file.write('M=D' + '\n')
+        # THIS=*(FRAME-2)
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@2' + '\n')
+        self.output_file.write('D=D-A' + '\n')
+        self.output_file.write('@THIS' + '\n')
+        self.output_file.write('M=D' + '\n')
+        # ARG=*(FRAME-3)
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@3' + '\n')
+        self.output_file.write('D=D-A' + '\n')
+        self.output_file.write('@ARG' + '\n')
+        self.output_file.write('M=D' + '\n')
+        # LCL=*(FRAME-4)
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('D=M' + '\n')
+        self.output_file.write('@4' + '\n')
+        self.output_file.write('D=D-A' + '\n')
+        self.output_file.write('@LCL' + '\n')
+        self.output_file.write('M=D' + '\n')
+        self.output_file.write('@14' + '\n')
+        self.output_file.write('A=M' + '\n')
+        self.output_file.write('0;JMP' + '\n')
 
     def write_call(self, vm_cmd):
         print('write call cmd=', vm_cmd)

@@ -29,7 +29,7 @@ while parser.has_more_commands():
     elif cmd_type == C_GOTO:
         code_writer.write_goto(vm_cmd, parser.arg1)
     elif cmd_type == C_FUNCTION:
-        code_writer.write_function(vm_cmd)
+        code_writer.write_function(vm_cmd, parser.arg1, parser.arg2)
     elif cmd_type == C_RETURN:
         code_writer.write_return(vm_cmd)
     elif cmd_type == C_CALL:
@@ -65,4 +65,7 @@ python Vmtranslator.py ../../08/ProgramFlow/BasicLoop/BasicLoop.vm
 
 ## FibonaccSeries
 python Vmtranslator.py ../../08/ProgramFlow/FibonacciSeries/FibonacciSeries.vm
+
+## SimpleFunction
+py Vmtranslator.py ../../08/FunctionCalls/SimpleFunction/SimpleFunction.vm
 '''

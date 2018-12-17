@@ -9,6 +9,7 @@ C_FUNCTION = 'C_FUNCTION'
 C_RETURN = 'C_RETURN'
 C_CALL = 'C_CALL'
 
+
 class Parser:
     """
     Parser: Handles the parsing of a single .vm file, and encapsulates access to the input code. It reads VM commands,
@@ -104,6 +105,4 @@ class Parser:
         Should be called only if the current command is C_PUSH , C_POP , C_FUNCTION , or C_CALL
         :return int
         """
-        if self.command_type() == 'C_PUSH' or self.command_type() == 'C_POP':
-            return self.cur_line.split(' ')[2]
-        return 0
+        return self.cur_line.split(' ')[2]
