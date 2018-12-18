@@ -14,33 +14,31 @@
  * the square's size. The 'q' key is used to quit the game.
  */
 
-class SquareGame {
-   field Square square; // the square of this game
+class TankGame {
+   field Tank tank;
    field int direction; // the square's current direction: 
                         // 0=none, 1=up, 2=down, 3=left, 4=right
 
    /** Constructs a new Square Game. */
-   constructor SquareGame new() {
+   constructor TankGame new() {
       // Creates a 30 by 30 pixels square and positions it at the top-left
       // of the screen.
-      let square = Square.new(0, 0, 130);
+      let tank = Tank.new();
       let direction = 0;  // initial state is no movement
       return this;
    }
 
    /** Disposes this game. */
    method void dispose() {
-      do square.dispose();
+      do tank.dispose();
       do Memory.deAlloc(this);
       return;
    }
 
    /** Moves the square in the current direction. */
    method void moveSquare() {
-      if (direction = 1) { do square.moveUp(); }
-      if (direction = 2) { do square.moveDown(); }
-      if (direction = 3) { do square.moveLeft(); }
-      if (direction = 4) { do square.moveRight(); }
+      if (direction = 1) { do tank.moveUp(); }
+      if (direction = 2) { do tank.moveDown(); }      
       do Sys.wait(100);  // delays the next movement
       return;
    }
@@ -57,20 +55,17 @@ class SquareGame {
             let key = Keyboard.keyPressed();
             do moveSquare();
          }
-         if (key = 81)  { let exit = true; }     // q key
-         if (key = 90)  { do square.decSize(); } // z key
-         if (key = 88)  { do square.incSize(); } // x key
+         if (key = 81)  { let exit = true; }     // q key      
          if (key = 131) { let direction = 1; }   // up arrow
-         if (key = 133) { let direction = 2; }   // down arrow
-         if (key = 130) { let direction = 3; }   // left arrow
-         if (key = 132) { let direction = 4; }   // right arrow
-
+         if (key = 133) { let direction = 2; }   // down arrow         
          // waits for the key to be released
          while (~(key = 0)) {
             let key = Keyboard.keyPressed();
-            do moveSquare();
+            // do moveSquare();
+            do Sys.wait(1000);
          }
      } // while
+     do Output.printString("Game Over");
      return;
    }
 }

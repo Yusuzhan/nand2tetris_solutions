@@ -1,0 +1,94 @@
+class Tank {
+   
+   field int x, y, memAddress; // screen location of the square's top-left corner
+
+   /** Constructs a new square with a given location and size. */
+   constructor Tank new() {
+      let x = 0;
+      let y = 0;
+      do draw();
+      return this;
+   }
+
+   /** Disposes this square. */
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Draws the square on the screen. */
+   method void draw() {
+      do Screen.setColor(true);
+      //do Screen.drawRectangle(x, y, x + size, y + size);
+      do drawTank(0);
+      do drawTank(1);
+      do drawPig(2);
+      return;
+   }
+
+   method void drawTank(int location) {      
+      let memAddress = 16384+location;
+      do Memory.poke(memAddress+0, 128);
+      do Memory.poke(memAddress+32, 128);
+      do Memory.poke(memAddress+64, 64);
+      do Memory.poke(memAddress+96, 96);
+      do Memory.poke(memAddress+128, 16382);
+      do Memory.poke(memAddress+160, 2056);
+      do Memory.poke(memAddress+192, 4088);
+      do Memory.poke(memAddress+224, 2056);
+      do Memory.poke(memAddress+256, 2056);
+      do Memory.poke(memAddress+288, 4088);
+      do Memory.poke(memAddress+320, 2056);
+      do Memory.poke(memAddress+352, -1);
+      do Memory.poke(memAddress+384, 528);
+      do Memory.poke(memAddress+416, 3096);
+      do Memory.poke(memAddress+448, 4100);
+      do Memory.poke(memAddress+480, 8194);
+      return;
+   }
+
+   method void drawPig(int location) {
+      let memAddress = 16384+location;
+      do Memory.poke(memAddress+0, 8705);
+      do Memory.poke(memAddress+32, 6658);
+      do Memory.poke(memAddress+64, 4038);
+      do Memory.poke(memAddress+96, 788);
+      do Memory.poke(memAddress+128, 648);
+      do Memory.poke(memAddress+160, 16367);
+      do Memory.poke(memAddress+192, 4);
+      do Memory.poke(memAddress+224, 8132);
+      do Memory.poke(memAddress+256, 4180);
+      do Memory.poke(memAddress+288, 4172);
+      do Memory.poke(memAddress+320, 8132);
+      do Memory.poke(memAddress+352, 4166);
+      do Memory.poke(memAddress+384, 4165);
+      do Memory.poke(memAddress+416, 8132);
+      do Memory.poke(memAddress+448, 2);
+      do Memory.poke(memAddress+480, 1);
+      return;
+   }
+
+   /** Moves the square up by 2 pixels. */
+   method void moveUp() {      
+      if (y > 1) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y- 1, x, y);
+         let y = y - 1;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y, x, y + 1);
+      }
+      return;
+   }
+
+   /** Moves the square down by 2 pixels. */
+   method void moveDown() {
+      if ((y + 16) < 254) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x, y + 1);
+         let y = y + 1;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y - 1, x, y);
+      }
+      return;
+   }
+}
