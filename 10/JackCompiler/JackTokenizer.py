@@ -3,11 +3,11 @@ import re
 # token type
 from Token import Token
 
-KEYWORD = 'KEYWORD'
 SYMBOL = 'SYMBOL'
-IDENTIFIER = 'IDENTIFIER'
-INT_CONST = 'INT_CONST'
 STRING_CONST = 'STRING_CONST'
+KEYWORD = 'KEYWORD'
+INT_CONST = 'INT_CONST'
+IDENTIFIER = 'IDENTIFIER'
 
 KEYWORDS = ['class', 'constructor', 'function',
             'method', 'field', 'static', 'var',
@@ -70,6 +70,7 @@ def tokenizer_engine(content):
     line_num = 0
     single_line_comment = False
     multiline_comment = False
+    string_constant = False
     i = 0
     while i < len(chars):
         cur = chars[i]
@@ -79,26 +80,52 @@ def tokenizer_engine(content):
         next2 = ''
         if i + 2 < len(chars):
             next2 = chars[i + 2]
+        # control line number
         if cur == '\n':
             line_num += 1
+        # enter single line comment
         if cur == '/' and next1 == '/' and not multiline_comment:
             # single comment in multiline comment is ignored
             single_line_comment = True
             i += 2
             continue
+        # leave single line comment
         if single_line_comment:
             if cur == '\n':
                 single_line_comment = False
             i += 1
             continue
+        # enter multi line comment
         if cur == '/' and next1 == '*':
             multiline_comment = True
             i += 2
             continue
+        # leave multi line comment
         if multiline_comment:
             if cur == '*' and next1 == '/':
                 multiline_comment = False
                 i += 2
+            i += 1
+            continue
+        if cur == '\"' and not string_constant:
+            # append the previous token
+            if not token.is_empty():
+                tokens.append(token)
+                token = Token()
+            # char coming next is string constant
+            string_constant = True
+            i += 1
+            continue
+        if string_constant:
+            if cur == '\"':
+                # string constant may be empty string
+                token.token_type = STRING_CONST
+                tokens.append(token)
+                token = Token()
+                string_constant = False
+            else:
+                # append char to string constant
+                token.append(cur)
             i += 1
             continue
         # \n
@@ -113,14 +140,15 @@ def tokenizer_engine(content):
         if cur in SYMBOLS:
             if not token.is_empty():
                 tokens.append(token)
-                token = Token()
-            tokens.append(cur)
+            token = Token(SYMBOL, cur)
+            tokens.append(token)
+            token = Token()
             i += 1
             continue
         if cur != ' ' and cur != '\n':
             token.append(cur)
         if i == len(chars) - 1:
-            if token != '':
+            if not token.is_empty():
                 print('tk', token)
                 tokens.append(token)
                 token = Token()

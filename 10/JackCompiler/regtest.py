@@ -3,7 +3,8 @@ import re
 from JackTokenizer import SYMBOLS, tokenizer_engine
 
 text = """
-a  = "a b c";
+
+var foo = 7788; 
 """
 
 print(tokenizer_engine(text))
