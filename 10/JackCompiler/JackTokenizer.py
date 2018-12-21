@@ -244,6 +244,13 @@ class JackTokenizer:
         self.cur_index += 1
         return self.cur_token
 
+    def next(self):
+        if self.cur_index == len(self.tokens) - 1:
+            return None
+        next = self.tokens[self.cur_index]
+        self.cur_token.get_token_type()
+        return next
+
     def token_type(self):
         return self.cur_token.get_token_type()
 

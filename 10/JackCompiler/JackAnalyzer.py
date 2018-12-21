@@ -9,8 +9,8 @@ from JackTokenizer import *
 
 def compile_jack_file(jack_file):
     tokenizer = JackTokenizer(jack_file)
-    while tokenizer.has_more_tokens():
-        token = tokenizer.advance()
+    compiler = CompilationEngine(tokenizer, jack_file)
+    compiler.compile()
 
 
 path = sys.argv[1]
