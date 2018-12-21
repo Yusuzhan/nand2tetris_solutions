@@ -22,7 +22,7 @@ class CompilationEngine:
         if limits is not None:
             if isinstance(limits, list) and token.token_type not in limits:
                 raise RuntimeError(token, 'can be only', limits)
-            if isinstance(limits, str) and token.token_type != limits:
+            if isinstance(limits, str) and token.content != limits:
                 raise RuntimeError(token, 'can be only', limits)
         self.log(token, indentation)
 
@@ -60,7 +60,7 @@ class CompilationEngine:
         self.compile_token(advance, indentation + 1)
         # {
         advance = self.advance()
-        self.compile_token(advance, indentation + 1)
+        self.compile_token(advance, indentation + 1, "{")
         # classVarDec* subroutineDec*
         while advance.content != '}':
             advance = self.advance()
@@ -92,7 +92,7 @@ class CompilationEngine:
         """
         Compiles a complete method, function, or constructor.
         """
-        self.log_node('subroutine', indentation)
+        self.log_node('subroutineDec', indentation)
         # function/method/constructor
         self.compile_token(token, indentation + 1)
         # void | type
@@ -105,13 +105,27 @@ class CompilationEngine:
         token = self.advance()
         self.compile_token(token, indentation + 1)
         # parameter list exists
-        print('!!! ', token)
         token = self.advance()
         self.compile_parameter_list(token, indentation + 1)
         # )
-        self.compile_token(token, indentation + 1)
-        self.log_node('/subroutine', indentation)
+        self.compile_token(token, indentation + 1, ')')
+        #  {
+        token = self.advance()
+        self.compile_subroutine_body(token, indentation + 1)
+        self.log_node('/subroutineDec', indentation)
         return
+
+    def compile_subroutine_body(self, token, indentation):
+        self.log_node('subroutineBody', indentation)
+        self.compile_token(token, indentation + 1, '{')
+        while token.content != '}':
+            token = self.advance()
+            if token.content == 'var':
+                print('var', token)
+                # varDec
+                pass
+        self.compile_token(token, indentation + 1, '}')
+        self.log_node('/subroutineBody', indentation)
 
     def compile_parameter_list(self, token, indentation):
         """Compiles a (possibly empty) parameter list, not including the enclosing ‘‘ () ’’."""
