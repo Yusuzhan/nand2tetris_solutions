@@ -1,22 +1,56 @@
 import re
 
 # token type
-from Token import Token
 
-SYMBOL = 'SYMBOL'
-STRING_CONST = 'STRING_CONST'
-KEYWORD = 'KEYWORD'
-INT_CONST = 'INT_CONST'
-IDENTIFIER = 'IDENTIFIER'
+count = 0
 
-KEYWORDS = ['class', 'constructor', 'function',
-            'method', 'field', 'static', 'var',
-            'int', 'char', 'boolean', 'void', 'true',
-            'false', 'null', 'this', 'let', 'do',
-            'if', 'else', 'while', 'return']
+
+class Token:
+    def __init__(self, token_type='', content='', line_num=0):
+        global count
+        self.token_type = token_type
+        self.content = content
+        self.line_num = line_num
+        self.id = count
+        count += 1
+
+    def is_empty(self):
+        return self.content == ''
+
+    def append(self, c):
+        self.content += c
+
+    def get_token_type(self):
+        if self.token_type != '':
+            pass
+        elif self.content in KEY_WORDS:
+            self.token_type = KEYWORD
+        elif self.content.isdigit():
+            self.token_type = INT_CONST
+        else:
+            self.token_type = IDENTIFIER
+        return self.token_type
+
+    def __repr__(self):
+        return 'T' + str(self.id) + '(' + self.token_type + ', ' \
+               + self.content + ', l=' + str(self.line_num) + ')'
+
+
+SYMBOL = 'symbol'
+STRING_CONST = 'stringConstant'
+KEYWORD = 'keyword'
+INT_CONST = 'integerConstant'
+IDENTIFIER = 'identifier'
+
+KEY_WORDS = ['class', 'constructor', 'function',
+             'method', 'field', 'static', 'var',
+             'int', 'char', 'boolean', 'void', 'true',
+             'false', 'null', 'this', 'let', 'do',
+             'if', 'else', 'while', 'return']
 
 # symbol
 SYMBOLS = ['{',
+           '|',
            '}',
            '(',
            ')',
@@ -67,7 +101,7 @@ def tokenizer_engine(content):
     chars = list(content)
     token = Token()
     tokens = list()
-    line_num = 0
+    line_num = 1
     single_line_comment = False
     multiline_comment = False
     string_constant = False
@@ -80,10 +114,7 @@ def tokenizer_engine(content):
         next2 = ''
         if i + 2 < len(chars):
             next2 = chars[i + 2]
-        # control line number
-        if cur == '\n':
-            line_num += 1
-        # enter single line comment
+            # enter single line comment
         if cur == '/' and next1 == '/' and not multiline_comment:
             # single comment in multiline comment is ignored
             single_line_comment = True
@@ -111,7 +142,7 @@ def tokenizer_engine(content):
             # append the previous token
             if not token.is_empty():
                 tokens.append(token)
-                token = Token()
+                token = Token(line_num=line_num)
             # char coming next is string constant
             string_constant = True
             i += 1
@@ -121,7 +152,7 @@ def tokenizer_engine(content):
                 # string constant may be empty string
                 token.token_type = STRING_CONST
                 tokens.append(token)
-                token = Token()
+                token = Token(line_num=line_num)
                 string_constant = False
             else:
                 # append char to string constant
@@ -134,24 +165,28 @@ def tokenizer_engine(content):
         if cur == ' ' or cur == '\t':
             if not token.is_empty():
                 tokens.append(token)
-                token = Token()
+                token = Token(line_num=line_num)
             i += 1
             continue
         if cur in SYMBOLS:
             if not token.is_empty():
                 tokens.append(token)
-            token = Token(SYMBOL, cur)
+            token = Token(SYMBOL, cur, line_num=line_num)
             tokens.append(token)
-            token = Token()
+            token = Token(line_num=line_num)
             i += 1
             continue
         if cur != ' ' and cur != '\n':
             token.append(cur)
+        if cur == '\n':
+            line_num += 1
+            if not token.is_empty():
+                tokens.append(token)
+            token = Token(line_num=line_num)
         if i == len(chars) - 1:
             if not token.is_empty():
-                print('tk', token)
+                print('append last token', token)
                 tokens.append(token)
-                token = Token()
             i += 1
             continue
         i += 1
@@ -162,15 +197,40 @@ class JackTokenizer:
     def __init__(self, jack_file):
         self.jack_file = jack_file
         self.cur_index = 0
-        self.cur_token = ''
+        self.cur_token = None
         self.tokens = tokenizer_engine(jack_file.read())
+        output_file_name = jack_file.name.replace('.jack', '_tokens.xml')
+        self.output_file = open(output_file_name, 'w')
+        self.log_head(self.output_file)
+
+    def log_head(self, file):
+        self.output_file.write('<tokens>\n')
+
+    def log_token(self, token, file):
+        txt = token.content
+        if txt == '<':
+            txt = '&lt;'
+        elif txt == '>':
+            txt = '&gt;'
+        elif txt == '\"':
+            txt = '&quot;'
+        elif txt == '&':
+            txt = '&amp;'
+        file.write('\t<{0}> {1} </{0}>\n'.format(token.token_type, txt))
+
+    def log_tail(self, file):
+        file.write('</tokens>')
+        file.flush()
 
     def has_more_tokens(self):
         """
         Do we have more tokens in the input?
         :return: Boolean
         """
-        return self.cur_index < len(self.tokens)
+        rs = self.cur_index < len(self.tokens)
+        if not rs:
+            self.log_tail(self.output_file)
+        return rs
 
     def advance(self):
         """
@@ -179,15 +239,13 @@ class JackTokenizer:
         Initially there is no current token.
         """
         self.cur_token = self.tokens[self.cur_index]
+        self.cur_token.get_token_type()
+        self.log_token(self.cur_token, self.output_file)
         self.cur_index += 1
         return self.cur_token
 
     def token_type(self):
-        if self.cur_token in SYMBOLS:
-            return SYMBOL
-        if self.cur_token in KEYWORDS:
-            return KEYWORD
-        return KEYWORD
+        return self.cur_token.get_token_type()
 
     def keyword(self):
         return CLASS

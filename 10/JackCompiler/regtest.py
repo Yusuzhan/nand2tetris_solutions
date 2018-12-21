@@ -3,8 +3,9 @@ import re
 from JackTokenizer import SYMBOLS, tokenizer_engine
 
 text = """
+let foo = 2;
 
-var foo = 7788; 
+let bar = "string";  
 """
 
 print(tokenizer_engine(text))

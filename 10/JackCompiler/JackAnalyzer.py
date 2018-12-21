@@ -9,8 +9,8 @@ from JackTokenizer import *
 
 def compile_jack_file(jack_file):
     tokenizer = JackTokenizer(jack_file)
-    print(tokenizer.tokens)
-    compiler = CompilationEngine()
+    while tokenizer.has_more_tokens():
+        token = tokenizer.advance()
 
 
 path = sys.argv[1]
@@ -21,3 +21,19 @@ if os.path.isdir(path):
     for jack_file_name in jack_file_name_list:
         jack_file = open(path + '/' + jack_file_name, 'r')
         compile_jack_file(jack_file)
+
+"""
+# ArrayTest
+py JackAnalyzer.py ../../10/ArrayTest
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\Main_tokens.xml"
+
+# ExpressionLessSquare
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Main_tokens.xml"
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Square_tokens.xml"
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGameT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGame_tokens.xml"
+
+# Square
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\Square\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\Square\Main_tokens.xml"
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\Square\SquareT.xml" "C:\workspace\others\nand2tetris_solutions\10\Square\Square_tokens.xml"
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\Square\SquareGameT.xml" "C:\workspace\others\nand2tetris_solutions\10\Square\SquareGame_tokens.xml"
+"""
