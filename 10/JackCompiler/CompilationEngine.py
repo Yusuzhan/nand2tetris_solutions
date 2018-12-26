@@ -1,5 +1,19 @@
 from JackTokenizer import *
 
+OP_SYMBOLS = [
+    '+',
+    '-',
+    '*',
+    '/',
+    '&',
+    '|',
+    '<',
+    '>',
+    '='
+]
+
+UNARY_OP_SYMBOL = ['-', '~']
+
 
 class CompilationEngine:
     def __init__(self, tokenizer, jack_file):
@@ -15,7 +29,7 @@ class CompilationEngine:
         """return current token"""
         return self.tokenizer.advance()
 
-    def next(self):
+    def next(self) -> Token:
         return self.tokenizer.next()
 
     def compile_token(self, token, indentation, limits=None):
@@ -73,7 +87,8 @@ class CompilationEngine:
                 self.compile_class_var_dec(advance, indentation + 1)
                 continue
             elif advance.content != '}':
-                raise RuntimeError(advance, 'Only subroutine and variable can be declared here')
+                raise RuntimeError(
+                    advance, 'Only subroutine and variable can be declared here')
         # }
         advance = self.advance()
         self.compile_token(advance, indentation + 1)
@@ -118,12 +133,18 @@ class CompilationEngine:
     def compile_subroutine_body(self, token, indentation):
         self.log_node('subroutineBody', indentation)
         self.compile_token(token, indentation + 1, '{')
-        while token.content != '}':
+        token = self.advance()
+        while token.content == 'var':
+            self.compile_var_dec(token, indentation + 1)
             token = self.advance()
-            if token.content == 'var':
-                print('var', token)
-                # varDec
-                pass
+        # if this token is '}' means the function has an empty body
+        if token.content == '}':
+            # empty body
+            print('empty body', token)
+            pass
+        else:
+            print('not empty body', token)
+            self.compile_statements(token, indentation + 1)
         self.compile_token(token, indentation + 1, '}')
         self.log_node('/subroutineBody', indentation)
 
@@ -148,21 +169,91 @@ class CompilationEngine:
                 # this function does not consumes ')' so didn't call advance()
                 break
             else:
+                print('WHAT?', token)
                 token = self.advance()
         self.log_node('/parameterList', indentation)
 
-    def compile_var_dec(self):
+    def compile_var_dec(self, token, indentation):
         """  Compiles a var declaration."""
+        self.log_node('varDec', indentation)
+        # var
+        self.compile_token(token, indentation + 1, 'var')
+        # var type
+        token = self.advance()
+        self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+        # var name
+        token = self.advance()
+        self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+        # , or ;
+        token = self.advance()
+        while token.content != ';':
+            self.compile_token(token, indentation + 1, ',')
+            token = self.advance()
+            self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+            token = self.advance()
+        self.compile_token(token, indentation + 1, ';')
+        self.log_node('/varDec', indentation)
         return
 
-    def compile_statements(self):
+    def compile_statements(self, token, indentation):
         """Compiles a sequence of statements, not including the enclosing ‘‘{}’’."""
+        self.log_node('statements', indentation)
+        while token.content != '}' and not token.is_empty():
+            print('compile statements:', token)
+            if token.content == 'let':
+                self.compile_let(token, indentation + 1)
+                pass
+            elif token.content == 'if':
+                token = self.advance()
+                pass
+            elif token.content == 'while':
+                token = self.advance()
+                pass
+            elif token.content == 'do':
+                token = self.advance()
+                pass
+            elif token.content == 'return':
+                token = self.advance()
+                pass
+            else:
+                print('ERROR')
+                break
+            token = self.advance()
+        self.log_node('/statements', indentation)
         return
 
     def compile_do(self):
         return
 
-    def compile_let(self):
+    def compile_let(self, token: Token, indentation):
+        """let length = Keyboard.readInt("HOW MANY NUMBERS? ");"""
+        self.log_node('letStatement', indentation)
+        # let
+        print('LET', token)
+        self.compile_token(token, indentation + 1, 'let')
+        #  length
+        token = self.advance()
+        print('VAR_NAME', token)
+        self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+        # = or [
+        token = self.advance()
+        array = False
+        if token.content == '[':
+            # todo to be tested
+            array = True
+            self.compile_token(token, indentation + 1, '[')
+            token = self.advance()
+            self.compile_expression(token, indentation + 1)
+            self.compile_token(token, indentation + 1, ']')
+            token = self.advance()
+        self.compile_token(token, indentation + 1, '=')
+        # expression
+        token = self.advance()
+        self.compile_expression(token, indentation + 1)
+        # ;
+        token = self.advance()
+        self.compile_token(token, indentation + 1, ';')
+        self.log_node('/letStatement', indentation)
         return
 
     def compile_while(self):
@@ -174,11 +265,86 @@ class CompilationEngine:
     def compile_if(self):
         return
 
-    def compile_expression(self):
+    def compile_expression(self, token, indentation):
+        self.log_node('expression', indentation)
+        self.compile_term(token, indentation + 1)
+        self.log_node('/expression', indentation)
         return
 
-    def compile_term(self):
+    def compile_term(self, token: Token, indentation):
+        self.log_node('term', indentation)
+        print('term', token)
+        if token.token_type == INT_CONST:
+            # todo test
+            pass
+        elif token.token_type == STRING_CONST:
+            self.compile_token(token, indentation + 1)
+            # keyword constant
+        elif token.content in ['true', 'false', 'null', 'this']:
+            self.compile_token(token, indentation + 1)
+            token = self.advance()
+            pass
+        elif token.content == '[':
+            # todo test
+            self.compile_token(token, indentation + 1, '[')
+            token = self.advance()
+            self.compile_expression(token, indentation + 1)
+            self.compile_token(token, indentation + 1, ']')
+            pass
+        elif token.content == '(':
+            # todo test
+            self.compile_token(token, indentation + 1, '(')
+            token = self.advance()
+            self.compile_expression(token, indentation + 1)
+            self.compile_token(token, indentation + 1, ')')
+            pass
+        elif token.content in UNARY_OP_SYMBOL:
+            # todo test
+            self.compile_token(token, indentation + 1)
+            token = self.advance()
+            self.compile_term(token, indentation + 1)
+        elif self.next().content == ';':
+            # varname
+            self.compile_token(token, indentation + 1)
+            pass
+        elif self.next().content == '(':
+            # method call
+
+            pass
+        elif self.next().content == '.':
+            # static function call
+            # class name
+            self.compile_token(token, indentation + 1, [IDENTIFIER])
+            token = self.advance()
+            self.compile_token(token, indentation + 1, '.')
+            # static function name
+            token = self.advance()
+            self.compile_token(token, indentation + 1, [IDENTIFIER])
+            token = self.advance()
+            self.compile_token(token, indentation + 1, '(')
+            token = self.advance()
+            self.compile_expression_list(token, indentation + 1)
+            token = self.advance()
+            print('should be )', token)
+            self.compile_token(token, indentation + 1, ')')
+            pass
+        else:
+            raise RuntimeError("Uncaught situation", token)
+        self.log_node('/term', indentation)
         return
 
-    def compile_expression_list(self):
+    def compile_expression_list(self, token: Token, indentation):
+        self.log_node('expressionList', indentation)
+        while token.content != ')':
+            self.compile_expression(token, indentation + 1)
+            if self.next() is not None and self.next().content == ',':
+                # multiple expression list
+                token = self.advance()
+                self.compile_token(token, indentation + 1, ',')
+            elif self.next() is not None and self.next().content == ')':
+                break
+            else:
+                print('UNEXPECTED token in compile_expression_list', token)
+                token = self.advance()
+        self.log_node('/expressionList', indentation)
         return

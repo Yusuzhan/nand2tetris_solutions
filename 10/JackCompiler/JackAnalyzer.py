@@ -26,6 +26,9 @@ if os.path.isdir(path):
 # ArrayTest
 py JackAnalyzer.py ../../10/ArrayTest
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\Main_tokens.xml"
+## test compilation engine
+py 10/JackCompiler/JackAnalyzer.py 10/ArrayTest
+
 
 # ExpressionLessSquare
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Main_tokens.xml"
