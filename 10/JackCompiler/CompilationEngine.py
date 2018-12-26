@@ -275,7 +275,7 @@ class CompilationEngine:
         self.log_node('term', indentation)
         print('term', token)
         if token.token_type == INT_CONST:
-            # todo test
+            self.compile_token(token, indentation + 1, [INT_CONST])
             pass
         elif token.token_type == STRING_CONST:
             self.compile_token(token, indentation + 1)
@@ -327,6 +327,12 @@ class CompilationEngine:
             token = self.advance()
             print('should be )', token)
             self.compile_token(token, indentation + 1, ')')
+            pass
+        elif token.token_type == IDENTIFIER \
+                and self.next() is not None \
+                and self.next().content == ')':
+            # varName
+            self.compile_token(token, indentation + 1, [IDENTIFIER])
             pass
         else:
             raise RuntimeError("Uncaught situation", token)

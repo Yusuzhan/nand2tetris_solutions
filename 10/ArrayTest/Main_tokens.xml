@@ -40,3 +40,13 @@
 	<identifier> new </identifier>
 	<symbol> ( </symbol>
 	<identifier> length </identifier>
+	<symbol> ) </symbol>
+	<symbol> ; </symbol>
+	<keyword> let </keyword>
+	<identifier> i </identifier>
+	<symbol> = </symbol>
+	<integerConstant> 0 </integerConstant>
+	<symbol> ; </symbol>
+	<keyword> while </keyword>
+	<symbol> ( </symbol>
+	<identifier> i </identifier>
