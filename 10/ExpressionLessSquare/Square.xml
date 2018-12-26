@@ -162,7 +162,7 @@
             <expression>
               <term>
                 <identifier> x </identifier>
-              </term>
+              </term>              
             </expression>
             <symbol> , </symbol>
             <expression>

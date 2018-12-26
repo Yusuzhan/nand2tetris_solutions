@@ -20,6 +20,7 @@ if os.path.isdir(path):
     short_file_name = path.split('/')[-1]
     for jack_file_name in jack_file_name_list:
         jack_file = open(path + '/' + jack_file_name, 'r')
+        print('>>> COMPILING FILE:', jack_file)
         compile_jack_file(jack_file)
 
 """
@@ -36,6 +37,12 @@ TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSqu
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGameT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGame_tokens.xml"
 
 py 10/JackCompiler/JackAnalyzer.py 10/ExpressionLessSquare
+
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Main_engine.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Main.xml"
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Square_engine.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Square.xml"
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGame_engine.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGame.xml"
+
+py 10/JackCompiler/JackAnalyzer.py 10/Square
 
 # Square
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\Square\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\Square\Main_tokens.xml"

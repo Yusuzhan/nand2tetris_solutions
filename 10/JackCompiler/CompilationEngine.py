@@ -108,8 +108,14 @@ class CompilationEngine:
         # var name
         token = self.advance()
         self.compile_token(token, indentation + 1, [IDENTIFIER])
-        # ;
         token = self.advance()
+        while token.content == ',':
+            self.compile_token(token, indentation + 1, ',')
+            token = self.advance()
+            self.compile_token(token, indentation + 1, [IDENTIFIER])
+            token = self.advance()
+            print("SHOULD BE ,", token)
+        # ;
         self.compile_token(token, indentation + 1, ';')
         self.log_node('/classVarDec', indentation)
         return
@@ -133,6 +139,8 @@ class CompilationEngine:
         # parameter list exists
         token = self.advance()
         self.compile_parameter_list(token, indentation + 1)
+        if token.content != ')':
+            token = self.advance()
         # )
         self.compile_token(token, indentation + 1, ')')
         #  {
@@ -260,7 +268,8 @@ class CompilationEngine:
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
             self.compile_expression_list(token, indentation + 1)
-            token = self.advance()
+            if token.content != ')':
+                token = self.advance()
             self.compile_token(token, indentation + 1, ')')
             # local method
             pass
@@ -329,6 +338,9 @@ class CompilationEngine:
         self.log_node('returnStatement', indentation)
         self.compile_token(token, indentation + 1, 'return')
         token = self.advance()
+        if token.content != ';':
+            self.compile_expression(token, indentation + 1)
+            token = self.advance()
         self.compile_token(token, indentation + 1, ';')
         self.log_node('/returnStatement', indentation)
         return
@@ -389,7 +401,6 @@ class CompilationEngine:
             # keyword constant
         elif token.content in ['true', 'false', 'null', 'this']:
             self.compile_token(token, indentation + 1)
-            token = self.advance()
             pass
         elif self.next().content == '[':
             self.compile_token(token, indentation + 1, [IDENTIFIER])
@@ -454,6 +465,7 @@ class CompilationEngine:
                 # multiple expression list
                 token = self.advance()
                 self.compile_token(token, indentation + 1, ',')
+                token = self.advance()
             elif self.next() is not None and self.next().content == ')':
                 break
             else:
