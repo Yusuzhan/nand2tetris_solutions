@@ -82,7 +82,7 @@ class CompilationEngine:
                     or advance.content == 'function'
                     or advance.content == 'method'):
                 self.compile_subroutine(advance, indentation + 1)
-            elif advance.content == 'var':
+            elif advance.content in ['field', 'static']:
                 self.compile_class_var_dec(advance, indentation + 1)
             elif advance.content != '}':
                 raise RuntimeError(
@@ -100,6 +100,18 @@ class CompilationEngine:
         passing token as an argument, because the caller has already called the advance function once
         Compiles a static declaration or a field declaration.
         """
+        self.log_node('classVarDec', indentation)
+        # static or field
+        self.compile_token(token, indentation + 1)
+        token = self.advance()
+        self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+        # var name
+        token = self.advance()
+        self.compile_token(token, indentation + 1, [IDENTIFIER])
+        # ;
+        token = self.advance()
+        self.compile_token(token, indentation + 1, ';')
+        self.log_node('/classVarDec', indentation)
         return
 
     def compile_subroutine(self, token, indentation):
@@ -198,13 +210,13 @@ class CompilationEngine:
     def compile_statements(self, token, indentation):
         """Compiles a sequence of statements, not including the enclosing ‘‘{}’’."""
         self.log_node('statements', indentation)
-        while True:
+        while token.content != '}':
             print('compile statements:', token)
             if token.content == 'let':
                 self.compile_let(token, indentation + 1)
                 pass
             elif token.content == 'if':
-                token = self.advance()
+                self.compile_if(token, indentation + 1)
                 pass
             elif token.content == 'while':
                 self.compile_while(token, indentation + 1)
@@ -321,7 +333,38 @@ class CompilationEngine:
         self.log_node('/returnStatement', indentation)
         return
 
-    def compile_if(self):
+    def compile_if(self, token: Token, indentation):
+        print('IF:', token)
+        self.log_node('ifStatement', indentation)
+        self.compile_token(token, indentation + 1, 'if')
+        token = self.advance()
+        self.compile_token(token, indentation + 1, '(')
+        token = self.advance()
+        # expression
+        self.compile_expression(token, indentation + 1)
+        # )
+        token = self.advance()
+        self.compile_token(token, indentation + 1, ')')
+        # {
+        token = self.advance()
+        self.compile_token(token, indentation + 1, '{')
+        # statements
+        token = self.advance()
+        self.compile_statements(token, indentation + 1)
+        # }
+        token = self.advance()
+        self.compile_token(token, indentation + 1, '}')
+        if self.next().content == 'else':
+            token = self.advance()
+            self.compile_token(token, indentation + 1, 'else')
+            token = self.advance()
+            self.compile_token(token, indentation + 1, '{')
+            token = self.advance()
+            self.compile_statements(token, indentation + 1)
+            token = self.advance()
+            self.compile_token(token, indentation + 1, '}')
+            pass
+        self.log_node('/ifStatement', indentation)
         return
 
     def compile_expression(self, token, indentation):

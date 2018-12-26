@@ -28,12 +28,14 @@ py JackAnalyzer.py ../../10/ArrayTest
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\Main_tokens.xml"
 ## test compilation engine
 py 10/JackCompiler/JackAnalyzer.py 10/ArrayTest
-
+TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\Main_engine.xml" "C:\workspace\others\nand2tetris_solutions\10\ArrayTest\Main.xml"
 
 # ExpressionLessSquare
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Main_tokens.xml"
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\Square_tokens.xml"
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGameT.xml" "C:\workspace\others\nand2tetris_solutions\10\ExpressionLessSquare\SquareGame_tokens.xml"
+
+py 10/JackCompiler/JackAnalyzer.py 10/ExpressionLessSquare
 
 # Square
 TextComparer.bat "C:\workspace\others\nand2tetris_solutions\10\Square\MainT.xml" "C:\workspace\others\nand2tetris_solutions\10\Square\Main_tokens.xml"
