@@ -242,7 +242,6 @@ class JackTokenizer:
         self.cur_token.get_token_type()
         self.log_token(self.cur_token, self.output_file)
         self.cur_index += 1
-        print('advance:', self.cur_index, self.cur_token)
         return self.cur_token
 
     def next(self):

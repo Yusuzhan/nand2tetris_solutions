@@ -76,22 +76,21 @@ class CompilationEngine:
         advance = self.advance()
         self.compile_token(advance, indentation + 1, "{")
         # classVarDec* subroutineDec*
+        advance = self.advance()
         while advance.content != '}':
-            advance = self.advance()
             if (advance.content == 'constructor'
                     or advance.content == 'function'
                     or advance.content == 'method'):
                 self.compile_subroutine(advance, indentation + 1)
-                continue
             elif advance.content == 'var':
                 self.compile_class_var_dec(advance, indentation + 1)
-                continue
             elif advance.content != '}':
                 raise RuntimeError(
                     advance, 'Only subroutine and variable can be declared here')
+            advance = self.advance()
+            print('CLASS', advance)
         # }
-        advance = self.advance()
-        self.compile_token(advance, indentation + 1)
+        self.compile_token(advance, indentation + 1, '}')
         self.log_file.write('</class>\n')
         self.log_file.flush()
         return
@@ -145,6 +144,7 @@ class CompilationEngine:
         else:
             print('not empty body', token)
             self.compile_statements(token, indentation + 1)
+        token = self.advance()
         self.compile_token(token, indentation + 1, '}')
         self.log_node('/subroutineBody', indentation)
 
@@ -198,7 +198,7 @@ class CompilationEngine:
     def compile_statements(self, token, indentation):
         """Compiles a sequence of statements, not including the enclosing ‘‘{}’’."""
         self.log_node('statements', indentation)
-        while token.content != '}' and not token.is_empty():
+        while True:
             print('compile statements:', token)
             if token.content == 'let':
                 self.compile_let(token, indentation + 1)
@@ -207,29 +207,61 @@ class CompilationEngine:
                 token = self.advance()
                 pass
             elif token.content == 'while':
-                token = self.advance()
+                self.compile_while(token, indentation + 1)
                 pass
             elif token.content == 'do':
-                token = self.advance()
+                self.compile_do(token, indentation + 1)
                 pass
             elif token.content == 'return':
-                token = self.advance()
+                self.compile_return(token, indentation + 1)
                 pass
             else:
-                print('ERROR')
+                raise RuntimeError('unknown type in statements')
+            if self.next() is not None and self.next().content == '}':
                 break
-            token = self.advance()
+            else:
+                token = self.advance()
         self.log_node('/statements', indentation)
         return
 
-    def compile_do(self):
+    def compile_do(self, token: Token, indentation):
+        self.log_node('doStatement', indentation)
+        self.compile_token(token, indentation + 1, 'do')
+        # maybe a local subroutine or someone else's
+        token = self.advance()
+        self.compile_token(token, indentation + 1, [IDENTIFIER])
+        token = self.advance()
+        if token.content == '.':
+            # someone else 's
+            self.compile_token(token, indentation + 1, '.')
+            token = self.advance()
+            self.compile_token(token, indentation + 1, [IDENTIFIER])
+            token = self.advance()
+            self.compile_token(token, indentation + 1, '(')
+            token = self.advance()
+            self.compile_expression_list(token, indentation + 1)
+            if token.content != ')':
+                token = self.advance()
+            self.compile_token(token, indentation + 1, ')')
+            pass
+        else:
+            self.compile_token(token, indentation + 1, '(')
+            token = self.advance()
+            self.compile_expression_list(token, indentation + 1)
+            token = self.advance()
+            self.compile_token(token, indentation + 1, ')')
+            # local method
+            pass
+        token = self.advance()
+        self.compile_token(token, indentation + 1, ';')
+        self.log_node('/doStatement', indentation)
         return
 
     def compile_let(self, token: Token, indentation):
         """let length = Keyboard.readInt("HOW MANY NUMBERS? ");"""
+        print('LET:', token)
         self.log_node('letStatement', indentation)
         # let
-        print('LET', token)
         self.compile_token(token, indentation + 1, 'let')
         #  length
         token = self.advance()
@@ -239,11 +271,11 @@ class CompilationEngine:
         token = self.advance()
         array = False
         if token.content == '[':
-            # todo to be tested
             array = True
             self.compile_token(token, indentation + 1, '[')
             token = self.advance()
             self.compile_expression(token, indentation + 1)
+            token = self.advance()
             self.compile_token(token, indentation + 1, ']')
             token = self.advance()
         self.compile_token(token, indentation + 1, '=')
@@ -256,10 +288,37 @@ class CompilationEngine:
         self.log_node('/letStatement', indentation)
         return
 
-    def compile_while(self):
+    def compile_while(self, token: Token, indentation):
+        print('WHILE:', token)
+        self.log_node('whileStatement', indentation)
+        self.compile_token(token, indentation + 1, 'while')
+        token = self.advance()
+        self.compile_token(token, indentation + 1, '(')
+        token = self.advance()
+        # expression
+        self.compile_expression(token, indentation + 1)
+        # )
+        token = self.advance()
+        self.compile_token(token, indentation + 1, ')')
+        # {
+        token = self.advance()
+        self.compile_token(token, indentation + 1, '{')
+        # statements
+        token = self.advance()
+        self.compile_statements(token, indentation + 1)
+        # }
+        token = self.advance()
+        print("after while statements", token)
+        self.compile_token(token, indentation + 1, '}')
+        self.log_node('/whileStatement', indentation)
         return
 
-    def compile_return(self):
+    def compile_return(self, token: Token, indentation):
+        self.log_node('returnStatement', indentation)
+        self.compile_token(token, indentation + 1, 'return')
+        token = self.advance()
+        self.compile_token(token, indentation + 1, ';')
+        self.log_node('/returnStatement', indentation)
         return
 
     def compile_if(self):
@@ -268,6 +327,11 @@ class CompilationEngine:
     def compile_expression(self, token, indentation):
         self.log_node('expression', indentation)
         self.compile_term(token, indentation + 1)
+        while self.next() is not None and self.next().content in OP_SYMBOLS:
+            token = self.advance()
+            self.compile_token(token, indentation + 1, [SYMBOL])
+            token = self.advance()
+            self.compile_term(token, indentation + 1)
         self.log_node('/expression', indentation)
         return
 
@@ -284,11 +348,13 @@ class CompilationEngine:
             self.compile_token(token, indentation + 1)
             token = self.advance()
             pass
-        elif token.content == '[':
-            # todo test
+        elif self.next().content == '[':
+            self.compile_token(token, indentation + 1, [IDENTIFIER])
+            token = self.advance()
             self.compile_token(token, indentation + 1, '[')
             token = self.advance()
             self.compile_expression(token, indentation + 1)
+            token = self.advance()
             self.compile_token(token, indentation + 1, ']')
             pass
         elif token.content == '(':
@@ -328,9 +394,7 @@ class CompilationEngine:
             print('should be )', token)
             self.compile_token(token, indentation + 1, ')')
             pass
-        elif token.token_type == IDENTIFIER \
-                and self.next() is not None \
-                and self.next().content == ')':
+        elif token.token_type == IDENTIFIER:
             # varName
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             pass
