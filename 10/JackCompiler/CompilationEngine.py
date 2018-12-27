@@ -412,10 +412,11 @@ class CompilationEngine:
             self.compile_token(token, indentation + 1, ']')
             pass
         elif token.content == '(':
-            # todo test
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
             self.compile_expression(token, indentation + 1)
+            if token.content != ')':
+                token = self.advance()
             self.compile_token(token, indentation + 1, ')')
             pass
         elif token.content in UNARY_OP_SYMBOL:
@@ -444,7 +445,8 @@ class CompilationEngine:
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
             self.compile_expression_list(token, indentation + 1)
-            token = self.advance()
+            if token.content != ')':
+                token = self.advance()
             print('should be )', token)
             self.compile_token(token, indentation + 1, ')')
             pass
