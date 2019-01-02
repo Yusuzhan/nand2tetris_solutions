@@ -20,7 +20,9 @@ class CompilationEngine:
         self.tokenizer = tokenizer
         log_file_name = jack_file.name.replace('.jack', '_engine.xml')
         self.log_file = open(log_file_name, 'w')
-        return
+        log_file_name = jack_file.name.replace('.jack', '_debug.vm')
+        self.output_file = open(log_file_name, 'w')
+        self.class_name = ''
 
     def compile(self):
         self.compile_class(0)
@@ -72,6 +74,7 @@ class CompilationEngine:
         # class name
         advance = self.advance()
         self.compile_token(advance, indentation + 1)
+        self.class_name = advance.content
         # {
         advance = self.advance()
         self.compile_token(advance, indentation + 1, "{")
