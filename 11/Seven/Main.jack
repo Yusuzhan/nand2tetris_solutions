@@ -14,4 +14,7 @@ class Main {
       return;
    }
 
+   function void main1() {
+
+   }
 }

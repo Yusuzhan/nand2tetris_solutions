@@ -202,6 +202,7 @@ class JackTokenizer:
         output_file_name = jack_file.name.replace('.jack', '_tokens.xml')
         self.output_file = open(output_file_name, 'w')
         self.log_head(self.output_file)
+        self.log_complete = False
 
     def log_head(self, file):
         self.output_file.write('<tokens>\n')
@@ -238,11 +239,21 @@ class JackTokenizer:
         This method should only be called if hasMoreTokens() is true.
         Initially there is no current token.
         """
+        print('cur index=' + str(self.cur_index))
         self.cur_token = self.tokens[self.cur_index]
         self.cur_token.get_token_type()
-        self.log_token(self.cur_token, self.output_file)
+        if not self.log_complete:
+            self.log_token(self.cur_token, self.output_file)
         self.cur_index += 1
+        if not self.cur_index < len(self.tokens):
+            self.log_complete = True
+            self.log_tail(self.output_file)
         return self.cur_token
+
+    def reset(self):
+        print('!!!reset index')
+        self.cur_index = 0
+        return
 
     def next(self):
         if self.cur_index == len(self.tokens) - 1:

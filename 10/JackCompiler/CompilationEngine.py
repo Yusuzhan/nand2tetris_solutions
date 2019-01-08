@@ -1,4 +1,6 @@
 from JackTokenizer import *
+from SymbolTable import SymbolTable
+from VMWriter import VMWriter
 
 OP_SYMBOLS = [
     '+',
@@ -16,7 +18,7 @@ UNARY_OP_SYMBOL = ['-', '~']
 
 
 class CompilationEngine:
-    def __init__(self, tokenizer, jack_file):
+    def __init__(self, tokenizer: JackTokenizer, jack_file):
         self.tokenizer = tokenizer
         log_file_name = jack_file.name.replace('.jack', '_engine.xml')
         self.log_file = open(log_file_name, 'w')
@@ -24,8 +26,15 @@ class CompilationEngine:
         self.output_file = open(log_file_name, 'w')
         self.class_name = ''
 
+        self.symbol_table = SymbolTable()
+        self.vm_writer = VMWriter(self.output_file)
+
     def compile(self):
+        # first time, save fields and variables to symbol table
         self.compile_class(0)
+        # second time, generate vm code
+        self.tokenizer.reset()
+        # self.compile_class(0)
 
     def advance(self):
         """return current token"""
@@ -105,6 +114,8 @@ class CompilationEngine:
         """
         self.log_node('classVarDec', indentation)
         # static or field
+        # todo
+        kind = token.content
         self.compile_token(token, indentation + 1)
         token = self.advance()
         self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
@@ -141,7 +152,7 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1)
         # parameter list exists
         token = self.advance()
-        self.compile_parameter_list(token, indentation + 1)
+        params_count = self.compile_parameter_list(token, indentation + 1)
         if token.content != ')':
             token = self.advance()
         # )
@@ -167,14 +178,16 @@ class CompilationEngine:
         else:
             print('not empty body', token)
             self.compile_statements(token, indentation + 1)
-        token = self.advance()
+            token = self.advance()
         self.compile_token(token, indentation + 1, '}')
         self.log_node('/subroutineBody', indentation)
 
-    def compile_parameter_list(self, token, indentation):
+    def compile_parameter_list(self, token, indentation) -> int:
         """Compiles a (possibly empty) parameter list, not including the enclosing ‘‘ () ’’."""
+        params_count = 0
         self.log_node('parameterList', indentation)
         while token.content != ')':
+            params_count += 1
             # p1 type
             self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
             # p1 argument
@@ -195,6 +208,7 @@ class CompilationEngine:
                 print('WHAT?', token)
                 token = self.advance()
         self.log_node('/parameterList', indentation)
+        return params_count
 
     def compile_var_dec(self, token, indentation):
         """  Compiles a var declaration."""
@@ -395,7 +409,6 @@ class CompilationEngine:
 
     def compile_term(self, token: Token, indentation):
         self.log_node('term', indentation)
-        print('term', token)
         if token.token_type == INT_CONST:
             self.compile_token(token, indentation + 1, [INT_CONST])
             pass

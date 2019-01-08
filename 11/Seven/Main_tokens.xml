@@ -25,4 +25,12 @@
 	<keyword> return </keyword>
 	<symbol> ; </symbol>
 	<symbol> } </symbol>
+	<keyword> function </keyword>
+	<keyword> void </keyword>
+	<identifier> main1 </identifier>
+	<symbol> ( </symbol>
+	<symbol> ) </symbol>
+	<symbol> { </symbol>
 	<symbol> } </symbol>
+	<symbol> } </symbol>
+</tokens>

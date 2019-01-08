@@ -51,5 +51,18 @@
       <symbol> } </symbol>
     </subroutineBody>
   </subroutineDec>
+  <subroutineDec>
+    <keyword> function </keyword>
+    <keyword> void </keyword>
+    <identifier> main1 </identifier>
+    <symbol> ( </symbol>
+    <parameterList>
+    </parameterList>
+    <symbol> ) </symbol>
+    <subroutineBody>
+      <symbol> { </symbol>
+      <symbol> } </symbol>
+    </subroutineBody>
+  </subroutineDec>
   <symbol> } </symbol>
 </class>
