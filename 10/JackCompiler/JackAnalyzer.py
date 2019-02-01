@@ -13,7 +13,10 @@ def compile_jack_file(jack_file):
     compiler.compile()
 
 
-path = sys.argv[1]
+if len(sys.argv) == 1:
+    path = '../../11/Seven'
+else:
+    path = sys.argv[1]
 if os.path.isdir(path):
     jack_file_name_list = list(filter(lambda f: f.endswith('.jack'), os.listdir(path)))
     print(jack_file_name_list)

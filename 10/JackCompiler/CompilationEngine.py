@@ -1,5 +1,5 @@
 from JackTokenizer import *
-from SymbolTable import SymbolTable
+from SymbolTable import SymbolTable, Symbol
 from VMWriter import VMWriter
 
 OP_SYMBOLS = [
@@ -31,9 +31,11 @@ class CompilationEngine:
 
     def compile(self):
         # first time, save fields and variables to symbol table
+        self.parse_phase = 0
         self.compile_class(0)
         # second time, generate vm code
         self.tokenizer.reset()
+        self.parse_phase += 1
         # self.compile_class(0)
 
     def advance(self):
@@ -44,6 +46,8 @@ class CompilationEngine:
         return self.tokenizer.next()
 
     def compile_token(self, token, indentation, limits=None):
+        if self.parse_phase == 1:
+            return
         if limits is not None:
             if isinstance(limits, list) and token.token_type not in limits:
                 raise RuntimeError(token, 'can be only', limits)
@@ -52,6 +56,8 @@ class CompilationEngine:
         self.log(token, indentation)
 
     def log_node(self, msg, indentation):
+        if self.parse_phase == 1:
+            return
         space = ''
         for i in range(0, indentation):
             space += '  '
@@ -76,7 +82,7 @@ class CompilationEngine:
         """
         Compiles a complete class.
         """
-        self.log_file.write('<class>\n')
+        self.log_node('class', 0)
         # class
         advance = self.advance()
         self.compile_token(advance, indentation + 1)
@@ -103,7 +109,7 @@ class CompilationEngine:
             print('CLASS', advance)
         # }
         self.compile_token(advance, indentation + 1, '}')
-        self.log_file.write('</class>\n')
+        self.log_node('/class', 0)
         self.log_file.flush()
         return
 
@@ -146,29 +152,30 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1)
         # subroutine name
         token = self.advance()
+        function_name = token.content
         self.compile_token(token, indentation + 1)
         # (
         token = self.advance()
         self.compile_token(token, indentation + 1)
         # parameter list exists
         token = self.advance()
-        params_count = self.compile_parameter_list(token, indentation + 1)
+        params_count = self.compile_parameter_list(token, indentation + 1, function_name)
         if token.content != ')':
             token = self.advance()
         # )
         self.compile_token(token, indentation + 1, ')')
         #  {
         token = self.advance()
-        self.compile_subroutine_body(token, indentation + 1)
+        self.compile_subroutine_body(token, indentation + 1, function_name)
         self.log_node('/subroutineDec', indentation)
         return
 
-    def compile_subroutine_body(self, token, indentation):
+    def compile_subroutine_body(self, token, indentation, function_name: str):
         self.log_node('subroutineBody', indentation)
         self.compile_token(token, indentation + 1, '{')
         token = self.advance()
         while token.content == 'var':
-            self.compile_var_dec(token, indentation + 1)
+            self.compile_var_dec(token, indentation + 1, function_name)
             token = self.advance()
         # if this token is '}' means the function has an empty body
         if token.content == '}':
@@ -188,13 +195,17 @@ class CompilationEngine:
         self.log_node('parameterList', indentation)
         while token.content != ')':
             params_count += 1
+            param_symbol = Symbol()
             # p1 type
             self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+            param_symbol.symbol_type = token.content
             # p1 argument
             token = self.advance()
             self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
-            print('--->' + str(token))
-            print('>>>' + str(self.next()))
+            param_symbol.name = token.content
+            if self.parse_phase == 0:
+                # save symbol to symbol table, scope = function name
+                self.symbol_table.define()
             if self.next() is not None and self.next().content == ',':
                 # compile ,
                 token = self.advance()
@@ -210,17 +221,21 @@ class CompilationEngine:
         self.log_node('/parameterList', indentation)
         return params_count
 
-    def compile_var_dec(self, token, indentation):
+    def compile_var_dec(self, token, indentation, function_name: str):
         """  Compiles a var declaration."""
         self.log_node('varDec', indentation)
         # var
         self.compile_token(token, indentation + 1, 'var')
         # var type
         token = self.advance()
+        local_var_type = token.content
         self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
         # var name
         token = self.advance()
+        local_var_name = token.content
         self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+        # add first var to symbol table
+        self.symbol_table.define(local_var_name, local_var_type, 'var', function_name)
         # , or ;
         token = self.advance()
         while token.content != ';':
