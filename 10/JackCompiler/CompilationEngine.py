@@ -182,7 +182,7 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1, '}')
         self.log_node('/subroutineBody', indentation)
 
-    def compile_parameter_list(self, token, indentation, f_name: str) -> int:
+    def compile_parameter_list(self, token, indentation, f_name: str = None) -> int:
         """Compiles a (possibly empty) parameter list, not including the enclosing ‘‘ () ’’."""
         params_count = 0
         self.log_node('parameterList', indentation)
