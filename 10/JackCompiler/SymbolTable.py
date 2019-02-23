@@ -4,6 +4,15 @@ ARG = 'ARG'
 VAR = 'VAR'
 
 
+class Symbol:
+    def __init__(self, name=None, symbol_type=None, kind=None, index=-1):
+        self.name = name
+        self.symbol_type = symbol_type
+        self.kind = kind
+        self.index = index
+        return
+
+
 class SymbolTable:
 
     def __init__(self):
@@ -14,7 +23,11 @@ class SymbolTable:
         return
 
     def start_subroutine(self):
+        self.subroutine_table.clear()
         return
+
+    def define_symbol(self, symbol: Symbol):
+        self.define(symbol.name, symbol.symbol_type, symbol.kind)
 
     def define(self, name, symbol_type, kind):
         """
@@ -74,15 +87,6 @@ class SymbolTable:
 
     def index_of(self, name):
         return self.get_symbol(name).index
-
-
-class Symbol:
-    def __init__(self, name=None, symbol_type=None, kind=None, index=-1):
-        self.name = name
-        self.symbol_type = symbol_type
-        self.kind = kind
-        self.index = index
-        return
 
 
 # test script

@@ -8,10 +8,29 @@
     <identifier> main </identifier>
     <symbol> ( </symbol>
     <parameterList>
+      <keyword> int </keyword>
+      <identifier> i </identifier>
+      <symbol> , </symbol>
+      <identifier> String </identifier>
+      <identifier> j </identifier>
     </parameterList>
     <symbol> ) </symbol>
     <subroutineBody>
       <symbol> { </symbol>
+      <varDec>
+        <keyword> var </keyword>
+        <keyword> int </keyword>
+        <identifier> value </identifier>
+        <symbol> ; </symbol>
+        <keyword> var </keyword>
+        <identifier> String </identifier>
+        <identifier> b </identifier>
+        <symbol> ; </symbol>
+        <keyword> var </keyword>
+        <identifier> String </identifier>
+        <identifier> b1 </identifier>
+        <symbol> ; </symbol>
+      </varDec>
       <statements>
         <doStatement>
           <keyword> do </keyword>
@@ -48,19 +67,6 @@
           <symbol> ; </symbol>
         </returnStatement>
       </statements>
-      <symbol> } </symbol>
-    </subroutineBody>
-  </subroutineDec>
-  <subroutineDec>
-    <keyword> function </keyword>
-    <keyword> void </keyword>
-    <identifier> main1 </identifier>
-    <symbol> ( </symbol>
-    <parameterList>
-    </parameterList>
-    <symbol> ) </symbol>
-    <subroutineBody>
-      <symbol> { </symbol>
       <symbol> } </symbol>
     </subroutineBody>
   </subroutineDec>
