@@ -1,0 +1,15 @@
+function Main.main 4
+push constant 0
+push constant 1
+push constant 0
+push constant 0
+push constant 1
+call Output.printString 1
+pop temp 0
+call Output.printInt 1
+pop temp 0
+call Output.println 0
+pop temp 0
+push constant 0
+return
+

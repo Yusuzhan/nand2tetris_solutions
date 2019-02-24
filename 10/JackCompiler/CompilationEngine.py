@@ -2,19 +2,20 @@ from JackTokenizer import *
 from SymbolTable import SymbolTable, Symbol, ARG
 from VMWriter import VMWriter
 
-OP_SYMBOLS = [
-    '+',
-    '-',
-    '*',
-    '/',
-    '&',
-    '|',
-    '<',
-    '>',
-    '='
-]
+OP_SYMBOLS = {
+    '+': 'ADD',
+    '-': 'SUB',
+    '*': 'MUL',
+    '/': 'DIV',
+    '&': 'AND',
+    '|': 'OR',
+    '<': 'LT',
+    '>': 'GT',
+    '=': 'EQ'
+}
 
-UNARY_OP_SYMBOL = ['-', '~']
+UNARY_OP_SYMBOL = {'-': 'NEG',
+                   '~': 'NOT'}
 
 
 class CompilationEngine:
@@ -449,10 +450,10 @@ class CompilationEngine:
     def compile_expression(self, token, indentation):
         self.log_node('expression', indentation)
         self.compile_term(token, indentation + 1)
-        while self.next() is not None and self.next().content in OP_SYMBOLS:
+        while self.next() is not None and self.next().content in OP_SYMBOLS.keys():
             token = self.advance()
             self.compile_token(token, indentation + 1, [SYMBOL])
-            op_symbol = token.content
+            op_symbol = OP_SYMBOLS[token.content]
             token = self.advance()
             self.compile_term(token, indentation + 1)
             # call op function after pushes the second parameter
@@ -490,11 +491,12 @@ class CompilationEngine:
                 token = self.advance()
             self.compile_token(token, indentation + 1, ')')
             pass
-        elif token.content in UNARY_OP_SYMBOL:
-            # todo test
+        elif token.content in UNARY_OP_SYMBOL.keys():
             self.compile_token(token, indentation + 1)
+            unary_op = UNARY_OP_SYMBOL[token.content]
             token = self.advance()
             self.compile_term(token, indentation + 1)
+            self.vm_writer.write_arithmetic(unary_op)
         elif self.next().content == ';':
             # varname
             self.compile_token(token, indentation + 1)

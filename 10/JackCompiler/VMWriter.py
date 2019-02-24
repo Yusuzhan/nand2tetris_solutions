@@ -38,15 +38,17 @@ class VMWriter:
         """
         ADD, SUB, NEG, EQ, GT, LT, AND, OR, NOT
         """
-        if cmd == '+':
+        if cmd == 'ADD':
             self.output_file.write("add\n")
             pass
         elif cmd == '-':
             self.output_file.write("sub is not implemented yet\n")
-        elif cmd == '*':
+        elif cmd == 'NEG':
+            self.output_file.write("neg\n")
+        elif cmd == 'MUL':
             self.output_file.write("call Math.multiply 2\n")
             pass
-        elif cmd == '/':
+        elif cmd == 'DVI':
             self.output_file.write("call Math.divide 2\n")
             pass
         elif cmd == '==':
