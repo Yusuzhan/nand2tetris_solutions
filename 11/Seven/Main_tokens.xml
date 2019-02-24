@@ -6,8 +6,25 @@
 	<keyword> void </keyword>
 	<identifier> main </identifier>
 	<symbol> ( </symbol>
+	<keyword> int </keyword>
+	<identifier> i </identifier>
+	<symbol> , </symbol>
+	<identifier> String </identifier>
+	<identifier> j </identifier>
 	<symbol> ) </symbol>
 	<symbol> { </symbol>
+	<keyword> var </keyword>
+	<keyword> int </keyword>
+	<identifier> value </identifier>
+	<symbol> ; </symbol>
+	<keyword> var </keyword>
+	<identifier> String </identifier>
+	<identifier> b </identifier>
+	<symbol> ; </symbol>
+	<keyword> var </keyword>
+	<identifier> String </identifier>
+	<identifier> b1 </identifier>
+	<symbol> ; </symbol>
 	<keyword> do </keyword>
 	<identifier> Output </identifier>
 	<symbol> . </symbol>
@@ -24,13 +41,6 @@
 	<symbol> ; </symbol>
 	<keyword> return </keyword>
 	<symbol> ; </symbol>
-	<symbol> } </symbol>
-	<keyword> function </keyword>
-	<keyword> void </keyword>
-	<identifier> main1 </identifier>
-	<symbol> ( </symbol>
-	<symbol> ) </symbol>
-	<symbol> { </symbol>
 	<symbol> } </symbol>
 	<symbol> } </symbol>
 </tokens>

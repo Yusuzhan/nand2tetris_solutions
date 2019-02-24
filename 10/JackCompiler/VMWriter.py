@@ -1,6 +1,10 @@
 class VMWriter:
     def __init__(self, output_file):
         self.output_file = output_file
+        self.class_name = ''
+
+    def set_class_name(self, name):
+        self.class_name = name
 
     def write_push(self, segment: str, index: int):
         return
@@ -24,6 +28,7 @@ class VMWriter:
         return
 
     def write_functions(self, name: str, n_locals: int):
+        self.output_file.write('function %s.%s %s' %(self.class_name, name, n_locals))
         return
 
     def close(self):

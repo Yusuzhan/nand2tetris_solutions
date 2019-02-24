@@ -9,7 +9,10 @@
  */
 class Main {
 
-   function void main() {
+   function void main(int i, String j) {
+      var int value;
+      var String b;
+      var String b1;
       do Output.printInt(1 + (2 * 3));
       return;
    }
