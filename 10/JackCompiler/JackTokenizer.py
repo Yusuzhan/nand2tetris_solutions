@@ -239,7 +239,7 @@ class JackTokenizer:
         This method should only be called if hasMoreTokens() is true.
         Initially there is no current token.
         """
-        print('cur index=' + str(self.cur_index))
+        # print('cur index=' + str(self.cur_index))
         self.cur_token = self.tokens[self.cur_index]
         self.cur_token.get_token_type()
         if not self.log_complete:
