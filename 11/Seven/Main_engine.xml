@@ -17,20 +17,6 @@
     <symbol> ) </symbol>
     <subroutineBody>
       <symbol> { </symbol>
-      <varDec>
-        <keyword> var </keyword>
-        <keyword> int </keyword>
-        <identifier> value </identifier>
-        <symbol> ; </symbol>
-        <keyword> var </keyword>
-        <identifier> String </identifier>
-        <identifier> b </identifier>
-        <symbol> ; </symbol>
-        <keyword> var </keyword>
-        <identifier> String </identifier>
-        <identifier> b1 </identifier>
-        <symbol> ; </symbol>
-      </varDec>
       <statements>
         <doStatement>
           <keyword> do </keyword>
@@ -43,19 +29,23 @@
               <term>
                 <integerConstant> 1 </integerConstant>
               </term>
-              <symbol> + </symbol>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
               <term>
-                <symbol> ( </symbol>
-                <expression>
-                  <term>
-                    <integerConstant> 2 </integerConstant>
-                  </term>
-                  <symbol> * </symbol>
-                  <term>
-                    <integerConstant> 3 </integerConstant>
-                  </term>
-                </expression>
-                <symbol> ) </symbol>
+                <integerConstant> 2 </integerConstant>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <identifier> a </identifier>
+              </term>
+            </expression>
+            <symbol> , </symbol>
+            <expression>
+              <term>
+                <stringConstant> aa </stringConstant>
               </term>
             </expression>
           </expressionList>

@@ -168,13 +168,14 @@ class CompilationEngine:
         self.log_node('subroutineBody', indentation)
         self.compile_token(token, indentation + 1, '{')
         token = self.advance()
+        n_locals = 0
         if token.content == 'var':
             n_locals = self.compile_var_dec(token, indentation + 1)
             token = self.advance()
         self.vm_writer.write_functions(subroutine_name, n_locals)
-        # TODO 开始写vm writer函数部分
         # if this token is '}' means the function has an empty body
         if token.content == '}':
+            # TODO 空函数体的处理
             # empty body
             print('empty body', token)
             pass
@@ -216,7 +217,7 @@ class CompilationEngine:
 
     def compile_var_dec(self, token, indentation) -> int:
         """  Compiles a var declaration."""
-        self.log_node('varDec', indentation)
+
         # var_symbol = Symbol()
         # # var
         # self.compile_token(token, indentation + 1, 'var')
@@ -239,6 +240,7 @@ class CompilationEngine:
         # self.compile_token(token, indentation + 1, ';')
         var_count = 0
         while token.content == 'var':
+            self.log_node('varDec', indentation)
             var_count += 1
             var_symbol = Symbol()
             # var
@@ -259,7 +261,6 @@ class CompilationEngine:
             while token.content == ',':
                 var_count += 1
                 self.compile_token(token, indentation + 1, ',')
-                token = self.advance()
                 # var name
                 token = self.advance()
                 self.compile_token(token, indentation + 1, [IDENTIFIER])
@@ -270,7 +271,7 @@ class CompilationEngine:
                 self.compile_token(token, indentation + 1, ';')
             if self.next().content == 'var':
                 token = self.advance()
-        self.log_node('/varDec', indentation)
+            self.log_node('/varDec', indentation)
         return var_count
 
     def compile_statements(self, token, indentation):
@@ -309,19 +310,22 @@ class CompilationEngine:
         # maybe a local subroutine or someone else's
         token = self.advance()
         self.compile_token(token, indentation + 1, [IDENTIFIER])
+        function_class_name = token.content
         token = self.advance()
         if token.content == '.':
             # someone else 's
             self.compile_token(token, indentation + 1, '.')
             token = self.advance()
             self.compile_token(token, indentation + 1, [IDENTIFIER])
+            function_name = token.content
             token = self.advance()
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
-            self.compile_expression_list(token, indentation + 1)
+            n_arg = self.compile_expression_list(token, indentation + 1)
             if token.content != ')':
                 token = self.advance()
             self.compile_token(token, indentation + 1, ')')
+
             pass
         else:
             self.compile_token(token, indentation + 1, '(')
@@ -517,9 +521,11 @@ class CompilationEngine:
         self.log_node('/term', indentation)
         return
 
-    def compile_expression_list(self, token: Token, indentation):
+    def compile_expression_list(self, token: Token, indentation) -> int:
         self.log_node('expressionList', indentation)
+        n_expression = 0
         while token.content != ')':
+            n_expression += 1
             self.compile_expression(token, indentation + 1)
             if self.next() is not None and self.next().content == ',':
                 # multiple expression list
@@ -532,4 +538,4 @@ class CompilationEngine:
                 print('UNEXPECTED token in compile_expression_list', token)
                 token = self.advance()
         self.log_node('/expressionList', indentation)
-        return
+        return n_expression
