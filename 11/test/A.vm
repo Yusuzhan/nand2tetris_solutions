@@ -1,0 +1,3 @@
+push constant 32
+push local 1
+pop local 0

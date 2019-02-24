@@ -10,6 +10,7 @@ function Main.test 4
 push constant 1
 push constant 2
 neg
+call Math.multiply 2
 push constant 2
 neg
 push constant 0

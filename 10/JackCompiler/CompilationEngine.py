@@ -181,7 +181,7 @@ class CompilationEngine:
             print('empty body', token)
             pass
         else:
-            print('not empty body', token)
+            print('subroutine %s body is not empty' % subroutine_name)
             self.compile_statements(token, indentation + 1)
             token = self.advance()
         self.compile_token(token, indentation + 1, '}')
@@ -279,7 +279,6 @@ class CompilationEngine:
         """Compiles a sequence of statements, not including the enclosing ‘‘{}’’."""
         self.log_node('statements', indentation)
         while token.content != '}':
-            print('compile statements:', token)
             if token.content == 'let':
                 self.compile_let(token, indentation + 1)
                 pass
@@ -344,14 +343,14 @@ class CompilationEngine:
 
     def compile_let(self, token: Token, indentation):
         """let length = Keyboard.readInt("HOW MANY NUMBERS? ");"""
-        print('LET:', token)
         self.log_node('letStatement', indentation)
         # let
         self.compile_token(token, indentation + 1, 'let')
         #  length
         token = self.advance()
-        print('VAR_NAME', token)
-        self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
+        print('LET:', token)
+        self.compile_token(token, indentation + 1, [IDENTIFIER])
+        var_name = token.content
         # = or [
         token = self.advance()
         array = False
@@ -367,6 +366,11 @@ class CompilationEngine:
         # expression
         token = self.advance()
         self.compile_expression(token, indentation + 1)
+        # todo 处理不同情况
+        if self.symbol_table.kind_of(var_name) == VAR:
+            self.vm_writer.write_pop('LOCAL', self.symbol_table.index_of(var_name))
+        elif self.symbol_table.kind_of(var_name) == VAR:
+            pass
         # ;
         token = self.advance()
         self.compile_token(token, indentation + 1, ';')

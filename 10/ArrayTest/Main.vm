@@ -1,9 +1,12 @@
 function Main.main 4
 push constant 0
 push constant 1
+add
 push constant 0
 push constant 0
+add
 push constant 1
+add
 call Output.printString 1
 pop temp 0
 call Output.printInt 1

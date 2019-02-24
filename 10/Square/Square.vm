@@ -8,6 +8,8 @@ return
 function Square.draw 0
 call Screen.setColor 1
 pop temp 0
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
@@ -16,15 +18,20 @@ return
 function Square.erase 0
 call Screen.setColor 1
 pop temp 0
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 return
 
 function Square.incSize 0
+add
 push constant 254
+add
 push constant 510
 push constant 2
+add
 push constant 0
 return
 
@@ -38,29 +45,41 @@ function Square.moveUp 0
 push constant 1
 call Screen.setColor 1
 pop temp 0
+add
 push constant 1
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 2
 call Screen.setColor 1
 pop temp 0
+add
 push constant 1
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 return
 
 function Square.moveDown 0
+add
 push constant 254
 call Screen.setColor 1
 pop temp 0
+add
 push constant 1
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 2
+add
 call Screen.setColor 1
 pop temp 0
+add
 push constant 1
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
@@ -70,29 +89,41 @@ function Square.moveLeft 0
 push constant 1
 call Screen.setColor 1
 pop temp 0
+add
 push constant 1
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 2
 call Screen.setColor 1
 pop temp 0
 push constant 1
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 return
 
 function Square.moveRight 0
+add
 push constant 510
 call Screen.setColor 1
 pop temp 0
 push constant 1
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 2
+add
 call Screen.setColor 1
 pop temp 0
+add
 push constant 1
+add
+add
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0

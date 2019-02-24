@@ -34,6 +34,35 @@ class VMWriter:
             pass
         return
 
+    def write_pop(self, segment: str, index: int):
+        '''
+
+        :param segment: CONST, ARG, LOCAL, STATIC, THIS, THAT, POINTERS, TEMP
+        :param index:
+        :return:
+        '''
+        if segment == 'CONST':
+            self.output_file.write('pop constant %s\n' % (index))
+            pass
+        elif segment == 'LOCAL':
+            self.output_file.write('pop local %s\n' % (index))
+            pass
+        elif segment == 'CONST':
+            pass
+        elif segment == 'CONST':
+            pass
+        elif segment == 'CONST':
+            pass
+        elif segment == 'CONST':
+            pass
+        elif segment == 'CONST':
+            pass
+        elif segment == 'CONST':
+            pass
+        elif segment == 'CONST':
+            pass
+        return
+
     def write_arithmetic(self, cmd: str):
         """
         ADD, SUB, NEG, EQ, GT, LT, AND, OR, NOT
