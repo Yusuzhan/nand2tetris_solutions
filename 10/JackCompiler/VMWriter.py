@@ -16,7 +16,8 @@ class VMWriter:
         if segment == 'CONST':
             self.output_file.write('push constant %s\n' % (index))
             pass
-        elif segment == 'CONST':
+        elif segment == 'LOCAL':
+            self.output_file.write('push local %s\n' % (index))
             pass
         elif segment == 'CONST':
             pass
@@ -74,6 +75,8 @@ class VMWriter:
             self.output_file.write("sub is not implemented yet\n")
         elif cmd == 'NEG':
             self.output_file.write("neg\n")
+        elif cmd == 'NOT':
+            self.output_file.write("not\n")
         elif cmd == 'MUL':
             self.output_file.write("call Math.multiply 2\n")
             pass
@@ -92,13 +95,15 @@ class VMWriter:
             pass
         return
 
-    def write_label(self, label: str):
+    def write_label(self, label):
+        self.output_file.write('label %s\n' % label)
         return
 
     def write_goto(self, label: str):
         return
 
     def write_if(self, label: str):
+        self.output_file.write('if-goto %s\n' % label)
         return
 
     def write_call(self, func_name: str, n_args: int, do_call=False):
@@ -114,6 +119,10 @@ class VMWriter:
     def write_return(self, void_func):
         self.output_file.write('push constant 0\n')
         self.output_file.write('return\n\n')
+        return
+
+    def write_comment(self, comment):
+        self.output_file.write('// %s\n' % comment)
         return
 
     def close(self):

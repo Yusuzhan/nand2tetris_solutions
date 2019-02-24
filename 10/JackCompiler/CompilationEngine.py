@@ -28,6 +28,8 @@ class CompilationEngine:
         self.output_file = open(log_file_name, 'w')
         self.symbol_table = SymbolTable()
         self.vm_writer = VMWriter(self.output_file)
+        self.while_label_index = 0
+        self.if_label_index = 0
 
     def compile(self):
         self.compile_class(0)
@@ -378,17 +380,25 @@ class CompilationEngine:
         return
 
     def compile_while(self, token: Token, indentation):
-        print('WHILE:', token)
+        while_label_pre = 'WHILE_%s' % self.while_label_index
+        # label index++
+        self.while_label_index += 1
+        print('WHILE: %s' % while_label_pre)
+        self.vm_writer.write_label('%s_EXP' % while_label_pre)
         self.log_node('whileStatement', indentation)
         self.compile_token(token, indentation + 1, 'while')
         token = self.advance()
         self.compile_token(token, indentation + 1, '(')
         token = self.advance()
+        self.vm_writer.write_comment("calculating condition expression")
         # expression
         self.compile_expression(token, indentation + 1)
         # )
         token = self.advance()
         self.compile_token(token, indentation + 1, ')')
+        self.vm_writer.write_arithmetic('NOT')
+        # checking condition expression
+        self.vm_writer.write_if('%s_END' % while_label_pre)
         # {
         token = self.advance()
         self.compile_token(token, indentation + 1, '{')
@@ -397,8 +407,9 @@ class CompilationEngine:
         self.compile_statements(token, indentation + 1)
         # }
         token = self.advance()
-        print("after while statements", token)
         self.compile_token(token, indentation + 1, '}')
+        self.vm_writer.write_goto('%s_EXP' % while_label_pre)
+        self.vm_writer.write_label('%s_END' % while_label_pre)
         self.log_node('/whileStatement', indentation)
         return
 
@@ -475,6 +486,11 @@ class CompilationEngine:
         elif token.token_type == STRING_CONST:
             self.compile_token(token, indentation + 1)
             # keyword constant
+        elif token.content == 'true':
+            self.compile_token(token, indentation + 1)
+            self.vm_writer.write_push('CONST', 0)
+            self.vm_writer.write_arithmetic('NEG')
+            pass
         elif token.content in ['true', 'false', 'null', 'this']:
             self.compile_token(token, indentation + 1)
             pass
@@ -507,9 +523,10 @@ class CompilationEngine:
             pass
         elif self.next().content == '(':
             # method call
-
+            # todo 这里可能需要补充
             pass
         elif self.next().content == '.':
+            # todo 编译到 Main.next(mask) 这里
             # static function call
             # class name
             self.compile_token(token, indentation + 1, [IDENTIFIER])
@@ -530,6 +547,11 @@ class CompilationEngine:
         elif token.token_type == IDENTIFIER:
             # varName
             self.compile_token(token, indentation + 1, [IDENTIFIER])
+            # 处理不同情形
+            if self.symbol_table.kind_of(token.content) == VAR:
+                self.vm_writer.write_push('LOCAL', self.symbol_table.index_of(token.content))
+            elif self.symbol_table.kind_of(token.content) == VAR:
+                pass
             pass
         else:
             raise RuntimeError("Uncaught situation", token)
