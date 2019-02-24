@@ -8,11 +8,6 @@
     <identifier> main </identifier>
     <symbol> ( </symbol>
     <parameterList>
-      <keyword> int </keyword>
-      <identifier> i </identifier>
-      <symbol> , </symbol>
-      <identifier> String </identifier>
-      <identifier> j </identifier>
     </parameterList>
     <symbol> ) </symbol>
     <subroutineBody>
@@ -29,23 +24,19 @@
               <term>
                 <integerConstant> 1 </integerConstant>
               </term>
-            </expression>
-            <symbol> , </symbol>
-            <expression>
+              <symbol> + </symbol>
               <term>
-                <integerConstant> 2 </integerConstant>
-              </term>
-            </expression>
-            <symbol> , </symbol>
-            <expression>
-              <term>
-                <identifier> a </identifier>
-              </term>
-            </expression>
-            <symbol> , </symbol>
-            <expression>
-              <term>
-                <stringConstant> aa </stringConstant>
+                <symbol> ( </symbol>
+                <expression>
+                  <term>
+                    <integerConstant> 2 </integerConstant>
+                  </term>
+                  <symbol> * </symbol>
+                  <term>
+                    <integerConstant> 3 </integerConstant>
+                  </term>
+                </expression>
+                <symbol> ) </symbol>
               </term>
             </expression>
           </expressionList>

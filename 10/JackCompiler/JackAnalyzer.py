@@ -14,8 +14,10 @@ def compile_jack_file(jack_file):
 
 # given a default path for debugging
 if len(sys.argv) == 1:
-    path = '../../11/Seven'
     path = '../../10/ExpressionLessSquare'
+    path = '../../10/ArrayTest'
+    path = '../../10/Square'
+    path = '../../11/Seven'
 else:
     path = sys.argv[1]
 if os.path.isdir(path):

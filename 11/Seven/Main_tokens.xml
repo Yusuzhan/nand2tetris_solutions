@@ -6,11 +6,6 @@
 	<keyword> void </keyword>
 	<identifier> main </identifier>
 	<symbol> ( </symbol>
-	<keyword> int </keyword>
-	<identifier> i </identifier>
-	<symbol> , </symbol>
-	<identifier> String </identifier>
-	<identifier> j </identifier>
 	<symbol> ) </symbol>
 	<symbol> { </symbol>
 	<keyword> do </keyword>
@@ -19,12 +14,12 @@
 	<identifier> printInt </identifier>
 	<symbol> ( </symbol>
 	<integerConstant> 1 </integerConstant>
-	<symbol> , </symbol>
+	<symbol> + </symbol>
+	<symbol> ( </symbol>
 	<integerConstant> 2 </integerConstant>
-	<symbol> , </symbol>
-	<identifier> a </identifier>
-	<symbol> , </symbol>
-	<stringConstant> aa </stringConstant>
+	<symbol> * </symbol>
+	<integerConstant> 3 </integerConstant>
+	<symbol> ) </symbol>
 	<symbol> ) </symbol>
 	<symbol> ; </symbol>
 	<keyword> return </keyword>

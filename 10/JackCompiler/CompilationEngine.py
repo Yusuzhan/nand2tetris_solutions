@@ -23,7 +23,7 @@ class CompilationEngine:
         self.class_name = ''
         log_file_name = jack_file.name.replace('.jack', '_engine.xml')
         self.log_file = open(log_file_name, 'w')
-        log_file_name = jack_file.name.replace('.jack', '_debug.vm')
+        log_file_name = jack_file.name.replace('.jack', '.vm')
         self.output_file = open(log_file_name, 'w')
         self.symbol_table = SymbolTable()
         self.vm_writer = VMWriter(self.output_file)
@@ -322,10 +322,10 @@ class CompilationEngine:
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
             n_arg = self.compile_expression_list(token, indentation + 1)
+            self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg, True)
             if token.content != ')':
                 token = self.advance()
             self.compile_token(token, indentation + 1, ')')
-
             pass
         else:
             self.compile_token(token, indentation + 1, '(')
@@ -404,6 +404,10 @@ class CompilationEngine:
         if token.content != ';':
             self.compile_expression(token, indentation + 1)
             token = self.advance()
+        else:
+            # for functions that return void, it must return an integer 0
+            self.vm_writer.write_return(True)
+            pass
         self.compile_token(token, indentation + 1, ';')
         self.log_node('/returnStatement', indentation)
         return
@@ -448,8 +452,11 @@ class CompilationEngine:
         while self.next() is not None and self.next().content in OP_SYMBOLS:
             token = self.advance()
             self.compile_token(token, indentation + 1, [SYMBOL])
+            op_symbol = token.content
             token = self.advance()
             self.compile_term(token, indentation + 1)
+            # call op function after pushes the second parameter
+            self.vm_writer.write_arithmetic(op_symbol)
         self.log_node('/expression', indentation)
         return
 
@@ -457,6 +464,8 @@ class CompilationEngine:
         self.log_node('term', indentation)
         if token.token_type == INT_CONST:
             self.compile_token(token, indentation + 1, [INT_CONST])
+            # todo
+            self.vm_writer.write_push('CONST', token.content)
             pass
         elif token.token_type == STRING_CONST:
             self.compile_token(token, indentation + 1)

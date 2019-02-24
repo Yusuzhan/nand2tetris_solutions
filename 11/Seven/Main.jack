@@ -9,9 +9,8 @@
  */
 class Main {
 
-   function void main(int i, String j) {
-      // do Output.printInt(1 + (2 * 3));
-      do Output.printInt(1, 2, a, "aa");
+   function void main() {
+      do Output.printInt(1 + (2 * 3));
       return;
    }
 }
