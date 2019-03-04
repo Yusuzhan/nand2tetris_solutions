@@ -35,20 +35,24 @@ class VMWriter:
             pass
         return
 
-    def write_pop(self, segment: str, index: int):
+    def write_pop(self, segment: str, index: int, var_name=None):
         '''
 
         :param segment: CONST, ARG, LOCAL, STATIC, THIS, THAT, POINTERS, TEMP
         :param index:
         :return:
         '''
+        comment = ''
+        if var_name is not None:
+            comment = '// %s' % var_name
         if segment == 'CONST':
-            self.output_file.write('pop constant %s\n' % (index))
+            self.output_file.write('pop constant %s %s\n' % (index, comment))
             pass
         elif segment == 'LOCAL':
-            self.output_file.write('pop local %s\n' % (index))
+            self.output_file.write('pop local %s %s\n' % (index, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'TEMP':
+            self.output_file.write('pop temp %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass
@@ -106,10 +110,10 @@ class VMWriter:
         self.output_file.write('if-goto %s\n' % label)
         return
 
-    def write_call(self, func_name: str, n_args: int, do_call=False):
+    def write_call(self, func_name: str, n_args: int):
         self.output_file.write('call %s %s\n' % (func_name, n_args))
-        if do_call:
-            self.output_file.write('pop temp 0\n')
+        # if do_call:
+        #     self.output_file.write('pop temp 0\n')
         return
 
     def write_functions(self, name: str, n_locals: int):

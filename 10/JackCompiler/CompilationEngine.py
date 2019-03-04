@@ -324,7 +324,9 @@ class CompilationEngine:
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
             n_arg = self.compile_expression_list(token, indentation + 1)
-            self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg, True)
+            self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg)
+            # do calls must 'pop temp 0', because void functions always returns 0
+            self.vm_writer.write_pop('TEMP', 0, 'do call')
             if token.content != ')':
                 token = self.advance()
             self.compile_token(token, indentation + 1, ')')
@@ -529,16 +531,19 @@ class CompilationEngine:
             # todo 编译到 Main.next(mask) 这里
             # static function call
             # class name
+            function_class_name = token.content
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             token = self.advance()
             self.compile_token(token, indentation + 1, '.')
-            # static function name
+            #  function name
             token = self.advance()
+            function_name = token.content
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             token = self.advance()
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
-            self.compile_expression_list(token, indentation + 1)
+            n_arg = self.compile_expression_list(token, indentation + 1)
+            self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg)
             if token.content != ')':
                 token = self.advance()
             print('should be )', token)
