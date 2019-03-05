@@ -6,20 +6,24 @@ class VMWriter:
     def set_class_name(self, name):
         self.class_name = name
 
-    def write_push(self, segment: str, index: int):
-        '''
+    def write_push(self, segment: str, index: int, var_name=None):
+        """
 
         :param segment: CONST, ARG, LOCAL, STATIC, THIS, THAT, POINTERS, TEMP
         :param index:
         :return:
-        '''
+        """
+        comment = ''
+        if var_name is not None:
+            comment = '    // %s' % var_name
         if segment == 'CONST':
             self.output_file.write('push constant %s\n' % (index))
             pass
         elif segment == 'LOCAL':
             self.output_file.write('push local %s\n' % (index))
             pass
-        elif segment == 'CONST':
+        elif segment == 'ARG':
+            self.output_file.write('push argument %s\n' % (index))
             pass
         elif segment == 'CONST':
             pass
@@ -44,7 +48,7 @@ class VMWriter:
         '''
         comment = ''
         if var_name is not None:
-            comment = '// %s' % var_name
+            comment = '    // %s' % var_name
         if segment == 'CONST':
             self.output_file.write('pop constant %s %s\n' % (index, comment))
             pass
@@ -96,7 +100,8 @@ class VMWriter:
         elif cmd == 'LT':
             self.output_file.write("lt \n")
             pass
-        elif cmd == '&':
+        elif cmd == 'AND':
+            self.output_file.write("and \n")
             pass
         elif cmd == '|':
             pass

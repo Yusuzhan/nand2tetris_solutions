@@ -376,7 +376,7 @@ class CompilationEngine:
         self.compile_expression(token, indentation + 1)
         # todo 处理不同情况
         if self.symbol_table.kind_of(var_name) == VAR:
-            self.vm_writer.write_pop('LOCAL', self.symbol_table.index_of(var_name))
+            self.vm_writer.write_pop('LOCAL', self.symbol_table.index_of(var_name), var_name)
         elif self.symbol_table.kind_of(var_name) == VAR:
             pass
         # ;
@@ -483,7 +483,7 @@ class CompilationEngine:
             self.compile_statements(token, indentation + 1)
             token = self.advance()
             self.compile_token(token, indentation + 1, '}')
-            self.vm_writer.write_label('%s_FINISH')
+            self.vm_writer.write_label(finish_label)
         else:
             """
             if statements...
@@ -500,6 +500,7 @@ class CompilationEngine:
         self.compile_term(token, indentation + 1)
         while self.next() is not None and self.next().content in OP_SYMBOLS.keys():
             token = self.advance()
+            print("op----")
             self.compile_token(token, indentation + 1, [SYMBOL])
             op_symbol = OP_SYMBOLS[token.content]
             token = self.advance()
@@ -524,8 +525,13 @@ class CompilationEngine:
             self.vm_writer.write_push('CONST', 0)
             self.vm_writer.write_arithmetic('NEG')
             pass
+        elif token.content == 'false':
+            self.compile_token(token, indentation + 1)
+            self.vm_writer.write_push('CONST', 0)
+            pass
         elif token.content in ['true', 'false', 'null', 'this']:
             self.compile_token(token, indentation + 1)
+            self.vm_writer.write_comment('%s not implemented' % token.content)
             pass
         elif self.next().content == '[':
             self.compile_token(token, indentation + 1, [IDENTIFIER])
@@ -582,10 +588,11 @@ class CompilationEngine:
         elif token.token_type == IDENTIFIER:
             # varName
             self.compile_token(token, indentation + 1, [IDENTIFIER])
-            # 处理不同情形
+            # todo 处理不同情形
             if self.symbol_table.kind_of(token.content) == VAR:
                 self.vm_writer.write_push('LOCAL', self.symbol_table.index_of(token.content))
-            elif self.symbol_table.kind_of(token.content) == VAR:
+            elif self.symbol_table.kind_of(token.content) == ARG:
+                self.vm_writer.write_push('ARG', self.symbol_table.index_of(token.content))
                 pass
             pass
         else:
