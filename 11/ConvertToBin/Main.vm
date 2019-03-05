@@ -19,7 +19,7 @@ push constant 0
 neg
 pop local 2 
 label WHILE_0_EXP
-// calculating condition expression
+// calculating while condition expression
 push local 2
 not
 if-goto WHILE_0_END
@@ -30,38 +30,57 @@ pop local 1
 push local 0
 call Main.nextMask 1
 pop local 0 
+// calculating if condition expression
 push local 1
 push constant 16
+gt 
 not
+not
+if-goto ELSE_0
+// calculating if condition expression
 push local 0
 push constant 0
+eq 
 not
+not
+if-goto ELSE_1
 push constant 8000
 push local 1
 add
 push constant 1
 call Memory.poke 2
 pop temp 0 // do call
+label ELSE_1
 push constant 8000
 push local 1
 add
 push constant 0
 call Memory.poke 2
 pop temp 0 // do call
+label %s_FINISH
+label ELSE_0
 pop local 2 
+label %s_FINISH
 label WHILE_0_END
 push constant 0
 return
 
 function Main.nextMask 0
+// calculating if condition expression
 push constant 0
+eq 
+not
+if-goto ELSE_2
 push constant 1
+label ELSE_2
 push constant 2
 call Math.multiply 2
+label %s_FINISH
 function Main.fillMemory 0
 label WHILE_1_EXP
-// calculating condition expression
+// calculating while condition expression
 push constant 0
+gt 
 not
 if-goto WHILE_1_END
 call Memory.poke 2

@@ -396,7 +396,7 @@ class CompilationEngine:
         token = self.advance()
         self.compile_token(token, indentation + 1, '(')
         token = self.advance()
-        self.vm_writer.write_comment("calculating condition expression")
+        self.vm_writer.write_comment("calculating while condition expression")
         # expression
         self.compile_expression(token, indentation + 1)
         # )
@@ -435,17 +435,26 @@ class CompilationEngine:
         return
 
     def compile_if(self, token: Token, indentation):
+        # if_label_pre = 'IF_%s' % self.if_label_index
+        else_label = 'ELSE_%s' % self.if_label_index
+        finish_label = 'FINISH_%s' % self.if_label_index
+        # label index++
+        self.if_label_index += 1
+
         print('IF:', token)
         self.log_node('ifStatement', indentation)
         self.compile_token(token, indentation + 1, 'if')
         token = self.advance()
         self.compile_token(token, indentation + 1, '(')
+        self.vm_writer.write_comment("calculating if condition expression")
         token = self.advance()
         # expression
         self.compile_expression(token, indentation + 1)
         # )
         token = self.advance()
         self.compile_token(token, indentation + 1, ')')
+        self.vm_writer.write_arithmetic('NOT')
+        self.vm_writer.write_if(else_label)
         # {
         token = self.advance()
         self.compile_token(token, indentation + 1, '{')
@@ -456,6 +465,16 @@ class CompilationEngine:
         token = self.advance()
         self.compile_token(token, indentation + 1, '}')
         if self.next().content == 'else':
+            """
+            if statements...
+            (else vm code)
+            goto FINISH // if statements finished, pass the else code
+            lable ELSE
+            else statements...
+            label FINISH
+            """
+            self.vm_writer.write_goto(finish_label)
+            self.vm_writer.write_label(else_label)
             token = self.advance()
             self.compile_token(token, indentation + 1, 'else')
             token = self.advance()
@@ -464,6 +483,14 @@ class CompilationEngine:
             self.compile_statements(token, indentation + 1)
             token = self.advance()
             self.compile_token(token, indentation + 1, '}')
+            self.vm_writer.write_label('%s_FINISH')
+        else:
+            """
+            if statements...
+            (no else vm code)
+            label ELSE
+            """
+            self.vm_writer.write_label(else_label)
             pass
         self.log_node('/ifStatement', indentation)
         return
@@ -532,7 +559,6 @@ class CompilationEngine:
             # todo 这里可能需要补充
             pass
         elif self.next().content == '.':
-            # todo 编译到 Main.next(mask) 这里
             # static function call
             # class name
             function_class_name = token.content

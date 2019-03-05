@@ -87,11 +87,14 @@ class VMWriter:
         elif cmd == 'DVI':
             self.output_file.write("call Math.divide 2\n")
             pass
-        elif cmd == '==':
+        elif cmd == 'EQ':
+            self.output_file.write("eq \n")
             pass
-        elif cmd == '>':
+        elif cmd == 'GT':
+            self.output_file.write("gt \n")
             pass
-        elif cmd == '<':
+        elif cmd == 'LT':
+            self.output_file.write("lt \n")
             pass
         elif cmd == '&':
             pass
