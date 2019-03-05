@@ -4,19 +4,20 @@ push constant 16
 push constant 1
 neg
 call Main.fillMemory 3
-pop temp 0
+pop temp 0 // do call
 push constant 8000
-pop local 0
+call Memory.peek 1
+pop local 0 
 push local 0
 call Main.convert 1
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 
 function Main.convert 3
 push constant 0
 neg
-pop local 2
+pop local 2 
 label WHILE_0_EXP
 // calculating condition expression
 push local 2
@@ -25,9 +26,10 @@ if-goto WHILE_0_END
 push local 1
 push constant 1
 add
-pop local 1
+pop local 1 
 push local 0
-pop local 0
+call Main.nextMask 1
+pop local 0 
 push local 1
 push constant 16
 not
@@ -39,14 +41,14 @@ push local 1
 add
 push constant 1
 call Memory.poke 2
-pop temp 0
+pop temp 0 // do call
 push constant 8000
 push local 1
 add
 push constant 0
 call Memory.poke 2
-pop temp 0
-pop local 2
+pop temp 0 // do call
+pop local 2 
 label WHILE_0_END
 push constant 0
 return
@@ -63,7 +65,7 @@ push constant 0
 not
 if-goto WHILE_1_END
 call Memory.poke 2
-pop temp 0
+pop temp 0 // do call
 push constant 1
 push constant 1
 add

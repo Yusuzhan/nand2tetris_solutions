@@ -1,23 +1,23 @@
 function Square.new 0
 function Square.dispose 0
 call Memory.deAlloc 1
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 
 function Square.draw 0
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 
 function Square.erase 0
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 
@@ -31,49 +31,49 @@ return
 
 function Square.moveUp 0
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 
 function Square.moveDown 0
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 
 function Square.moveLeft 0
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 
 function Square.moveRight 0
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 call Screen.setColor 1
-pop temp 0
+pop temp 0 // do call
 call Screen.drawRectangle 4
-pop temp 0
+pop temp 0 // do call
 push constant 0
 return
 

@@ -114,18 +114,22 @@ class CompilationEngine:
         """
         self.log_node('classVarDec', indentation)
         # static or field
-        # todo
-        kind = token.content
+        kind = token.content.upper()
         self.compile_token(token, indentation + 1)
         token = self.advance()
+        var_type = token.content
         self.compile_token(token, indentation + 1, [IDENTIFIER, KEYWORD])
         # var name
         token = self.advance()
+        var_name = token.content
         self.compile_token(token, indentation + 1, [IDENTIFIER])
+        self.symbol_table.define(var_name, var_type, kind)
         token = self.advance()
         while token.content == ',':
             self.compile_token(token, indentation + 1, ',')
             token = self.advance()
+            var_name = token.content
+            self.symbol_table.define(var_name, var_type, kind)
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             token = self.advance()
             print("SHOULD BE ,", token)
