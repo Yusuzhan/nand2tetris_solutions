@@ -8,7 +8,6 @@ class VMWriter:
 
     def write_push(self, segment: str, index: int, var_name=None):
         """
-
         :param segment: CONST, ARG, LOCAL, STATIC, THIS, THAT, POINTERS, TEMP
         :param index:
         :return:
@@ -25,7 +24,8 @@ class VMWriter:
         elif segment == 'ARG':
             self.output_file.write('push argument %s %s\n' % (index, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'POINTER':
+            self.output_file.write('push pointer %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass
@@ -59,9 +59,11 @@ class VMWriter:
             self.output_file.write('pop temp %s %s\n' % (index, comment))
         elif segment == 'ARG':
             self.output_file.write('pop argument %s %s\n' % (index, comment))
-        elif segment == 'CONST':
+        elif segment == 'POINTER':
+            self.output_file.write('pop pointer %s %s\n' % (index, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'THIS':
+            self.output_file.write('pop this %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass

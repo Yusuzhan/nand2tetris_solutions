@@ -1,0 +1,163 @@
+
+function SquareGame.new 0
+push constant 2 
+call Memory.alloc 1
+pop pointer 0     // set this pointer
+push constant 0 
+push constant 0 
+push constant 30 
+call Square.new 3
+pop this 0     // square
+push constant 0 
+pop this 1     // direction
+push pointer 0 
+return
+
+function SquareGame.dispose 0
+call square.dispose 0
+pop temp 0     // do call
+push pointer 0 
+call Memory.deAlloc 1
+pop temp 0     // do call
+push constant 0
+return
+
+function SquareGame.moveSquare 0
+// calculating if condition expression
+push constant 1 
+eq 
+not
+if-goto ELSE_0
+call square.moveUp 0
+pop temp 0     // do call
+label ELSE_0
+// calculating if condition expression
+push constant 2 
+eq 
+not
+if-goto ELSE_1
+call square.moveDown 0
+pop temp 0     // do call
+label ELSE_1
+// calculating if condition expression
+push constant 3 
+eq 
+not
+if-goto ELSE_2
+call square.moveLeft 0
+pop temp 0     // do call
+label ELSE_2
+// calculating if condition expression
+push constant 4 
+eq 
+not
+if-goto ELSE_3
+call square.moveRight 0
+pop temp 0     // do call
+label ELSE_3
+push constant 5 
+call Sys.wait 1
+pop temp 0     // do call
+push constant 0
+return
+
+function SquareGame.run 2
+push constant 0 
+pop local 1     // exit
+label WHILE_0_EXP
+// calculating while condition expression
+push local 1 
+not
+not
+if-goto WHILE_0_END
+label WHILE_1_EXP
+// calculating while condition expression
+push local 0 
+push constant 0 
+eq 
+not
+if-goto WHILE_1_END
+call Keyboard.keyPressed 0
+pop local 0     // key
+goto WHILE_1_EXP
+label WHILE_1_END
+// calculating if condition expression
+push local 0 
+push constant 81 
+eq 
+not
+if-goto ELSE_4
+push constant 1 
+neg
+pop local 1     // exit
+label ELSE_4
+// calculating if condition expression
+push local 0 
+push constant 90 
+eq 
+not
+if-goto ELSE_5
+call square.decSize 0
+pop temp 0     // do call
+label ELSE_5
+// calculating if condition expression
+push local 0 
+push constant 88 
+eq 
+not
+if-goto ELSE_6
+call square.incSize 0
+pop temp 0     // do call
+label ELSE_6
+// calculating if condition expression
+push local 0 
+push constant 131 
+eq 
+not
+if-goto ELSE_7
+push constant 1 
+pop this 1     // direction
+label ELSE_7
+// calculating if condition expression
+push local 0 
+push constant 133 
+eq 
+not
+if-goto ELSE_8
+push constant 2 
+pop this 1     // direction
+label ELSE_8
+// calculating if condition expression
+push local 0 
+push constant 130 
+eq 
+not
+if-goto ELSE_9
+push constant 3 
+pop this 1     // direction
+label ELSE_9
+// calculating if condition expression
+push local 0 
+push constant 132 
+eq 
+not
+if-goto ELSE_10
+push constant 4 
+pop this 1     // direction
+label ELSE_10
+label WHILE_2_EXP
+// calculating while condition expression
+push local 0 
+push constant 0 
+eq 
+not
+not
+if-goto WHILE_2_END
+call Keyboard.keyPressed 0
+pop local 0     // key
+goto WHILE_2_EXP
+label WHILE_2_END
+goto WHILE_0_EXP
+label WHILE_0_END
+push constant 0
+return

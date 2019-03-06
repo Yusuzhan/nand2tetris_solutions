@@ -1,5 +1,3 @@
-import re
-
 # token type
 
 count = 0

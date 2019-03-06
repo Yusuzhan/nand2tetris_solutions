@@ -1,30 +1,4 @@
+
 function Main.main 1
 call SquareGame.new 0
-pop local 0 
-call game.run 0
-pop temp 0 // do call
-call game.dispose 0
-pop temp 0 // do call
-push constant 0
-return
-
-function Main.test 4
-pop local 2 
-pop local 2 
-push constant 1
-push constant 2
-pop local 3 
-push local 0
-push local 1
-neg
-call Math.multiply 2
-pop local 0 
-push local 1
-push constant 2
-neg
-pop local 1 
-push local 0
-pop local 0 
-push constant 0
-return
-
+pop local 0     // game

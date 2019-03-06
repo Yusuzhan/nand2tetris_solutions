@@ -1,22 +1,28 @@
+
 function Main.main 1
-pop local 0 
+pop local 0     // game
 call game.run 0
-pop temp 0 // do call
+pop temp 0     // do call
 call game.dispose 0
-pop temp 0 // do call
+pop temp 0     // do call
 push constant 0
 return
 
 function Main.test 4
-push local 0
-pop local 2 
-pop local 2 
-push local 0
-pop local 3 
-pop local 0 
-pop local 1 
-push local 0
-pop local 0 
+// calculating if condition expression
+push local 0 
+not
+if-goto ELSE_0
+pop local 2     // s
+pop local 2     // s
+push local 0 
+pop local 3     // a
+goto FINISH_0
+label ELSE_0
+pop local 0     // i
+pop local 1     // j
+push local 0 
+pop local 0     // i
+label FINISH_0
 push constant 0
 return
-

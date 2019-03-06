@@ -1,0 +1,8 @@
+
+function Square.new 0
+push constant 3 
+call Memory.alloc 1
+pop pointer 0     // set this pointer
+pop this 0     // x
+pop this 1     // y
+pop this 2     // size

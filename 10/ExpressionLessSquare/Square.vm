@@ -1,79 +1,118 @@
+
 function Square.new 0
+push constant 3 
+call Memory.alloc 1
+pop pointer 0     // set this pointer
+pop this 0     // x
+pop this 1     // y
+pop this 2     // size
+return
+
 function Square.dispose 0
+push pointer 0 
 call Memory.deAlloc 1
-pop temp 0 // do call
+pop temp 0     // do call
 push constant 0
 return
 
 function Square.draw 0
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
 push constant 0
 return
 
 function Square.erase 0
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
 push constant 0
 return
 
 function Square.incSize 0
+// calculating if condition expression
+not
+if-goto ELSE_0
+pop this 2     // size
+label ELSE_0
 push constant 0
 return
 
 function Square.decSize 0
+// calculating if condition expression
+not
+if-goto ELSE_1
+pop this 2     // size
+label ELSE_1
 push constant 0
 return
 
 function Square.moveUp 0
+// calculating if condition expression
+not
+if-goto ELSE_2
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+pop this 1     // y
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+label ELSE_2
 push constant 0
 return
 
 function Square.moveDown 0
+// calculating if condition expression
+not
+if-goto ELSE_3
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+pop this 1     // y
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+label ELSE_3
 push constant 0
 return
 
 function Square.moveLeft 0
+// calculating if condition expression
+not
+if-goto ELSE_4
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+pop this 0     // x
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+label ELSE_4
 push constant 0
 return
 
 function Square.moveRight 0
+// calculating if condition expression
+not
+if-goto ELSE_5
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+pop this 0     // x
 call Screen.setColor 1
-pop temp 0 // do call
+pop temp 0     // do call
 call Screen.drawRectangle 4
-pop temp 0 // do call
+pop temp 0     // do call
+label ELSE_5
 push constant 0
 return
-
