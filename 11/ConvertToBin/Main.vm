@@ -1,104 +1,119 @@
+
 function Main.main 1
-push constant 8001
-push constant 16
-push constant 1
+push constant 8000 
+push constant 133 
+call Memory.poke 2
+pop temp 0     // do call
+push constant 8001 
+push constant 16 
+push constant 1 
 neg
 call Main.fillMemory 3
 pop temp 0     // do call
-push constant 8000
+push constant 8000 
 call Memory.peek 1
 pop local 0     // value
-push local 0
+push local 0 
 call Main.convert 1
 pop temp 0     // do call
 push constant 0
 return
 
 function Main.convert 3
-push constant 0
+push constant 1 
 neg
 pop local 2     // loop
 label WHILE_0_EXP
 // calculating while condition expression
-push local 2
+push local 2 
 not
 if-goto WHILE_0_END
-push local 1
-push constant 1
+push local 1 
+push constant 1 
 add
 pop local 1     // position
-push local 0
+push local 0 
 call Main.nextMask 1
 pop local 0     // mask
 // calculating if condition expression
-push local 1
-push constant 16
+push local 1 
+push constant 16 
 gt 
 not
 not
 if-goto ELSE_0
 // calculating if condition expression
-push argument 0
-push local 0
+push argument 0     // value
+push local 0 
 and 
-push constant 0
+push constant 0 
 eq 
 not
 not
 if-goto ELSE_1
-push constant 8000
-push local 1
+push constant 8000 
+push local 1 
 add
-push constant 1
+push constant 1 
 call Memory.poke 2
 pop temp 0     // do call
+goto FINISH_1
 label ELSE_1
-push constant 8000
-push local 1
+push constant 8000 
+push local 1 
 add
-push constant 0
+push constant 0 
 call Memory.poke 2
 pop temp 0     // do call
 label FINISH_1
+goto FINISH_0
 label ELSE_0
-push constant 0
+push constant 0 
 pop local 2     // loop
 label FINISH_0
+goto WHILE_0_EXP
 label WHILE_0_END
 push constant 0
 return
 
 function Main.nextMask 0
 // calculating if condition expression
-push argument 0
-push constant 0
+push argument 0     // mask
+push constant 0 
 eq 
 not
 if-goto ELSE_2
-push constant 1
+push constant 1 
+return
+goto FINISH_2
 label ELSE_2
-push argument 0
-push constant 2
+push argument 0     // mask
+push constant 2 
 call Math.multiply 2
+return
 label FINISH_2
+
 function Main.fillMemory 0
 label WHILE_1_EXP
 // calculating while condition expression
-push argument 1
-push constant 0
+push argument 1     // length
+push constant 0 
 gt 
 not
 if-goto WHILE_1_END
-push argument 0
-push argument 2
+push argument 0     // startAddress
+push argument 2     // value
 call Memory.poke 2
 pop temp 0     // do call
-push argument 1
-push constant 1
-push argument 0
-push constant 1
+push argument 1     // length
+push constant 1 
+sub
+pop argument 1     // length
+push argument 0     // startAddress
+push constant 1 
 add
+pop argument 0     // startAddress
+goto WHILE_1_EXP
 label WHILE_1_END
 push constant 0
 return
-

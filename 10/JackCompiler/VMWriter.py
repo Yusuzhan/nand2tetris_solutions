@@ -17,13 +17,13 @@ class VMWriter:
         if var_name is not None:
             comment = '    // %s' % var_name
         if segment == 'CONST':
-            self.output_file.write('push constant %s\n' % (index))
+            self.output_file.write('push constant %s %s\n' % (index, comment))
             pass
         elif segment == 'LOCAL':
-            self.output_file.write('push local %s\n' % (index))
+            self.output_file.write('push local %s %s\n' % (index, comment))
             pass
         elif segment == 'ARG':
-            self.output_file.write('push argument %s\n' % (index))
+            self.output_file.write('push argument %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass
@@ -57,7 +57,8 @@ class VMWriter:
             pass
         elif segment == 'TEMP':
             self.output_file.write('pop temp %s %s\n' % (index, comment))
-            pass
+        elif segment == 'ARG':
+            self.output_file.write('pop argument %s %s\n' % (index, comment))
         elif segment == 'CONST':
             pass
         elif segment == 'CONST':
@@ -79,8 +80,8 @@ class VMWriter:
         if cmd == 'ADD':
             self.output_file.write("add\n")
             pass
-        elif cmd == '-':
-            self.output_file.write("sub is not implemented yet\n")
+        elif cmd == 'SUB':
+            self.output_file.write("sub\n")
         elif cmd == 'NEG':
             self.output_file.write("neg\n")
         elif cmd == 'NOT':
@@ -112,6 +113,7 @@ class VMWriter:
         return
 
     def write_goto(self, label: str):
+        self.output_file.write('goto %s\n' % label)
         return
 
     def write_if(self, label: str):
@@ -125,12 +127,13 @@ class VMWriter:
         return
 
     def write_functions(self, name: str, n_locals: int):
-        self.output_file.write('function %s.%s %s\n' % (self.class_name, name, n_locals))
+        self.output_file.write('\nfunction %s.%s %s\n' % (self.class_name, name, n_locals))
         return
 
-    def write_return(self, void_func):
-        self.output_file.write('push constant 0\n')
-        self.output_file.write('return\n\n')
+    def write_return(self, void_func=False):
+        if void_func:
+            self.output_file.write('push constant 0\n')
+        self.output_file.write('return\n')
         return
 
     def write_comment(self, comment):

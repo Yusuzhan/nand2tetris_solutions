@@ -377,7 +377,8 @@ class CompilationEngine:
         # todo 处理不同情况
         if self.symbol_table.kind_of(var_name) == VAR:
             self.vm_writer.write_pop('LOCAL', self.symbol_table.index_of(var_name), var_name)
-        elif self.symbol_table.kind_of(var_name) == VAR:
+        elif self.symbol_table.kind_of(var_name) == ARG:
+            self.vm_writer.write_pop('ARG', self.symbol_table.index_of(var_name), var_name)
             pass
         # ;
         token = self.advance()
@@ -426,6 +427,7 @@ class CompilationEngine:
         if token.content != ';':
             self.compile_expression(token, indentation + 1)
             token = self.advance()
+            self.vm_writer.write_return()
         else:
             # for functions that return void, it must return an integer 0
             self.vm_writer.write_return(True)
@@ -522,7 +524,7 @@ class CompilationEngine:
             # keyword constant
         elif token.content == 'true':
             self.compile_token(token, indentation + 1)
-            self.vm_writer.write_push('CONST', 0)
+            self.vm_writer.write_push('CONST', 1)
             self.vm_writer.write_arithmetic('NEG')
             pass
         elif token.content == 'false':
@@ -592,7 +594,7 @@ class CompilationEngine:
             if self.symbol_table.kind_of(token.content) == VAR:
                 self.vm_writer.write_push('LOCAL', self.symbol_table.index_of(token.content))
             elif self.symbol_table.kind_of(token.content) == ARG:
-                self.vm_writer.write_push('ARG', self.symbol_table.index_of(token.content))
+                self.vm_writer.write_push('ARG', self.symbol_table.index_of(token.content), token.content)
                 pass
             pass
         else:
