@@ -6,3 +6,180 @@ pop pointer 0     // set this pointer
 pop this 0     // x
 pop this 1     // y
 pop this 2     // size
+call .draw 0
+push pointer 0 
+return
+
+function Square.dispose 0
+push pointer 0 
+call Memory.deAlloc 1
+push constant 0
+return
+
+function Square.draw 0
+push constant 1 
+neg
+call Screen.setColor 1
+add
+add
+call Screen.drawRectangle 4
+push constant 0
+return
+
+function Square.erase 0
+push constant 0 
+call Screen.setColor 1
+add
+add
+call Screen.drawRectangle 4
+push constant 0
+return
+
+function Square.incSize 0
+// calculating if condition expression
+add
+push constant 254 
+lt 
+add
+push constant 510 
+lt 
+and 
+not
+if-goto ELSE_0
+call .erase 0
+push constant 2 
+add
+pop this 2     // size
+call .draw 0
+label ELSE_0
+push constant 0
+return
+
+function Square.decSize 0
+// calculating if condition expression
+push constant 2 
+gt 
+not
+if-goto ELSE_1
+call .erase 0
+push constant 2 
+sub
+pop this 2     // size
+call .draw 0
+label ELSE_1
+push constant 0
+return
+
+function Square.moveUp 0
+// calculating if condition expression
+push constant 1 
+gt 
+not
+if-goto ELSE_2
+push constant 0 
+call Screen.setColor 1
+add
+push constant 1 
+sub
+add
+add
+call Screen.drawRectangle 4
+push constant 2 
+sub
+pop this 1     // y
+push constant 1 
+neg
+call Screen.setColor 1
+add
+push constant 1 
+add
+call Screen.drawRectangle 4
+label ELSE_2
+push constant 0
+return
+
+function Square.moveDown 0
+// calculating if condition expression
+add
+push constant 254 
+lt 
+not
+if-goto ELSE_3
+push constant 0 
+call Screen.setColor 1
+add
+push constant 1 
+add
+call Screen.drawRectangle 4
+push constant 2 
+add
+pop this 1     // y
+push constant 1 
+neg
+call Screen.setColor 1
+add
+push constant 1 
+sub
+add
+add
+call Screen.drawRectangle 4
+label ELSE_3
+push constant 0
+return
+
+function Square.moveLeft 0
+// calculating if condition expression
+push constant 1 
+gt 
+not
+if-goto ELSE_4
+push constant 0 
+call Screen.setColor 1
+add
+push constant 1 
+sub
+add
+add
+call Screen.drawRectangle 4
+push constant 2 
+sub
+pop this 0     // x
+push constant 1 
+neg
+call Screen.setColor 1
+push constant 1 
+add
+add
+call Screen.drawRectangle 4
+label ELSE_4
+push constant 0
+return
+
+function Square.moveRight 0
+// calculating if condition expression
+add
+push constant 510 
+lt 
+not
+if-goto ELSE_5
+push constant 0 
+call Screen.setColor 1
+push constant 1 
+add
+add
+call Screen.drawRectangle 4
+push constant 2 
+add
+pop this 0     // x
+push constant 1 
+neg
+call Screen.setColor 1
+add
+push constant 1 
+sub
+add
+add
+call Screen.drawRectangle 4
+label ELSE_5
+push constant 0
+return

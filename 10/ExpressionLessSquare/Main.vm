@@ -2,9 +2,7 @@
 function Main.main 1
 pop local 0     // game
 call game.run 0
-pop temp 0     // do call
 call game.dispose 0
-pop temp 0     // do call
 push constant 0
 return
 

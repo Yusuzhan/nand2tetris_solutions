@@ -45,12 +45,9 @@ pop local 2     // i
 goto WHILE_1_EXP
 label WHILE_1_END
 call Output.printString 1
-pop temp 0     // do call
 push local 3 
 push local 1 
 call Output.printInt 1
-pop temp 0     // do call
 call Output.println 0
-pop temp 0     // do call
 push constant 0
 return

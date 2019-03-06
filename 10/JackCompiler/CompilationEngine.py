@@ -323,7 +323,7 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1, 'do')
         token = self.advance()
         print('do ' + token.content)
-        self.compile_term(token, indentation + 1)
+        self.compile_term(token, indentation + 1, do_term = True)
         token = self.advance()
         self.compile_token(token, indentation + 1, ';')
         # maybe a local subroutine or someone else's
@@ -529,8 +529,9 @@ class CompilationEngine:
         self.log_node('/expression', indentation)
         return
 
-    def compile_term(self, token: Token, indentation):
-        self.log_node('term', indentation)
+    def compile_term(self, token: Token, indentation, do_term = False):
+        if not do_term:
+            self.log_node('term', indentation)
         if token.token_type == INT_CONST:
             self.compile_token(token, indentation + 1, [INT_CONST])
             # todo
@@ -582,7 +583,19 @@ class CompilationEngine:
             pass
         elif self.next().content == '(':
             # method call
-            print('method call not implemented')
+            print('self method call' + token.content)
+            function_class_name = self.class_name
+            function_name = token.content
+            self.compile_token(token, indentation + 1, [IDENTIFIER])
+            token = self.advance()
+            self.compile_token(token, indentation + 1, '(')
+            token = self.advance()
+            n_arg = self.compile_expression_list(token, indentation + 1)
+            self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg)
+            if token.content != ')':
+                token = self.advance()
+            print('should be )', token)
+            self.compile_token(token, indentation + 1, ')')
             pass
         elif self.next().content == '.':
             print('method call or function call')
@@ -618,7 +631,8 @@ class CompilationEngine:
             pass
         else:
             raise RuntimeError("Uncaught situation", token)
-        self.log_node('/term', indentation)
+        if not do_term:
+            self.log_node('/term', indentation)
         return
 
     def compile_expression_list(self, token: Token, indentation) -> int:
