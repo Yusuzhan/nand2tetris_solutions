@@ -1,8 +1,11 @@
 
 function Main.main 1
+push local 0 
 pop local 0     // game
-call game.run 0
-call game.dispose 0
+push local 0     // game
+call SquareGame.run 1
+push local 0     // game
+call SquareGame.dispose 1
 push constant 0
 return
 
@@ -11,15 +14,21 @@ function Main.test 4
 push local 0 
 not
 if-goto ELSE_0
+push local 0 
 pop local 2     // s
+push local 1 
 pop local 2     // s
 push local 0 
+push local 1 
 pop local 3     // a
 goto FINISH_0
 label ELSE_0
+push local 0 
 pop local 0     // i
+push local 1 
 pop local 1     // j
 push local 0 
+push local 1 
 pop local 0     // i
 label FINISH_0
 push constant 0

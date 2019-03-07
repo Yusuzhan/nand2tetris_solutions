@@ -38,20 +38,22 @@
         </letStatement>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> game </identifier>
             <symbol> . </symbol>
             <identifier> run </identifier>
             <symbol> ( </symbol>
             <expressionList>
+              <expression>
+                <term>
+                  <integerConstant> 1 </integerConstant>
+                </term>
+              </expression>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> game </identifier>
             <symbol> . </symbol>
             <identifier> dispose </identifier>
@@ -59,7 +61,6 @@
             <expressionList>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <returnStatement>

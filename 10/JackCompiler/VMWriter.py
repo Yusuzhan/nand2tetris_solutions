@@ -18,7 +18,7 @@ class VMWriter:
         if segment == 'CONST':
             self.output_file.write('push constant %s %s\n' % (index, comment))
             pass
-        elif segment == 'LOCAL':
+        elif (segment == 'LOCAL') | (segment == 'VAR'):
             self.output_file.write('push local %s %s\n' % (index, comment))
             pass
         elif segment == 'ARG':
@@ -27,7 +27,8 @@ class VMWriter:
         elif segment == 'POINTER':
             self.output_file.write('push pointer %s %s\n' % (index, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'FIELD':
+            self.output_file.write('push this %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass

@@ -80,6 +80,7 @@ class CompilationEngine:
         self.compile_token(advance, indentation + 1)
         # class name
         advance = self.advance()
+        self.class_name = advance.content
         self.compile_token(advance, indentation + 1)
         # set class name to vm-writer
         self.vm_writer.set_class_name(advance.content)
@@ -184,9 +185,15 @@ class CompilationEngine:
 
         # todo 处理constructor
         if function_type == 'constructor':
+            # number of fields
             self.vm_writer.write_push('CONST', self.symbol_table.var_count(FIELD))
             self.vm_writer.write_call('Memory.alloc', 1)
             self.vm_writer.write_pop('POINTER', 0, 'set this pointer')
+        elif function_type == 'method':
+            # if it is a method, always set arg 0 to pointer 0(this)
+            self.vm_writer.write_push(ARG, 0)
+            self.vm_writer.write_pop('POINTER', 0)
+            pass
 
         # if this token is '}' means the function has an empty body
         if token.content == '}':
@@ -323,7 +330,7 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1, 'do')
         token = self.advance()
         print('do ' + token.content)
-        self.compile_term(token, indentation + 1, do_term = True)
+        self.compile_term(token, indentation + 1, do_term=True)
         token = self.advance()
         self.compile_token(token, indentation + 1, ';')
         # maybe a local subroutine or someone else's
@@ -529,7 +536,7 @@ class CompilationEngine:
         self.log_node('/expression', indentation)
         return
 
-    def compile_term(self, token: Token, indentation, do_term = False):
+    def compile_term(self, token: Token, indentation, do_term=False):
         if not do_term:
             self.log_node('term', indentation)
         if token.token_type == INT_CONST:
@@ -577,20 +584,22 @@ class CompilationEngine:
             token = self.advance()
             self.compile_term(token, indentation + 1)
             self.vm_writer.write_arithmetic(unary_op)
-        elif self.next().content == ';':
-            # varname
-            self.compile_token(token, indentation + 1)
-            pass
+        # elif self.next().content == ';':
+        #     # varname
+        #     self.compile_token(token, indentation + 1)
+        #     pass
         elif self.next().content == '(':
             # method call
-            print('self method call' + token.content)
+            n_arg = 1
+            self.vm_writer.write_pop('POINTER', 0)
+            self.vm_writer.write_push(ARG, 0)
             function_class_name = self.class_name
             function_name = token.content
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             token = self.advance()
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
-            n_arg = self.compile_expression_list(token, indentation + 1)
+            n_arg += self.compile_expression_list(token, indentation + 1)
             self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg)
             if token.content != ')':
                 token = self.advance()
@@ -601,7 +610,15 @@ class CompilationEngine:
             print('method call or function call')
             # static function call
             # class name
+            n_arg = 0
             function_class_name = token.content
+            if self.symbol_table.index_of(function_class_name) > -1:
+                n_arg += 1
+                self.vm_writer.write_push(
+                    self.symbol_table.kind_of(function_class_name),
+                    self.symbol_table.index_of(function_class_name),
+                    function_class_name)
+                function_class_name = self.symbol_table.type_of(function_class_name)
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             token = self.advance()
             self.compile_token(token, indentation + 1, '.')
@@ -612,7 +629,7 @@ class CompilationEngine:
             token = self.advance()
             self.compile_token(token, indentation + 1, '(')
             token = self.advance()
-            n_arg = self.compile_expression_list(token, indentation + 1)
+            n_arg += self.compile_expression_list(token, indentation + 1)
             self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg)
             if token.content != ')':
                 token = self.advance()

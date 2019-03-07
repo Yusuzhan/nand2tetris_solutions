@@ -70,13 +70,11 @@
         </letStatement>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> draw </identifier>
             <symbol> ( </symbol>
             <expressionList>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <returnStatement>
@@ -105,7 +103,6 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> Memory </identifier>
             <symbol> . </symbol>
             <identifier> deAlloc </identifier>
@@ -118,7 +115,6 @@
               </expression>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <returnStatement>
@@ -142,7 +138,6 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> Screen </identifier>
             <symbol> . </symbol>
             <identifier> setColor </identifier>
@@ -155,12 +150,10 @@
               </expression>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> Screen </identifier>
             <symbol> . </symbol>
             <identifier> drawRectangle </identifier>
@@ -199,7 +192,6 @@
               </expression>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <returnStatement>
@@ -223,7 +215,6 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> Screen </identifier>
             <symbol> . </symbol>
             <identifier> setColor </identifier>
@@ -236,12 +227,10 @@
               </expression>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <doStatement>
           <keyword> do </keyword>
-          <term>
             <identifier> Screen </identifier>
             <symbol> . </symbol>
             <identifier> drawRectangle </identifier>
@@ -280,7 +269,6 @@
               </expression>
             </expressionList>
             <symbol> ) </symbol>
-          </term>
           <symbol> ; </symbol>
         </doStatement>
         <returnStatement>
@@ -359,13 +347,11 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> erase </identifier>
                 <symbol> ( </symbol>
                 <expressionList>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <letStatement>
@@ -385,13 +371,11 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> draw </identifier>
                 <symbol> ( </symbol>
                 <expressionList>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
           </statements>
@@ -433,13 +417,11 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> erase </identifier>
                 <symbol> ( </symbol>
                 <expressionList>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <letStatement>
@@ -459,13 +441,11 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> draw </identifier>
                 <symbol> ( </symbol>
                 <expressionList>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
           </statements>
@@ -507,7 +487,6 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -520,12 +499,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -578,7 +555,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <letStatement>
@@ -598,7 +574,6 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -611,12 +586,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -655,7 +628,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
           </statements>
@@ -707,7 +679,6 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -720,12 +691,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -764,7 +733,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <letStatement>
@@ -784,7 +752,6 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -797,12 +764,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -855,7 +820,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
           </statements>
@@ -897,7 +861,6 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -910,12 +873,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -968,7 +929,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <letStatement>
@@ -988,7 +948,6 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -1001,12 +960,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -1045,7 +1002,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
           </statements>
@@ -1097,7 +1053,6 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -1110,12 +1065,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -1154,7 +1107,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <letStatement>
@@ -1174,7 +1126,6 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> setColor </identifier>
@@ -1187,12 +1138,10 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <term>
                 <identifier> Screen </identifier>
                 <symbol> . </symbol>
                 <identifier> drawRectangle </identifier>
@@ -1245,7 +1194,6 @@
                   </expression>
                 </expressionList>
                 <symbol> ) </symbol>
-              </term>
               <symbol> ; </symbol>
             </doStatement>
           </statements>

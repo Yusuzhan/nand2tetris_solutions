@@ -2,8 +2,10 @@
 function Main.main 1
 call SquareGame.new 0
 pop local 0     // game
-call game.run 0
-call game.dispose 0
+push local 0     // game
+call SquareGame.run 1
+push local 0     // game
+call SquareGame.dispose 1
 push constant 0
 return
 
@@ -30,6 +32,7 @@ push constant 2
 neg
 pop local 1     // j
 push local 0 
+push local 1 
 pop local 0     // i
 label FINISH_0
 push constant 0

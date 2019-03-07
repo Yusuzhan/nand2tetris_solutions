@@ -77,7 +77,7 @@ class SymbolTable:
         for (k, symbol) in self.class_table.items():
             if k == name:
                 return symbol
-        raise RuntimeError(name, 'not in symbol table')
+        return None
 
     def kind_of(self, name):
         return self.get_symbol(name).kind
@@ -86,7 +86,10 @@ class SymbolTable:
         return self.get_symbol(name).symbol_type
 
     def index_of(self, name):
-        return self.get_symbol(name).index
+        if self.get_symbol(name) is not None:
+            return self.get_symbol(name).index
+        else:
+            return -1
 
 
 # test script
