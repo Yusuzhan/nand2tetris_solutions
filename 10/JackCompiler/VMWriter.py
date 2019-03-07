@@ -28,7 +28,7 @@ class VMWriter:
             self.output_file.write('push pointer %s %s\n' % (index, comment))
             pass
         elif segment == 'FIELD':
-            self.output_file.write('push this %s %s\n' % (index, comment))
+            self.output_file.write('push this %s %s\n' % (index + 1, comment))
             pass
         elif segment == 'CONST':
             pass
@@ -64,7 +64,7 @@ class VMWriter:
             self.output_file.write('pop pointer %s %s\n' % (index, comment))
             pass
         elif segment == 'THIS':
-            self.output_file.write('pop this %s %s\n' % (index, comment))
+            self.output_file.write('pop this %s %s\n' % (index + 1, comment))
             pass
         elif segment == 'CONST':
             pass

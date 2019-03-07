@@ -5,7 +5,9 @@ pop local 0     // game
 push local 0     // game
 push constant 1 
 call SquareGame.run 2
+pop temp 0     // do call
 push local 0     // game
 call SquareGame.dispose 1
+pop temp 0     // do call
 push constant 0
 return

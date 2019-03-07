@@ -331,6 +331,7 @@ class CompilationEngine:
         token = self.advance()
         print('do ' + token.content)
         self.compile_term(token, indentation + 1, do_term=True)
+        self.vm_writer.write_pop('TEMP', 0, 'do call')
         token = self.advance()
         self.compile_token(token, indentation + 1, ';')
         # maybe a local subroutine or someone else's
@@ -591,8 +592,8 @@ class CompilationEngine:
         elif self.next().content == '(':
             # method call
             n_arg = 1
-            self.vm_writer.write_pop('POINTER', 0)
-            self.vm_writer.write_push(ARG, 0)
+            self.vm_writer.write_push('POINTER', 0)
+            # self.vm_writer.write_pop(ARG, 0)
             function_class_name = self.class_name
             function_name = token.content
             self.compile_token(token, indentation + 1, [IDENTIFIER])
@@ -644,6 +645,9 @@ class CompilationEngine:
                 self.vm_writer.write_push('LOCAL', self.symbol_table.index_of(token.content))
             elif self.symbol_table.kind_of(token.content) == ARG:
                 self.vm_writer.write_push('ARG', self.symbol_table.index_of(token.content), token.content)
+                pass
+            elif self.symbol_table.kind_of(token.content) == FIELD:
+                self.vm_writer.write_push('FIELD', self.symbol_table.index_of(token.content), token.content)
                 pass
             pass
         else:
