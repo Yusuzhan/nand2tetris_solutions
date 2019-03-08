@@ -4,14 +4,14 @@ push constant 3
 call Memory.alloc 1
 pop pointer 0     // set this pointer
 push argument 0     // Ax
-pop this 0     // x
+pop this 1     // x
 push argument 1     // Ay
-pop this 1     // y
+pop this 2     // y
 push argument 2     // Asize
-pop this 2     // size
-pop pointer 0 
-push argument 0 
+pop this 3     // size
+push pointer 0 
 call Square.draw 1
+pop temp 0     // do call
 push pointer 0 
 return
 
@@ -20,6 +20,7 @@ push argument 0
 pop pointer 0 
 push pointer 0 
 call Memory.deAlloc 1
+pop temp 0     // do call
 push constant 0
 return
 
@@ -29,9 +30,17 @@ pop pointer 0
 push constant 1 
 neg
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
 push constant 0
 return
 
@@ -40,9 +49,17 @@ push argument 0
 pop pointer 0 
 push constant 0 
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
 push constant 0
 return
 
@@ -50,24 +67,29 @@ function Square.incSize 0
 push argument 0 
 pop pointer 0 
 // calculating if condition expression
+push this 2     // y
+push this 3     // size
 add
 push constant 254 
 lt 
+push this 1     // x
+push this 3     // size
 add
 push constant 510 
 lt 
 and 
 not
 if-goto ELSE_0
-pop pointer 0 
-push argument 0 
+push pointer 0 
 call Square.erase 1
+pop temp 0     // do call
+push this 3     // size
 push constant 2 
 add
-pop this 2     // size
-pop pointer 0 
-push argument 0 
+pop this 3     // size
+push pointer 0 
 call Square.draw 1
+pop temp 0     // do call
 label ELSE_0
 push constant 0
 return
@@ -76,19 +98,21 @@ function Square.decSize 0
 push argument 0 
 pop pointer 0 
 // calculating if condition expression
+push this 3     // size
 push constant 2 
 gt 
 not
 if-goto ELSE_1
-pop pointer 0 
-push argument 0 
+push pointer 0 
 call Square.erase 1
+pop temp 0     // do call
+push this 3     // size
 push constant 2 
 sub
-pop this 2     // size
-pop pointer 0 
-push argument 0 
+pop this 3     // size
+push pointer 0 
 call Square.draw 1
+pop temp 0     // do call
 label ELSE_1
 push constant 0
 return
@@ -97,28 +121,46 @@ function Square.moveUp 0
 push argument 0 
 pop pointer 0 
 // calculating if condition expression
+push this 2     // y
 push constant 1 
 gt 
 not
 if-goto ELSE_2
 push constant 0 
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 3     // size
 add
 push constant 1 
 sub
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
+push this 2     // y
 push constant 2 
 sub
-pop this 1     // y
+pop this 2     // y
 push constant 1 
 neg
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
 push constant 1 
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
 label ELSE_2
 push constant 0
 return
@@ -127,6 +169,8 @@ function Square.moveDown 0
 push argument 0 
 pop pointer 0 
 // calculating if condition expression
+push this 2     // y
+push this 3     // size
 add
 push constant 254 
 lt 
@@ -134,22 +178,39 @@ not
 if-goto ELSE_3
 push constant 0 
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
 push constant 1 
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
+push this 2     // y
 push constant 2 
 add
-pop this 1     // y
+pop this 2     // y
 push constant 1 
 neg
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 3     // size
 add
 push constant 1 
 sub
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
 label ELSE_3
 push constant 0
 return
@@ -158,28 +219,46 @@ function Square.moveLeft 0
 push argument 0 
 pop pointer 0 
 // calculating if condition expression
+push this 1     // x
 push constant 1 
 gt 
 not
 if-goto ELSE_4
 push constant 0 
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 3     // size
 add
 push constant 1 
 sub
+push this 2     // y
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
+push this 1     // x
 push constant 2 
 sub
-pop this 0     // x
+pop this 1     // x
 push constant 1 
 neg
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 1     // x
 push constant 1 
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
 label ELSE_4
 push constant 0
 return
@@ -188,6 +267,8 @@ function Square.moveRight 0
 push argument 0 
 pop pointer 0 
 // calculating if condition expression
+push this 1     // x
+push this 3     // size
 add
 push constant 510 
 lt 
@@ -195,22 +276,39 @@ not
 if-goto ELSE_5
 push constant 0 
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 2     // y
+push this 1     // x
 push constant 1 
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
+push this 1     // x
 push constant 2 
 add
-pop this 0     // x
+pop this 1     // x
 push constant 1 
 neg
 call Screen.setColor 1
+pop temp 0     // do call
+push this 1     // x
+push this 3     // size
 add
 push constant 1 
 sub
+push this 2     // y
+push this 1     // x
+push this 3     // size
 add
+push this 2     // y
+push this 3     // size
 add
 call Screen.drawRectangle 4
+pop temp 0     // do call
 label ELSE_5
 push constant 0
 return

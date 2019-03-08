@@ -397,7 +397,7 @@ class CompilationEngine:
         self.compile_expression(token, indentation + 1)
         # todo 处理不同情况
         if self.symbol_table.kind_of(var_name) == VAR:
-            self.vm_writer.write_pop('LOCAL', self.symbol_table.index_of(var_name), var_name)
+            self.vm_writer.writue_pop('LOCAL', self.symbol_table.index_of(var_name), var_name)
             pass
         elif self.symbol_table.kind_of(var_name) == ARG:
             self.vm_writer.write_pop('ARG', self.symbol_table.index_of(var_name), var_name)

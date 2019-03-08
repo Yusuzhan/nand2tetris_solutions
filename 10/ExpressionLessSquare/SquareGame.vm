@@ -3,16 +3,22 @@ function SquareGame.new 0
 push constant 2 
 call Memory.alloc 1
 pop pointer 0     // set this pointer
-pop this 0     // square
-pop this 1     // direction
+push this 1     // square
+pop this 1     // square
+push this 2     // direction
+pop this 2     // direction
+push this 1     // square
 return
 
 function SquareGame.dispose 0
 push argument 0 
 pop pointer 0 
-push this 0     // square
+push this 1     // square
 call Square.dispose 1
+pop temp 0     // do call
+push this 1     // square
 call Memory.deAlloc 1
+pop temp 0     // do call
 push constant 0
 return
 
@@ -20,30 +26,40 @@ function SquareGame.moveSquare 0
 push argument 0 
 pop pointer 0 
 // calculating if condition expression
+push this 2     // direction
 not
 if-goto ELSE_0
-push this 0     // square
+push this 1     // square
 call Square.moveUp 1
+pop temp 0     // do call
 label ELSE_0
 // calculating if condition expression
+push this 2     // direction
 not
 if-goto ELSE_1
-push this 0     // square
+push this 1     // square
 call Square.moveDown 1
+pop temp 0     // do call
 label ELSE_1
 // calculating if condition expression
+push this 2     // direction
 not
 if-goto ELSE_2
-push this 0     // square
+push this 1     // square
 call Square.moveLeft 1
+pop temp 0     // do call
 label ELSE_2
 // calculating if condition expression
+push this 2     // direction
 not
 if-goto ELSE_3
-push this 0     // square
+push this 1     // square
 call Square.moveRight 1
+pop temp 0     // do call
 label ELSE_3
+push this 2     // direction
 call Sys.wait 1
+pop temp 0     // do call
 push constant 0
 return
 
@@ -64,9 +80,9 @@ not
 if-goto WHILE_1_END
 push local 0 
 pop local 0     // key
-pop pointer 0 
-push argument 0 
+push pointer 0 
 call SquareGame.moveSquare 1
+pop temp 0     // do call
 goto WHILE_1_EXP
 label WHILE_1_END
 // calculating if condition expression
@@ -80,41 +96,45 @@ label ELSE_4
 push local 0 
 not
 if-goto ELSE_5
-push this 0     // square
+push this 1     // square
 call Square.decSize 1
+pop temp 0     // do call
 label ELSE_5
 // calculating if condition expression
 push local 0 
 not
 if-goto ELSE_6
-push this 0     // square
+push this 1     // square
 call Square.incSize 1
+pop temp 0     // do call
 label ELSE_6
 // calculating if condition expression
 push local 0 
 not
 if-goto ELSE_7
 push local 1 
-pop this 1     // direction
+pop this 2     // direction
 label ELSE_7
 // calculating if condition expression
 push local 0 
 not
 if-goto ELSE_8
 push local 0 
-pop this 1     // direction
+pop this 2     // direction
 label ELSE_8
 // calculating if condition expression
 push local 0 
 not
 if-goto ELSE_9
-pop this 1     // direction
+push this 1     // square
+pop this 2     // direction
 label ELSE_9
 // calculating if condition expression
 push local 0 
 not
 if-goto ELSE_10
-pop this 1     // direction
+push this 2     // direction
+pop this 2     // direction
 label ELSE_10
 label WHILE_2_EXP
 // calculating while condition expression
@@ -123,9 +143,9 @@ not
 if-goto WHILE_2_END
 push local 0 
 pop local 0     // key
-pop pointer 0 
-push argument 0 
+push pointer 0 
 call SquareGame.moveSquare 1
+pop temp 0     // do call
 goto WHILE_2_EXP
 label WHILE_2_END
 goto WHILE_0_EXP
