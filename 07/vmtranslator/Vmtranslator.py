@@ -53,9 +53,9 @@ if os.path.isdir(path):
         parser.set_source_file(source_file)
         code_writer.source_file = source_file_name.replace('.vm', '')
         handle_source_file(source_file, output_asm_file, parser, code_writer)
-
 else:
     # single file
+    full_file_name = path
     file = open(full_file_name, 'r')
     output_file_name = full_file_name[0:len(full_file_name) - 3]
     short_file_name = full_file_name.split('/')[-1].replace('.vm', '')

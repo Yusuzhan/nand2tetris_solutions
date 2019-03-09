@@ -213,7 +213,7 @@ class CodeWriter:
             elif segment() == 'that':
                 segment_lbl = 'THAT'
             if arg0 == 'pop':
-                # LCL = LCL + index
+                # SEGMENT_INDEX = SEGMENT_INDEX + index
                 self.output_file.write('@' + index() + ' // ' + cmd + '\n')
                 self.output_file.write('D=A' + '\n')
                 self.output_file.write('@' + segment_lbl + '\n')
@@ -223,11 +223,11 @@ class CodeWriter:
                 self.output_file.write('M=M-1' + '\n')
                 self.output_file.write('A=M' + '\n')
                 self.output_file.write('D=M' + '\n')
-                # MEM[LCL] = D
+                # MEM[SEGMENT_INDEX] = D
                 self.output_file.write('@' + segment_lbl + '\n')
                 self.output_file.write('A=M' + '\n')
                 self.output_file.write('M=D' + '\n')
-                # LCL = LCL - index
+                # SEGMENT_INDEX = SEGMENT_INDEX - index
                 self.output_file.write('@' + index() + '\n')
                 self.output_file.write('D=A' + '\n')
                 self.output_file.write('@' + segment_lbl + '\n')
