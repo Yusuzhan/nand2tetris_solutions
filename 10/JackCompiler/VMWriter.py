@@ -30,9 +30,8 @@ class VMWriter:
         elif segment == 'FIELD':
             self.output_file.write('push this %s %s\n' % (index + 1, comment))
             pass
-        elif segment == 'CONST':
-            pass
-        elif segment == 'CONST':
+        elif segment == 'THAT':
+            self.output_file.write('push that %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass
@@ -66,7 +65,8 @@ class VMWriter:
         elif segment == 'THIS':
             self.output_file.write('pop this %s %s\n' % (index + 1, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'THAT':
+            self.output_file.write('pop that %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass
@@ -92,7 +92,7 @@ class VMWriter:
         elif cmd == 'MUL':
             self.output_file.write("call Math.multiply 2\n")
             pass
-        elif cmd == 'DVI':
+        elif cmd == 'DIV':
             self.output_file.write("call Math.divide 2\n")
             pass
         elif cmd == 'EQ':

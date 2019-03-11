@@ -387,29 +387,52 @@ class CompilationEngine:
             array = True
             self.compile_token(token, indentation + 1, '[')
             token = self.advance()
+            # e.g x[y]
+            # push y to stack
             self.compile_expression(token, indentation + 1)
             token = self.advance()
             self.compile_token(token, indentation + 1, ']')
             token = self.advance()
+            # push x to stack
+            self.write_push(var_name)
+            # add x and y
+            self.vm_writer.write_arithmetic('ADD')
+            # pop the result to THAT
+            self.vm_writer.write_pop('POINTER', 1)
+            pass
         self.compile_token(token, indentation + 1, '=')
         # expression
         token = self.advance()
         self.compile_expression(token, indentation + 1)
-        # todo 处理不同情况
-        if self.symbol_table.kind_of(var_name) == VAR:
-            self.vm_writer.writue_pop('LOCAL', self.symbol_table.index_of(var_name), var_name)
+        if array:
+            self.vm_writer.write_pop('THAT', 0)
             pass
-        elif self.symbol_table.kind_of(var_name) == ARG:
-            self.vm_writer.write_pop('ARG', self.symbol_table.index_of(var_name), var_name)
-            pass
-        elif self.symbol_table.kind_of(var_name) == FIELD:
-            self.vm_writer.write_pop('THIS', self.symbol_table.index_of(var_name), var_name)
-            pass
+        else:
+            if self.symbol_table.kind_of(var_name) == VAR:
+                self.vm_writer.write_pop('LOCAL', self.symbol_table.index_of(var_name), var_name)
+                pass
+            elif self.symbol_table.kind_of(var_name) == ARG:
+                self.vm_writer.write_pop('ARG', self.symbol_table.index_of(var_name), var_name)
+                pass
+            elif self.symbol_table.kind_of(var_name) == FIELD:
+                self.vm_writer.write_pop('THIS', self.symbol_table.index_of(var_name), var_name)
+                pass
         # ;
         token = self.advance()
         self.compile_token(token, indentation + 1, ';')
         self.log_node('/letStatement', indentation)
         return
+
+    def write_push(self, var_name):
+        if self.symbol_table.kind_of(var_name) == VAR:
+            self.vm_writer.write_push('LOCAL', self.symbol_table.index_of(var_name), var_name)
+            pass
+        elif self.symbol_table.kind_of(var_name) == ARG:
+            self.vm_writer.write_push('ARG', self.symbol_table.index_of(var_name), var_name)
+            pass
+        elif self.symbol_table.kind_of(var_name) == FIELD:
+            self.vm_writer.write_push('THIS', self.symbol_table.index_of(var_name), var_name)
+            pass
 
     def compile_while(self, token: Token, indentation):
         while_label_pre = 'WHILE_%s' % self.while_label_index
@@ -546,6 +569,26 @@ class CompilationEngine:
             self.vm_writer.write_push('CONST', token.content)
             pass
         elif token.token_type == STRING_CONST:
+            """
+            // construct a string
+            push constant 3
+            call String.new 1
+            // the address of string is now on the stack
+            push constant 72
+            call String.appendChar 2
+            push constant 73
+            call String.appendChar 2
+            push constant 74
+            call String.appendChar 2
+            // string construct complete its still on sp
+            """
+            length = len(token.content)
+            self.vm_writer.write_push('CONST', length)
+            self.vm_writer.write_call('String.new', 1)
+            for c in token.content:
+                self.vm_writer.write_push('CONST', ord(c))
+                self.vm_writer.write_call('String.appendChar', 2)
+                pass
             self.compile_token(token, indentation + 1)
             # keyword constant
         elif token.content == 'true':
@@ -564,12 +607,16 @@ class CompilationEngine:
             pass
         elif self.next().content == '[':
             self.compile_token(token, indentation + 1, [IDENTIFIER])
+            self.write_push(token.content)
             token = self.advance()
             self.compile_token(token, indentation + 1, '[')
             token = self.advance()
             self.compile_expression(token, indentation + 1)
             token = self.advance()
             self.compile_token(token, indentation + 1, ']')
+            self.vm_writer.write_arithmetic('ADD')
+            self.vm_writer.write_pop('POINTER', 1)
+            self.vm_writer.write_push('THAT', 0)
             pass
         elif token.content == '(':
             self.compile_token(token, indentation + 1, '(')
@@ -642,7 +689,7 @@ class CompilationEngine:
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             # todo 处理不同情形
             if self.symbol_table.kind_of(token.content) == VAR:
-                self.vm_writer.write_push('LOCAL', self.symbol_table.index_of(token.content))
+                self.vm_writer.write_push('LOCAL', self.symbol_table.index_of(token.content), token.content)
             elif self.symbol_table.kind_of(token.content) == ARG:
                 self.vm_writer.write_push('ARG', self.symbol_table.index_of(token.content), token.content)
                 pass

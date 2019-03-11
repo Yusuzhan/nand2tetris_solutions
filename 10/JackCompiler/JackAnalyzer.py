@@ -16,7 +16,6 @@ def compile_jack_file(jack_file):
 if len(sys.argv) == 1:
     path = '../../10/ExpressionLessSquare'
     path = '../../10/ArrayTest'
-    path = '../../10/Square'
     path = '../../11/Seven'
     path = '../../11/ConvertToBin'
     path = '../../11/Square'
