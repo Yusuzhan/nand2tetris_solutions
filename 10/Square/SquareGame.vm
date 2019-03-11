@@ -81,13 +81,13 @@ push constant 0
 pop local 1     // exit
 label WHILE_0_EXP
 // calculating while condition expression
-push local 1 
+push local 1     // exit
 not
 not
 if-goto WHILE_0_END
 label WHILE_1_EXP
 // calculating while condition expression
-push local 0 
+push local 0     // key
 push constant 0 
 eq 
 not
@@ -100,7 +100,7 @@ pop temp 0     // do call
 goto WHILE_1_EXP
 label WHILE_1_END
 // calculating if condition expression
-push local 0 
+push local 0     // key
 push constant 81 
 eq 
 not
@@ -110,7 +110,7 @@ neg
 pop local 1     // exit
 label ELSE_4
 // calculating if condition expression
-push local 0 
+push local 0     // key
 push constant 90 
 eq 
 not
@@ -120,7 +120,7 @@ call Square.decSize 1
 pop temp 0     // do call
 label ELSE_5
 // calculating if condition expression
-push local 0 
+push local 0     // key
 push constant 88 
 eq 
 not
@@ -130,7 +130,7 @@ call Square.incSize 1
 pop temp 0     // do call
 label ELSE_6
 // calculating if condition expression
-push local 0 
+push local 0     // key
 push constant 131 
 eq 
 not
@@ -139,7 +139,7 @@ push constant 1
 pop this 2     // direction
 label ELSE_7
 // calculating if condition expression
-push local 0 
+push local 0     // key
 push constant 133 
 eq 
 not
@@ -148,7 +148,7 @@ push constant 2
 pop this 2     // direction
 label ELSE_8
 // calculating if condition expression
-push local 0 
+push local 0     // key
 push constant 130 
 eq 
 not
@@ -157,7 +157,7 @@ push constant 3
 pop this 2     // direction
 label ELSE_9
 // calculating if condition expression
-push local 0 
+push local 0     // key
 push constant 132 
 eq 
 not
@@ -167,7 +167,7 @@ pop this 2     // direction
 label ELSE_10
 label WHILE_2_EXP
 // calculating while condition expression
-push local 0 
+push local 0     // key
 push constant 0 
 eq 
 not

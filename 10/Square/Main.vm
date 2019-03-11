@@ -20,21 +20,29 @@ pop local 2     // s
 push pointer 0 
 pop local 2     // s
 push constant 1 
-push constant 2 
 pop local 3     // a
+add
+pop pointer 1 
+pop local 3     // a
+push constant 2 
+add
+pop pointer 1 
+push that 1 
+pop that 0 
 goto FINISH_0
 label ELSE_0
-push local 0 
-push local 1 
+push local 0     // i
+push local 1     // j
 neg
 call Math.multiply 2
 pop local 0     // i
-push local 1 
+push local 1     // j
 push constant 2 
 neg
+call Math.divide 2
 pop local 1     // j
-push local 0 
-push local 1 
+push local 0     // i
+push local 1     // j
 pop local 0     // i
 label FINISH_0
 push constant 0

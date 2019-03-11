@@ -13,7 +13,7 @@ pop temp 0     // do call
 push constant 8000 
 call Memory.peek 1
 pop local 0     // value
-push local 0 
+push local 0     // value
 call Main.convert 1
 pop temp 0     // do call
 push constant 0
@@ -25,18 +25,18 @@ neg
 pop local 2     // loop
 label WHILE_0_EXP
 // calculating while condition expression
-push local 2 
+push local 2     // loop
 not
 if-goto WHILE_0_END
-push local 1 
+push local 1     // position
 push constant 1 
 add
 pop local 1     // position
-push local 0 
+push local 0     // mask
 call Main.nextMask 1
 pop local 0     // mask
 // calculating if condition expression
-push local 1 
+push local 1     // position
 push constant 16 
 gt 
 not
@@ -44,7 +44,7 @@ not
 if-goto ELSE_0
 // calculating if condition expression
 push argument 0     // value
-push local 0 
+push local 0     // mask
 and 
 push constant 0 
 eq 
@@ -52,7 +52,7 @@ not
 not
 if-goto ELSE_1
 push constant 8000 
-push local 1 
+push local 1     // position
 add
 push constant 1 
 call Memory.poke 2
@@ -60,7 +60,7 @@ pop temp 0     // do call
 goto FINISH_1
 label ELSE_1
 push constant 8000 
-push local 1 
+push local 1     // position
 add
 push constant 0 
 call Memory.poke 2

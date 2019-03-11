@@ -29,7 +29,7 @@
 	<symbol> . </symbol>
 	<identifier> readInt </identifier>
 	<symbol> ( </symbol>
-	<stringConstant> How many numbers?  </stringConstant>
+	<stringConstant> H? </stringConstant>
 	<symbol> ) </symbol>
 	<symbol> ; </symbol>
 	<keyword> let </keyword>
@@ -64,7 +64,7 @@
 	<symbol> . </symbol>
 	<identifier> readInt </identifier>
 	<symbol> ( </symbol>
-	<stringConstant> Enter a number:  </stringConstant>
+	<stringConstant> E: </stringConstant>
 	<symbol> ) </symbol>
 	<symbol> ; </symbol>
 	<keyword> let </keyword>

@@ -66,19 +66,19 @@ return
 function SquareGame.run 2
 push argument 0 
 pop pointer 0 
-push local 0 
+push local 0     // key
 pop local 1     // exit
 label WHILE_0_EXP
 // calculating while condition expression
-push local 1 
+push local 1     // exit
 not
 if-goto WHILE_0_END
 label WHILE_1_EXP
 // calculating while condition expression
-push local 0 
+push local 0     // key
 not
 if-goto WHILE_1_END
-push local 0 
+push local 0     // key
 pop local 0     // key
 push pointer 0 
 call SquareGame.moveSquare 1
@@ -86,14 +86,14 @@ pop temp 0     // do call
 goto WHILE_1_EXP
 label WHILE_1_END
 // calculating if condition expression
-push local 0 
+push local 0     // key
 not
 if-goto ELSE_4
-push local 1 
+push local 1     // exit
 pop local 1     // exit
 label ELSE_4
 // calculating if condition expression
-push local 0 
+push local 0     // key
 not
 if-goto ELSE_5
 push this 1     // square
@@ -101,7 +101,7 @@ call Square.decSize 1
 pop temp 0     // do call
 label ELSE_5
 // calculating if condition expression
-push local 0 
+push local 0     // key
 not
 if-goto ELSE_6
 push this 1     // square
@@ -109,28 +109,28 @@ call Square.incSize 1
 pop temp 0     // do call
 label ELSE_6
 // calculating if condition expression
-push local 0 
+push local 0     // key
 not
 if-goto ELSE_7
-push local 1 
+push local 1     // exit
 pop this 2     // direction
 label ELSE_7
 // calculating if condition expression
-push local 0 
+push local 0     // key
 not
 if-goto ELSE_8
-push local 0 
+push local 0     // key
 pop this 2     // direction
 label ELSE_8
 // calculating if condition expression
-push local 0 
+push local 0     // key
 not
 if-goto ELSE_9
 push this 1     // square
 pop this 2     // direction
 label ELSE_9
 // calculating if condition expression
-push local 0 
+push local 0     // key
 not
 if-goto ELSE_10
 push this 2     // direction
@@ -138,10 +138,10 @@ pop this 2     // direction
 label ELSE_10
 label WHILE_2_EXP
 // calculating while condition expression
-push local 0 
+push local 0     // key
 not
 if-goto WHILE_2_END
-push local 0 
+push local 0     // key
 pop local 0     // key
 push pointer 0 
 call SquareGame.moveSquare 1

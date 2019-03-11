@@ -46,7 +46,7 @@
               <expressionList>
                 <expression>
                   <term>
-                    <stringConstant> How many numbers?  </stringConstant>
+                    <stringConstant> H? </stringConstant>
                   </term>
                 </expression>
               </expressionList>
@@ -123,7 +123,7 @@
                   <expressionList>
                     <expression>
                       <term>
-                        <stringConstant> Enter a number:  </stringConstant>
+                        <stringConstant> E: </stringConstant>
                       </term>
                     </expression>
                   </expressionList>
