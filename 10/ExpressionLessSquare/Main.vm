@@ -21,7 +21,7 @@ pop local 2     // s
 push local 1     // j
 pop local 2     // s
 push local 0     // i
-pop local 3     // a
+push local 3     // a
 add
 pop pointer 1 
 push local 1     // j

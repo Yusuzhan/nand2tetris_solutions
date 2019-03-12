@@ -1,5 +1,43 @@
 
 function Main.main 4
+push constant 18 
+call String.new 1
+push constant 72 
+call String.appendChar 2
+push constant 79 
+call String.appendChar 2
+push constant 87 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+push constant 77 
+call String.appendChar 2
+push constant 65 
+call String.appendChar 2
+push constant 78 
+call String.appendChar 2
+push constant 89 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+push constant 78 
+call String.appendChar 2
+push constant 85 
+call String.appendChar 2
+push constant 77 
+call String.appendChar 2
+push constant 66 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 82 
+call String.appendChar 2
+push constant 83 
+call String.appendChar 2
+push constant 63 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
 call Keyboard.readInt 1
 pop local 1     // length
 push local 1     // length
@@ -15,9 +53,57 @@ lt
 not
 if-goto WHILE_0_END
 push local 2     // i
-pop local 0     // a
+push local 0     // a
 add
 pop pointer 1 
+push constant 23 
+call String.new 1
+push constant 69 
+call String.appendChar 2
+push constant 78 
+call String.appendChar 2
+push constant 84 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 82 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+push constant 84 
+call String.appendChar 2
+push constant 72 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+push constant 78 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 88 
+call String.appendChar 2
+push constant 84 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+push constant 78 
+call String.appendChar 2
+push constant 85 
+call String.appendChar 2
+push constant 77 
+call String.appendChar 2
+push constant 66 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 82 
+call String.appendChar 2
+push constant 58 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
 call Keyboard.readInt 1
 pop that 0 
 push local 2     // i
@@ -38,11 +124,11 @@ lt
 not
 if-goto WHILE_1_END
 push local 3     // sum
-pop local 0     // a
+push local 0     // a
 push local 2     // i
 add
 pop pointer 1 
-push that 1 
+push that 0 
 add
 pop local 3     // sum
 push local 2     // i
@@ -51,6 +137,40 @@ add
 pop local 2     // i
 goto WHILE_1_EXP
 label WHILE_1_END
+push constant 16 
+call String.new 1
+push constant 84 
+call String.appendChar 2
+push constant 72 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+push constant 65 
+call String.appendChar 2
+push constant 86 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 82 
+call String.appendChar 2
+push constant 65 
+call String.appendChar 2
+push constant 71 
+call String.appendChar 2
+push constant 69 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+push constant 73 
+call String.appendChar 2
+push constant 83 
+call String.appendChar 2
+push constant 58 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
 call Output.printString 1
 pop temp 0     // do call
 push local 3     // sum
