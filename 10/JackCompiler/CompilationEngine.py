@@ -400,14 +400,17 @@ class CompilationEngine:
             self.write_push(var_name)
             # add x and y
             self.vm_writer.write_arithmetic('ADD')
-            # pop the result to THAT
-            self.vm_writer.write_pop('POINTER', 1)
+            # # pop the result to THAT
+            # self.vm_writer.write_pop('POINTER', 1)
+            self.vm_writer.write_pop('TEMP', 2)
             pass
         self.compile_token(token, indentation + 1, '=')
         # expression
         token = self.advance()
         self.compile_expression(token, indentation + 1)
         if array:
+            self.vm_writer.write_push('TEMP', 2)
+            self.vm_writer.write_pop('POINTER', 1)
             self.vm_writer.write_pop('THAT', 0)
             pass
         else:
@@ -603,6 +606,14 @@ class CompilationEngine:
             self.vm_writer.write_arithmetic('NEG')
             pass
         elif token.content == 'false':
+            self.compile_token(token, indentation + 1)
+            self.vm_writer.write_push('CONST', 0)
+            pass
+        elif token.content == 'this':
+            self.compile_token(token, indentation + 1)
+            self.vm_writer.write_push('POINTER', 0)
+            pass
+        elif token.content == 'null':
             self.compile_token(token, indentation + 1)
             self.vm_writer.write_push('CONST', 0)
             pass

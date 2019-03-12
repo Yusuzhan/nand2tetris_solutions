@@ -1,4 +1,5 @@
-enable_comment = False
+enable_comment = True
+
 
 class VMWriter:
     def __init__(self, output_file):
@@ -38,7 +39,8 @@ class VMWriter:
         elif segment == 'STATIC':
             self.output_file.write('push static %s %s\n' % (index, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'TEMP':
+            self.output_file.write('push temp %s %s\n' % (index, comment))
             pass
         return
 
