@@ -20,6 +20,7 @@ if len(sys.argv) == 1:
     path = '../../11/ConvertToBin'
     path = '../../11/Square'
     path = '../../11/Average'
+    path = '../../11/Pong'
 else:
     path = sys.argv[1]
 if os.path.isdir(path):

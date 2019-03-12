@@ -1,3 +1,5 @@
+enable_comment = False
+
 class VMWriter:
     def __init__(self, output_file):
         self.output_file = output_file
@@ -13,7 +15,7 @@ class VMWriter:
         :return:
         """
         comment = ''
-        if var_name is not None:
+        if var_name is not None and enable_comment:
             comment = '    // %s' % var_name
         if segment == 'CONST':
             self.output_file.write('push constant %s %s\n' % (index, comment))
@@ -28,12 +30,13 @@ class VMWriter:
             self.output_file.write('push pointer %s %s\n' % (index, comment))
             pass
         elif segment == 'FIELD':
-            self.output_file.write('push this %s %s\n' % (index + 1, comment))
+            self.output_file.write('push this %s %s\n' % (index, comment))
             pass
         elif segment == 'THAT':
             self.output_file.write('push that %s %s\n' % (index, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'STATIC':
+            self.output_file.write('push static %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass
@@ -47,7 +50,7 @@ class VMWriter:
         :return:
         '''
         comment = ''
-        if var_name is not None:
+        if enable_comment and var_name is not None:
             comment = '    // %s' % var_name
         if segment == 'CONST':
             self.output_file.write('pop constant %s %s\n' % (index, comment))
@@ -63,12 +66,13 @@ class VMWriter:
             self.output_file.write('pop pointer %s %s\n' % (index, comment))
             pass
         elif segment == 'THIS':
-            self.output_file.write('pop this %s %s\n' % (index + 1, comment))
+            self.output_file.write('pop this %s %s\n' % (index, comment))
             pass
         elif segment == 'THAT':
             self.output_file.write('pop that %s %s\n' % (index, comment))
             pass
-        elif segment == 'CONST':
+        elif segment == 'STATIC':
+            self.output_file.write('pop static %s %s\n' % (index, comment))
             pass
         elif segment == 'CONST':
             pass

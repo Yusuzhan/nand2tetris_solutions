@@ -161,6 +161,9 @@ class CompilationEngine:
         token = self.advance()
         self.compile_token(token, indentation + 1)
         # parameter list exists
+        if function_type == 'method':
+            self.symbol_table.define('this_placeholder', "THIS", ARG)
+            pass
         token = self.advance()
         self.compile_parameter_list(token, indentation + 1)
         if token.content != ')':
@@ -416,6 +419,9 @@ class CompilationEngine:
                 pass
             elif self.symbol_table.kind_of(var_name) == FIELD:
                 self.vm_writer.write_pop('THIS', self.symbol_table.index_of(var_name), var_name)
+                pass
+            elif self.symbol_table.kind_of(var_name) == STATIC:
+                self.vm_writer.write_pop('STATIC', self.symbol_table.index_of(var_name), var_name)
                 pass
         # ;
         token = self.advance()
@@ -695,6 +701,9 @@ class CompilationEngine:
                 pass
             elif self.symbol_table.kind_of(token.content) == FIELD:
                 self.vm_writer.write_push('FIELD', self.symbol_table.index_of(token.content), token.content)
+                pass
+            elif self.symbol_table.kind_of(token.content) == STATIC:
+                self.vm_writer.write_push('STATIC', self.symbol_table.index_of(token.content), token.content)
                 pass
             pass
         else:
