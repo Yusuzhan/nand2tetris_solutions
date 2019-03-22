@@ -24,6 +24,9 @@ def draw_line(x, y, dx, dy):
 
 
 def draw_line_down(x, y, x2, y2):
+    """
+    draws downwards and vertical line
+    """
     a = 0
     b = 0
     dx = x2 - x
@@ -55,14 +58,36 @@ def draw_line_up(x, y, x2, y2):
             t += dx
 
 
-# draw_line_improved(0, 0, 30, 20)
-draw_line_down(50, 50, 80, 100)
-# draw_line_improved(50, 50, 100, 80)
-# draw_line_down(50, 50, 50, 100)
-draw_line_up(0, 200, 100, 70)
-draw_line_up(0, 200, 100, 90)
+def draw_line_horizontal(x, y, x2, y2):
+    while x < x2:
+        draw_pixel(x, y)
+        x += 1
+    return
 
-draw_pixel(100, 70)
+
+def draw_line_vertical(x, y, x2, y2):
+    while y < y2:
+        draw_pixel(x, y)
+        y += 1
+    return
+
+
+# downwards
+# draw_line_down(50, 50, 80, 100)
+
+# upwards
+# draw_line_up(0, 200, 100, 70)
+
+# vertical
+draw_line_vertical(0, 0, 0, 70)
+
+# horizontal
+draw_line_horizontal(0, 0, 100, 0)
+
+draw_line_horizontal(0, 70, 100, 70)
+draw_line_vertical(100, 0, 100, 70)
+draw_line_down(0, 0, 100, 70)
+draw_line_up(0, 70, 100, 0)
 
 plt.plot(xs, ys, 's')
 plt.show()
