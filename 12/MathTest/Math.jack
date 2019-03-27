@@ -81,11 +81,19 @@ class Math {
     }
 
     function int min(int x, int y) {
-        return 204;
+        if (x < y) {
+            return x;
+        } else {
+            return y;
+        }
     }
 
     function int max(int x, int y) {
-        return 204;
+        if (x > y) {
+            return x;
+        } else {
+            return y;
+        }
     }
 
     function int sqrt(int x) {
