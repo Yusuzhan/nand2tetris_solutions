@@ -1,0 +1,4 @@
+function Test.test 0
+push constant 1
+neg
+return

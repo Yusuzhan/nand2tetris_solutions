@@ -1,0 +1,5 @@
+class Test {
+     function int test() {
+        return -1;
+    }
+}
