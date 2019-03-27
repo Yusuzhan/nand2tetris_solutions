@@ -193,9 +193,94 @@ goto WHILE_EXP0
 label WHILE_END0
 push local 0
 return
-function Math.divide 0
-push constant 204
+function Math.divide 1
+push constant 0
+pop local 0
+push argument 0
+push constant 0
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+neg
+pop argument 0
+push constant 0
+not
+pop local 0
+label IF_FALSE0
+push argument 1
+push constant 0
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 1
+neg
+pop argument 1
+push local 0
+not
+pop local 0
+label IF_FALSE1
+push local 0
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 0
+push argument 1
+call Math.divideAbs 2
+neg
 return
+goto IF_END2
+label IF_FALSE2
+push argument 0
+push argument 1
+call Math.divideAbs 2
+return
+label IF_END2
+function Math.divideAbs 1
+push constant 0
+pop local 0
+push argument 1
+push argument 0
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push argument 0
+push argument 1
+push argument 1
+add
+call Math.divide 2
+pop local 0
+push argument 0
+push constant 2
+push local 0
+call Math.multiply 2
+push argument 1
+call Math.multiply 2
+sub
+push argument 1
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push local 0
+add
+return
+goto IF_END1
+label IF_FALSE1
+push local 0
+push local 0
+add
+push constant 1
+add
+return
+label IF_END1
 function Math.min 0
 push constant 204
 return

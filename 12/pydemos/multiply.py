@@ -27,12 +27,16 @@ def multiply(x, y):
     sum = 0
     index = 0
     shifted_x = x
+    print('%s x %s' % (x, y))
+    print('%s x %s' % (bin(x), bin(y)))
     while index < 16:
         if bit(y, index):
+            print('index=%s -> sum=%s, shifted_x=%s sum=%s' % (index, sum, shifted_x, sum + shifted_x))
             sum += shifted_x
         shifted_x += shifted_x
         index += 1
     return sum
 
 
-print(multiply(3, 100))
+# print('result=%s' % multiply(1, 0b0100011001010000))
+print('result=%s' % multiply(1, 0b1011100110110000))

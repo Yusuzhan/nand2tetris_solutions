@@ -49,7 +49,35 @@ class Math {
     }
 
     function int divide(int x, int y) {
-        return 204;
+        var boolean negtive; 
+        let negtive = false;
+        if (x < 0) {
+            let x = -x;
+            let negtive = true;
+        }
+        if (y < 0) {
+            let y = -y;
+            let negtive = ~negtive;
+        }
+        if (negtive) {
+            return -(Math.divideAbs(x, y));            
+        } else {
+            return Math.divideAbs(x, y);            
+        }
+    }
+
+    function int divideAbs(int x, int y) {        
+        var int q;
+        let q = 0;        
+        if (y > x) {
+            return 0;
+        }        
+        let q = Math.divide(x, y + y);
+        if ((x - (2 * q * y)) < y) {
+            return q + q;
+        } else {
+            return q + q + 1;
+        }
     }
 
     function int min(int x, int y) {

@@ -1,4 +1,8 @@
-function Main.main 1
+function Main.main 2
+push constant 9
+push constant 3
+call Math.divide 2
+pop local 1
 push constant 8000
 pop local 0
 push constant 0
