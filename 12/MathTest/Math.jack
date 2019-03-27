@@ -26,7 +26,11 @@ class Math {
     }
 
     function int abs(int x) {
-        return -32767;
+        if (x < 0) {
+            return -x;
+        } else {
+            return x;
+        }        
     }
 
     function int multiply(int x, int y) {

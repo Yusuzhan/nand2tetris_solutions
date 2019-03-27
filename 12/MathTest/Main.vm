@@ -54,17 +54,6 @@ pop temp 0
 pop pointer 1
 push temp 0
 pop that 0
-push constant 3
-push local 0
-add
-push constant 1
-push constant 18000
-neg
-call Math.multiply 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
 push constant 4
 push local 0
 add
