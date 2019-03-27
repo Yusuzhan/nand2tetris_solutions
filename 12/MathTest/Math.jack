@@ -89,6 +89,22 @@ class Math {
     }
 
     function int sqrt(int x) {
-        return 204;
+        var int y;
+        var int index;
+        var int temp;
+        let y = 0;
+        let index = 7;
+        while (index > -1) {
+            let temp = y + twoToThe[index];
+            let temp = temp * temp;
+            if (temp > x) {
+            } else {
+                if (temp > 0) {
+                    let y = y + twoToThe[index];
+                }                
+            }
+            let index = index - 1;
+        }
+        return y;
     }
 }
