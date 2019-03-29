@@ -1,0 +1,59 @@
+class Screen {
+    static Array bitToPos;
+
+    function void init() {
+        let bitToPos = Array.new(16);
+        let bitToPos[0] = 1;
+        let bitToPos[1] = 2;
+        let bitToPos[2] = 4;
+        let bitToPos[3] = 8;
+
+        let bitToPos[4] = 16;
+        let bitToPos[5] = 32;
+        let bitToPos[6] = 64;
+        let bitToPos[7] = 128;
+
+        let bitToPos[8] = 256;
+        let bitToPos[9] = 512;
+        let bitToPos[10] = 1024;
+        let bitToPos[11] = 2048;
+
+        let bitToPos[12] = 4096;
+        let bitToPos[13] = 8192;
+        let bitToPos[14] = 16384;
+        let bitToPos[15] = -32767 - 1;
+        return;
+    }
+
+    function void clearScreen() {
+        return;
+    }
+
+    function void setColor(boolean b) {
+        return;
+    }
+
+    function void drawPixel(int x, int y) {
+        var int ori;
+        var int pos;
+        var int temp;
+        let temp = x / 16;
+        let pos = 16384 + (y * 32) + temp;   
+        let temp = x - (temp * 16);     
+        let ori = Memory.peek(pos);
+        do Memory.poke(pos, bitToPos[temp] | ori);        
+        return;
+    }
+
+    function void drawLine(int x, int y, int x2, int y2) {
+        return;
+    }
+
+    function void drawRectangle(int x1, int y1, int x2, int y2) {
+        return;
+    }
+
+    function void drawCircle(int x, int y, int r) {
+        return;
+    }
+}   
