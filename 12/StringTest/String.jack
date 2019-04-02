@@ -1,0 +1,133 @@
+class String {
+    field int length;
+    field Array container;
+
+    constructor String new(int maxLength) {
+        if (maxLength > 0) {
+            let container = Array.new(maxLength);
+        }        
+        let length = 0;
+        return this;
+    }
+
+    method void dispose() {
+        if (~(container = null)) {
+            do container.dispose();
+        }         
+        return;
+    }
+
+    method int length() {
+        return length;        
+    }
+
+    method char charAt(int j) {
+        return container[j];
+    }
+
+    method void setCharAt(int j, char c) {
+        let container[j] = c;        
+        return;
+    }
+
+    method String appendChar(char c) {
+        let container[length] = c;
+        let length = length + 1;
+        return this;
+    }
+
+    method void eraseLastChar() {
+        let container[length] = "";
+        let length = length - 1;
+        return;
+    }
+
+    method int intValue() {
+        // 456
+        var int i;
+        var int time;
+        var int sum;
+        var int boundry;
+        var boolean negtive;
+        let time = 1;
+        let i = length - 1;
+        if (container[0] = 45) {
+            let negtive = true;
+            let boundry = 0; // 负数只读到container[1], 因为0是负号
+        } else {
+            let negtive = false;
+            let boundry = -1;
+        }
+        /* do Output.println();
+        do Output.printString("len:");
+        do Output.printInt(length);
+        do Output.println(); */
+        while (i > boundry) {            
+            let sum = sum + ((container[i] - 48) * time);
+            /* do Output.printString("sum:");
+            do Output.printInt(sum);
+            do Output.printString("->");
+            do Output.printString("container[i]:");
+            do Output.printInt(container[i]);
+            do Output.println(); */
+            let time = time * 10;
+            let i = i - 1;
+        }
+        if (negtive) {
+            return -sum;
+        } else {
+            return sum;
+        }        
+    }
+
+    method String int2String(int v) {
+        var char lastDigit;
+        let lastDigit = (v - (v / 10 * 10) + 48); 
+        if (v < 10) {
+            do appendChar(lastDigit);
+            return lastDigit;
+        } else {
+            do int2String(v / 10);
+            do appendChar(lastDigit);
+            return this;
+        }
+    }
+
+    method void setInt(int v) {   // 456
+        // var char lastDigit;     
+        var char negtive;             
+        let length = 0;
+        if (v < 0) {
+            let v = -v;
+            do appendChar(45);
+        }
+        do int2String(v);
+        /* let length = 0;
+        if (v < 0) {
+            let negtive = 45;
+            let v = -v;
+            let container[0] = negtive;
+            let length = 1;
+        }
+        while (v > 0) {
+            let lastDigit = (v - (v / 10 * 10) + 48); 
+            // do appendChar(lastDigit);
+            let container[length] = lastDigit;
+            let length = length + 1;
+            let v = v / 10;            
+        } */
+        return;
+    }
+
+    function char backSpace() {
+        return 129;
+    }
+
+    function char doubleQuote() {
+        return 34;
+    }
+
+    function char newLine() {
+        return 128;
+    }
+}

@@ -79,15 +79,15 @@ def draw_line_vertical(x, y, x2, y2):
 # draw_line_up(0, 200, 100, 70)
 
 # vertical
-draw_line_vertical(0, 0, 0, 70)
+# draw_line_vertical(0, 0, 0, 70)
 
 # horizontal
-draw_line_horizontal(0, 0, 100, 0)
+# draw_line_horizontal(0, 0, 100, 0)
 
-draw_line_horizontal(0, 70, 100, 70)
-draw_line_vertical(100, 0, 100, 70)
-draw_line_down(0, 0, 100, 70)
-draw_line_up(0, 70, 100, 0)
+# draw_line_horizontal(0, 70, 100, 70)
+# draw_line_vertical(100, 0, 100, 70)
+# draw_line_down(0, 0, 100, 70)
+draw_line_up(0, 70, 100, 30)
 
 plt.plot(xs, ys, 's')
 plt.show()
