@@ -15,4 +15,4 @@ def convert_to_16(v):
     return sum
 
 
-print(convert_to_16(0b1000000000000000))
+print(convert_to_16(0b1111111100000000))
