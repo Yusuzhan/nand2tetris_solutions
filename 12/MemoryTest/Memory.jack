@@ -1,0 +1,84 @@
+class Memory {    
+    static int freeList;
+    static Array memory;
+
+    // for internal use only
+    function void init() {                
+        let freeList = 2048;
+        let memory = 0;
+        // freeList.length = heapSize (16383 - 2048 + 1)
+        let memory[2048] = 14336;     
+        // freeList.next = null   
+        let memory[2049] = null;
+        return;
+    }
+
+    // returns the value of the main memory at this address
+    function int peek(int address) {
+        return memory[address];        
+    }
+
+    // sets the contents of the main memory at this address
+    // to value
+    function void poke(int address, int value) {        
+        let memory[address] = value;
+        return;
+    }
+
+    // finds and allocates from the heap a memory block
+    // of the specified size and returns a reference to its 
+    // base address
+    function Array alloc(int size) {
+        // basic algorithm
+        /* var int pointer;
+        let pointer = freeList;
+        let freeList = freeList + size;
+        return pointer; */
+
+        // advanced algorithm
+        var int temp;
+        var int currentLength;
+        var int pointer;
+        var int blockSize;
+        let blockSize = size + 1;
+        let pointer = freeList;
+        while(true) {            
+            let currentLength = memory[pointer];
+            if (currentLength > blockSize) {
+                // first-fit, found a segment
+                let memory[pointer] = currentLength - blockSize;
+                return pointer + currentLength - blockSize + 1;
+            } else {
+                // search next segment
+                if (memory[pointer + 1] = null) {
+                    // OOM
+                    return -1;
+                }
+                let pointer = memory[pointer + 1];
+            }
+        }
+        return -1;
+    }
+
+    // de-allocates the given object and frees its memory space
+    function void deAlloc(Array o) {
+        var int prev;
+        var int p;        
+        let p = freeList;
+        while(~(memory[p + 1] = null)) {
+            if ((memory[p] + p) = o) {
+                let memory[p] = memory[p] + memory[o];
+                return;
+            }
+            if ((o + memory[o]) = p) {
+                let memory[prev] = o;
+                let memory[o] = memory[o] + memory[p];
+                let memory[o + 1] = memory[p + 1];                
+                return;
+            }
+            let prev = p + 1;
+            let p = memory[p + 1];            
+        }
+        return;
+    }
+}
