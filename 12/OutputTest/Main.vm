@@ -1,10 +1,4 @@
 function Main.main 1
-push constant 511
-push constant 0
-push constant 511
-push constant 255
-call Screen.drawLine 4
-pop temp 0
 push constant 1
 call String.new 1
 pop local 0
