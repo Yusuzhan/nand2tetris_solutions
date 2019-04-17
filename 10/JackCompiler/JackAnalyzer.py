@@ -15,14 +15,16 @@ def compile_jack_file(jack_file):
 # given a default path for debugging
 if len(sys.argv) == 1:
     path = '../../10/ExpressionLessSquare'
-    path = '../../10/ArrayTest'
-    path = '../../11/Seven'
-    path = '../../11/ConvertToBin'
-    path = '../../11/Square'
-    path = '../../11/Average'
-    path = '../../11/Pong'
-    path = '../../11/Pong'
-    path = '../../11/ComplexArrays'
+    # path = '../../10/ArrayTest'
+    # path = '../../11/Seven'
+    # path = '../../11/ConvertToBin'
+    # path = '../../11/Square'
+    # path = '../../11/Average'
+    # path = '../../11/Pong'
+    # path = '../../11/Pong'
+    # path = '../../11/ComplexArrays'
+    # path = '../../12/PongTest'
+    # path = '../../12/MathTest'
 else:
     path = sys.argv[1]
 if os.path.isdir(path):

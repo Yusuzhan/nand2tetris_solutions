@@ -10,6 +10,7 @@ class Token:
         self.content = content
         self.line_num = line_num
         self.id = count
+        self.class_name = ""
         count += 1
 
     def is_empty(self):
@@ -30,8 +31,9 @@ class Token:
         return self.token_type
 
     def __repr__(self):
-        return 'T' + str(self.id) + '(' + self.token_type + ', ' \
-               + self.content + ', l=' + str(self.line_num) + ')'
+        return 'Token(%s: %s, in %s line %s)' % (self.token_type, self.content, self.class_name, self.line_num)
+        # return 'T' + str(self.id) + '(' + self.token_type + ', ' \
+        #        + self.content + ', l=' + str(self.line_num) + ')'
 
 
 SYMBOL = 'symbol'
@@ -92,7 +94,7 @@ NULL = 'NULL'
 THIS = 'THIS'
 
 
-def tokenizer_engine(content):
+def tokenizer_engine(content, name="none_given"):
     """
     comments grammar error is caught here
     """
@@ -188,6 +190,8 @@ def tokenizer_engine(content):
             i += 1
             continue
         i += 1
+    for t in tokens:
+        t.class_name = name
     return tokens
 
 
@@ -196,8 +200,8 @@ class JackTokenizer:
         self.jack_file = jack_file
         self.cur_index = 0
         self.cur_token = None
-        self.tokens = tokenizer_engine(jack_file.read())
         output_file_name = jack_file.name.replace('.jack', '_tokens.xml')
+        self.tokens = tokenizer_engine(jack_file.read(), output_file_name)
         self.output_file = open(output_file_name, 'w')
         self.log_head(self.output_file)
         self.log_complete = False
