@@ -42,6 +42,7 @@ class CompilationEngine:
         return self.tokenizer.next()
 
     def compile_token(self, token, indentation, limits=None):
+        print(token.content, end='  ')
         if limits is not None:
             if isinstance(limits, list) and token.token_type not in limits:
                 raise RuntimeError(token, 'can be only', limits)
@@ -100,12 +101,11 @@ class CompilationEngine:
                 raise RuntimeError(
                     advance, 'Only subroutine and variable can be declared here')
             advance = self.advance()
-            print('CLASS', advance)
         # }
         self.compile_token(advance, indentation + 1, '}')
         self.log_file.write('</class>\n')
         self.log_file.flush()
-        print("compilation success")
+        print("\ncompilation success")
         return
 
     def compile_class_var_dec(self, token, indentation):
@@ -133,7 +133,6 @@ class CompilationEngine:
             self.symbol_table.define(var_name, var_type, kind)
             self.compile_token(token, indentation + 1, [IDENTIFIER])
             token = self.advance()
-            print("SHOULD BE ,", token)
         # ;
         self.compile_token(token, indentation + 1, ';')
         self.log_node('/classVarDec', indentation)
@@ -205,7 +204,6 @@ class CompilationEngine:
             print('empty body', token)
             pass
         else:
-            print('subroutine %s body is not empty' % subroutine_name)
             self.compile_statements(token, indentation + 1)
             token = self.advance()
         self.compile_token(token, indentation + 1, '}')
@@ -235,7 +233,6 @@ class CompilationEngine:
                 # this function does not consumes ')' so didn't call advance()
                 break
             else:
-                print('WHAT?', token)
                 token = self.advance()
         self.log_node('/parameterList', indentation)
         return
@@ -332,7 +329,6 @@ class CompilationEngine:
         self.log_node('doStatement', indentation)
         self.compile_token(token, indentation + 1, 'do')
         token = self.advance()
-        print('do ' + token.content)
         self.compile_term(token, indentation + 1, do_term=True)
         self.vm_writer.write_pop('TEMP', 0, 'do call')
         token = self.advance()
@@ -380,7 +376,6 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1, 'let')
         #  length
         token = self.advance()
-        print('LET:', token)
         self.compile_token(token, indentation + 1, [IDENTIFIER])
         var_name = token.content
         # = or [
@@ -447,7 +442,6 @@ class CompilationEngine:
         while_label_pre = 'WHILE_%s' % self.while_label_index
         # label index++
         self.while_label_index += 1
-        print('WHILE: %s' % while_label_pre)
         self.vm_writer.write_label('%s_EXP' % while_label_pre)
         self.log_node('whileStatement', indentation)
         self.compile_token(token, indentation + 1, 'while')
@@ -468,9 +462,11 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1, '{')
         # statements
         token = self.advance()
-        self.compile_statements(token, indentation + 1)
-        # }
-        token = self.advance()
+        if token.content != '}':
+            # not empty statement
+            self.compile_statements(token, indentation + 1)
+            # }
+            token = self.advance()
         self.compile_token(token, indentation + 1, '}')
         self.vm_writer.write_goto('%s_EXP' % while_label_pre)
         self.vm_writer.write_label('%s_END' % while_label_pre)
@@ -500,7 +496,6 @@ class CompilationEngine:
         # label index++
         self.if_label_index += 1
 
-        print('IF:', token)
         self.log_node('ifStatement', indentation)
         self.compile_token(token, indentation + 1, 'if')
         token = self.advance()
@@ -519,9 +514,11 @@ class CompilationEngine:
         self.compile_token(token, indentation + 1, '{')
         # statements
         token = self.advance()
-        self.compile_statements(token, indentation + 1)
-        # }
-        token = self.advance()
+        if token.content != '}':
+            # not empty statement
+            self.compile_statements(token, indentation + 1)
+            # }
+            token = self.advance()
         self.compile_token(token, indentation + 1, '}')
         if self.next().content == 'else':
             """
@@ -559,7 +556,6 @@ class CompilationEngine:
         self.compile_term(token, indentation + 1)
         while self.next() is not None and self.next().content in OP_SYMBOLS.keys():
             token = self.advance()
-            print("op----")
             self.compile_token(token, indentation + 1, [SYMBOL])
             op_symbol = OP_SYMBOLS[token.content]
             token = self.advance()
@@ -668,11 +664,9 @@ class CompilationEngine:
             self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg)
             if token.content != ')':
                 token = self.advance()
-            print('should be )', token)
             self.compile_token(token, indentation + 1, ')')
             pass
         elif self.next().content == '.':
-            print('method call or function call')
             # static function call
             # class name
             n_arg = 0
@@ -698,7 +692,6 @@ class CompilationEngine:
             self.vm_writer.write_call(function_class_name + '.' + function_name, n_arg)
             if token.content != ')':
                 token = self.advance()
-            print('should be )', token)
             self.compile_token(token, indentation + 1, ')')
             pass
         elif token.token_type == IDENTIFIER:

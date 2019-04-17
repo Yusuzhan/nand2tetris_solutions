@@ -23,8 +23,10 @@ if len(sys.argv) == 1:
     # path = '../../11/Pong'
     # path = '../../11/Pong'
     # path = '../../11/ComplexArrays'
-    # path = '../../12/PongTest'
+    path = '../../12/PongTest'
     # path = '../../12/MathTest'
+    # path = '../../12/StringTest'
+    # path = '../../12/SysTest'
 else:
     path = sys.argv[1]
 if os.path.isdir(path):
@@ -33,7 +35,7 @@ if os.path.isdir(path):
     short_file_name = path.split('/')[-1]
     for jack_file_name in jack_file_name_list:
         jack_file = open(path + '/' + jack_file_name, 'r')
-        print('>>> COMPILING FILE:', jack_file)
+        print('\n>>> COMPILING FILE: %s\n' % jack_file.name)
         compile_jack_file(jack_file)
 
 """
