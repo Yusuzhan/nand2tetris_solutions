@@ -40,6 +40,10 @@ class Math {
         let shifteX = x;
         while (index < 16) {
             if (~(y & twoToThe[index] = 0)) {
+                do Output.printInt(x);
+                do Output.printChar(35);
+                do Output.printInt(y);
+                do Output.printChar(32);
                 let sum = sum + shifteX;
             }
             let shifteX = shifteX + shifteX;
@@ -106,7 +110,6 @@ class Math {
             let temp = y + twoToThe[index];
             let temp = temp * temp;
             if (temp > x) {
-                
             } else {
                 if (temp > 0) {
                     let y = y + twoToThe[index];

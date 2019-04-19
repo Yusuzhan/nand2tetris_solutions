@@ -17,10 +17,24 @@
 class Output {
 
     // Character map for displaying characters
-    static Array charMaps; 
+    static Array charMaps;     
+
+    static int rightMask;
+    static int leftMask;
+
+    static int col;
+    static int row;
+     
 
     /** Initializes the screen, and locates the cursor at the screen's top-left. */
     function void init() {
+        // note: Hack is LSB
+        let rightMask = -256;   // logical: 1111111100000000
+                                // physical:0000000011111111
+        let leftMask = 255;     // logical: 0000000011111111
+                                // physical:1111111100000000
+        do Output.initMap();
+        return;
     }
 
     // Initializes the character map array
@@ -71,7 +85,7 @@ class Output {
         do Output.create(64,30,51,51,59,59,59,27,3,30,0,0);  // @
         do Output.create(63,30,51,51,24,12,12,0,12,12,0,0);  // ?
 
-        do Output.create(65,0,0,0,0,0,0,0,0,0,0,0);          // A ** TO BE FILLED **
+        do Output.create(65,12,30,51,51,63,51,51,51,51,0,0);          // A ** TO BE FILLED **        
         do Output.create(66,31,51,51,51,31,51,51,51,31,0,0); // B
         do Output.create(67,28,54,35,3,3,3,35,54,28,0,0);    // C
         do Output.create(68,15,27,51,51,51,51,51,27,15,0,0); // D
@@ -143,9 +157,9 @@ class Output {
     // Creates the character map array of the given character index, using the given values.
     function void create(int index, int a, int b, int c, int d, int e,
                          int f, int g, int h, int i, int j, int k) {
-	var Array map;
+	    var Array map;
 
-	let map = Array.new(11);
+	    let map = Array.new(11);
         let charMaps[index] = map;
 
         let map[0] = a;
@@ -176,28 +190,136 @@ class Output {
     /** Moves the cursor to the j-th column of the i-th row,
      *  and erases the character displayed there. */
     function void moveCursor(int i, int j) {
+        var int startBlock;
+        var int mask;
+        var int counter;
+        var int temp;
+        let col = j;
+        let row = i;
+        // division
+        let temp = col / 2;
+        // row: (512 / 16) * 11        
+        let startBlock = 16384 + (row * 352) + temp;
+        // remainder;
+        let temp = col - (temp * 2);
+        if (temp = 1) {
+            // right half
+            let mask = leftMask;
+        } else {
+            // left half
+            let mask = rightMask;
+        }
+        let counter = 0;
+        while (counter < 11) { // char size 8 * 11            
+            do Memory.poke(startBlock, Memory.peek(startBlock) & mask);
+            let startBlock = startBlock + 32;
+            let counter = counter + 1;
+        }
+        return;
     }
 
     /** Displays the given character at the cursor location,
      *  and advances the cursor one column forward. */
     function void printChar(char c) {
+        var int startBlock;
+        var int mask;
+        var int counter;
+        var int temp;
+        var Array charMask;
+        var boolean logicalHalf; // true for left, false for right
+        // division
+        let temp = col / 2;
+        // row: (512 / 16) * 11        
+        let startBlock = 16384 + (row * 352) + temp;
+        // remainder;
+        let temp = col - (temp * 2);
+        if (temp = 1) {
+            // left half
+            let mask = leftMask;
+            let logicalHalf = true;
+        } else {
+            // right half
+            let mask = rightMask;
+            let logicalHalf = false;
+        }
+        let counter = 0;
+        let charMask = Output.getMap(c);
+        while (counter < 11) { // char size 8 * 11
+            let temp = Memory.peek(startBlock);
+            let temp = temp & mask;
+            if (logicalHalf) {
+                // logical left, physical right
+                let temp = (charMask[counter] * 256) | temp;    
+            } else {
+                // logical right, physical left
+                let temp = charMask[counter] | temp;    
+            }            
+            do Memory.poke(startBlock, temp);
+            let startBlock = startBlock + 32;
+            let counter = counter + 1;
+        }
+        
+        if (col = 63) {
+            let col = 0;
+            if (row = 22) {
+                let row = 0;
+            } else {
+                let row = row + 1;
+            }
+        } else {
+            let col = col + 1;
+        }
+        return;
     }
 
     /** displays the given string starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printString(String s) {
+        var int counter;
+        var int len;
+        let len = s.length();
+        let counter = 0;
+        while (counter < len) {
+            do Output.printChar(s.charAt(counter));
+            let counter = counter + 1;
+        }
+        return;
     }
 
     /** Displays the given integer starting at the cursor location,
      *  and advances the cursor appropriately. */
     function void printInt(int i) {
+        var String intStr;
+        let intStr = String.new(16);
+        do intStr.setInt(i);
+        do Output.printString(intStr);
+        return;
     }
 
     /** Advances the cursor to the beginning of the next line. */
     function void println() {
+        let col = 0;
+        if (row = 22) {
+            let row = 0;            
+        } else {
+            let row = row + 1;
+        }
+        return;
     }
 
     /** Moves the cursor one column back. */
     function void backSpace() {
+        if (col = 0) {
+            if (row = 0) {
+
+            } else {
+                let row = row -1;
+                let col = 63;
+            }
+        } else {
+            let col = col - 1;
+        }
+        do Output.moveCursor(row, col);
+        return;
     }
 }

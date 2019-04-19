@@ -1,0 +1,574 @@
+
+function Screen.init 0
+push constant 1 
+neg
+pop static 1     // color
+push constant 16 
+call Array.new 1
+pop static 0     // bitToPos
+push constant 0 
+add
+pop temp 2 
+push constant 1 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 1 
+add
+pop temp 2 
+push constant 2 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 2 
+add
+pop temp 2 
+push constant 4 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 3 
+add
+pop temp 2 
+push constant 8 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 4 
+add
+pop temp 2 
+push constant 16 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 5 
+add
+pop temp 2 
+push constant 32 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 6 
+add
+pop temp 2 
+push constant 64 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 7 
+add
+pop temp 2 
+push constant 128 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 8 
+add
+pop temp 2 
+push constant 256 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 9 
+add
+pop temp 2 
+push constant 512 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 10 
+add
+pop temp 2 
+push constant 1024 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 11 
+add
+pop temp 2 
+push constant 2048 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 12 
+add
+pop temp 2 
+push constant 4096 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 13 
+add
+pop temp 2 
+push constant 8192 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 14 
+add
+pop temp 2 
+push constant 16384 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 15 
+add
+pop temp 2 
+push constant 32767 
+neg
+push constant 1 
+sub
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 0
+return
+
+function Screen.clearScreen 0
+push constant 0
+return
+
+function Screen.setColor 0
+push argument 0     // b
+pop static 1     // color
+push constant 0
+return
+
+function Screen.drawPixel 3
+push argument 0     // x
+push constant 16 
+call Math.divide 2
+pop local 2     // temp
+push constant 16384 
+push argument 1     // y
+push constant 32 
+call Math.multiply 2
+add
+push local 2     // temp
+add
+pop local 1     // pos
+push argument 0     // x
+push local 2     // temp
+push constant 16 
+call Math.multiply 2
+sub
+pop local 2     // temp
+push local 1     // pos
+call Memory.peek 1
+pop local 0     // ori
+// calculating if condition expression
+push static 1     // color
+not
+if-goto ELSE_0
+push local 1     // pos
+push local 2     // temp
+add
+pop pointer 1 
+push that 0 
+push local 0     // ori
+call Memory.poke 2
+pop temp 0     // do call
+goto FINISH_0
+label ELSE_0
+push local 1     // pos
+push local 2     // temp
+add
+pop pointer 1 
+push that 0 
+not
+push local 0     // ori
+and 
+call Memory.poke 2
+pop temp 0     // do call
+label FINISH_0
+push constant 0
+return
+
+function Screen.drawLine 1
+// calculating if condition expression
+push argument 0     // x1
+push argument 2     // x2
+eq 
+not
+if-goto ELSE_1
+// calculating if condition expression
+push argument 1     // y1
+push argument 3     // y2
+lt 
+not
+if-goto ELSE_2
+push argument 0     // x1
+push argument 1     // y1
+push argument 2     // x2
+push argument 3     // y2
+call Screen.drawLineVertical 4
+pop temp 0     // do call
+push constant 0
+return
+goto FINISH_2
+label ELSE_2
+push argument 0     // x1
+push argument 3     // y2
+push argument 2     // x2
+push argument 1     // y1
+call Screen.drawLineVertical 4
+pop temp 0     // do call
+push constant 0
+return
+label FINISH_2
+label ELSE_1
+// calculating if condition expression
+push argument 1     // y1
+push argument 3     // y2
+eq 
+not
+if-goto ELSE_3
+// calculating if condition expression
+push argument 0     // x1
+push argument 2     // x2
+lt 
+not
+if-goto ELSE_4
+push argument 0     // x1
+push argument 1     // y1
+push argument 2     // x2
+push argument 3     // y2
+call Screen.drawLineHorizontal 4
+pop temp 0     // do call
+push constant 0
+return
+goto FINISH_4
+label ELSE_4
+push argument 2     // x2
+push argument 1     // y1
+push argument 0     // x1
+push argument 3     // y2
+call Screen.drawLineHorizontal 4
+pop temp 0     // do call
+push constant 0
+return
+label FINISH_4
+label ELSE_3
+// calculating if condition expression
+push argument 0     // x1
+push argument 2     // x2
+lt 
+not
+if-goto ELSE_5
+// calculating if condition expression
+push argument 1     // y1
+push argument 3     // y2
+lt 
+not
+if-goto ELSE_6
+push argument 0     // x1
+push argument 1     // y1
+push argument 2     // x2
+push argument 3     // y2
+call Screen.drawLineDown 4
+pop temp 0     // do call
+goto FINISH_6
+label ELSE_6
+push argument 0     // x1
+push argument 1     // y1
+push argument 2     // x2
+push argument 3     // y2
+call Screen.drawLineUp 4
+pop temp 0     // do call
+label FINISH_6
+goto FINISH_5
+label ELSE_5
+// calculating if condition expression
+push argument 1     // y1
+push argument 3     // y2
+lt 
+not
+if-goto ELSE_7
+push argument 2     // x2
+push argument 3     // y2
+push argument 0     // x1
+push argument 1     // y1
+call Screen.drawLineUp 4
+pop temp 0     // do call
+goto FINISH_7
+label ELSE_7
+push argument 2     // x2
+push argument 3     // y2
+push argument 0     // x1
+push argument 1     // y1
+call Screen.drawLineDown 4
+pop temp 0     // do call
+label FINISH_7
+label FINISH_5
+push constant 0
+return
+
+function Screen.drawLineVertical 0
+label WHILE_0_EXP
+// calculating while condition expression
+push argument 1     // y
+push argument 3     // y2
+lt 
+not
+if-goto WHILE_0_END
+push argument 0     // x
+push argument 1     // y
+call Screen.drawPixel 2
+pop temp 0     // do call
+push argument 1     // y
+push constant 1 
+add
+pop argument 1     // y
+goto WHILE_0_EXP
+label WHILE_0_END
+push constant 0
+return
+
+function Screen.drawLineHorizontal 0
+label WHILE_1_EXP
+// calculating while condition expression
+push argument 0     // x
+push argument 2     // x2
+lt 
+not
+if-goto WHILE_1_END
+push argument 0     // x
+push argument 1     // y
+call Screen.drawPixel 2
+pop temp 0     // do call
+push argument 0     // x
+push constant 1 
+add
+pop argument 0     // x
+goto WHILE_1_EXP
+label WHILE_1_END
+push constant 0
+return
+
+function Screen.drawLineUp 5
+push constant 0 
+pop local 0     // a
+push constant 0 
+pop local 1     // b
+push argument 2     // x2
+push argument 0     // x
+sub
+pop local 2     // dx
+push argument 3     // y2
+push argument 1     // y
+sub
+pop local 3     // dy
+push local 0     // a
+push local 3     // dy
+call Math.multiply 2
+push local 1     // b
+push local 2     // dx
+call Math.multiply 2
+sub
+pop local 4     // t
+label WHILE_2_EXP
+// calculating while condition expression
+push local 0     // a
+push local 2     // dx
+lt 
+push local 0     // a
+push local 2     // dx
+eq 
+push local 1     // b
+push local 3     // dy
+gt 
+push local 1     // b
+push local 3     // dy
+eq 
+and 
+not
+if-goto WHILE_2_END
+push argument 0     // x
+push local 0     // a
+add
+push argument 1     // y
+push local 1     // b
+add
+call Screen.drawPixel 2
+pop temp 0     // do call
+// calculating if condition expression
+push local 4     // t
+push constant 0 
+gt 
+not
+if-goto ELSE_8
+push local 0     // a
+push constant 1 
+add
+pop local 0     // a
+push local 4     // t
+push local 3     // dy
+add
+pop local 4     // t
+goto FINISH_8
+label ELSE_8
+push local 1     // b
+push constant 1 
+sub
+pop local 1     // b
+push local 4     // t
+push local 2     // dx
+add
+pop local 4     // t
+label FINISH_8
+goto WHILE_2_EXP
+label WHILE_2_END
+push constant 0
+return
+
+function Screen.drawLineDown 5
+push constant 0 
+pop local 0     // a
+push constant 0 
+pop local 1     // b
+push argument 2     // x2
+push argument 0     // x
+sub
+pop local 2     // dx
+push argument 3     // y2
+push argument 1     // y
+sub
+pop local 3     // dy
+push local 0     // a
+push local 3     // dy
+call Math.multiply 2
+push local 1     // b
+push local 2     // dx
+call Math.multiply 2
+sub
+pop local 4     // t
+label WHILE_3_EXP
+// calculating while condition expression
+push local 0     // a
+push local 2     // dx
+lt 
+push local 0     // a
+push local 2     // dx
+eq 
+push local 1     // b
+push local 3     // dy
+lt 
+push local 1     // b
+push local 3     // dy
+eq 
+and 
+not
+if-goto WHILE_3_END
+push argument 0     // x
+push local 0     // a
+add
+push argument 1     // y
+push local 1     // b
+add
+call Screen.drawPixel 2
+pop temp 0     // do call
+// calculating if condition expression
+push local 4     // t
+push constant 0 
+lt 
+not
+if-goto ELSE_9
+push local 0     // a
+push constant 1 
+add
+pop local 0     // a
+push local 4     // t
+push local 3     // dy
+add
+pop local 4     // t
+goto FINISH_9
+label ELSE_9
+push local 1     // b
+push constant 1 
+add
+pop local 1     // b
+push local 4     // t
+push local 2     // dx
+sub
+pop local 4     // t
+label FINISH_9
+goto WHILE_3_EXP
+label WHILE_3_END
+push constant 0
+return
+
+function Screen.drawRectangle 0
+label WHILE_4_EXP
+// calculating while condition expression
+push argument 1     // y1
+push argument 3     // y2
+lt 
+not
+if-goto WHILE_4_END
+push argument 0     // x1
+push argument 1     // y1
+push argument 2     // x2
+push argument 1     // y1
+call Screen.drawLineHorizontal 4
+pop temp 0     // do call
+push argument 1     // y1
+push constant 1 
+add
+pop argument 1     // y1
+goto WHILE_4_EXP
+label WHILE_4_END
+push argument 0     // x1
+push argument 3     // y2
+push argument 2     // x2
+push argument 3     // y2
+call Screen.drawLineHorizontal 4
+pop temp 0     // do call
+push constant 0
+return
+
+function Screen.drawCircle 3
+push argument 2     // r
+neg
+pop local 0     // dy
+push argument 2     // r
+push constant 1 
+add
+pop local 2     // bottom
+label WHILE_5_EXP
+// calculating while condition expression
+push local 0     // dy
+push local 2     // bottom
+lt 
+not
+if-goto WHILE_5_END
+push argument 2     // r
+push argument 2     // r
+call Math.multiply 2
+push local 0     // dy
+push local 0     // dy
+call Math.multiply 2
+sub
+call Math.sqrt 1
+pop local 1     // dx
+push argument 0     // x
+push local 1     // dx
+sub
+push argument 1     // y
+push local 0     // dy
+add
+push argument 0     // x
+push local 1     // dx
+add
+push argument 1     // y
+push local 0     // dy
+add
+call Screen.drawLineHorizontal 4
+pop temp 0     // do call
+push local 0     // dy
+push constant 1 
+add
+pop local 0     // dy
+goto WHILE_5_EXP
+label WHILE_5_END
+push constant 0
+return

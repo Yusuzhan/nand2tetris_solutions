@@ -49,17 +49,19 @@ call String.appendChar 2
 push constant 116 
 call String.appendChar 2
 pop local 2     // s
-push pointer 0 
+push constant 0 
 pop local 2     // s
 push constant 1 
 push local 3     // a
 add
-pop pointer 1 
+pop temp 2 
 push local 3     // a
 push constant 2 
 add
 pop pointer 1 
 push that 0 
+push temp 2 
+pop pointer 1 
 pop that 0 
 goto FINISH_0
 label ELSE_0

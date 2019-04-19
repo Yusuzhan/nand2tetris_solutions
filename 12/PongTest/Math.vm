@@ -1,0 +1,370 @@
+
+function Math.init 0
+push constant 16 
+call Array.new 1
+pop static 0     // twoToThe
+push constant 0 
+add
+pop temp 2 
+push constant 1 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 1 
+add
+pop temp 2 
+push constant 2 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 2 
+add
+pop temp 2 
+push constant 4 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 3 
+add
+pop temp 2 
+push constant 8 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 4 
+add
+pop temp 2 
+push constant 16 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 5 
+add
+pop temp 2 
+push constant 32 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 6 
+add
+pop temp 2 
+push constant 64 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 7 
+add
+pop temp 2 
+push constant 128 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 8 
+add
+pop temp 2 
+push constant 256 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 9 
+add
+pop temp 2 
+push constant 512 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 10 
+add
+pop temp 2 
+push constant 1024 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 11 
+add
+pop temp 2 
+push constant 2048 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 12 
+add
+pop temp 2 
+push constant 4096 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 13 
+add
+pop temp 2 
+push constant 8192 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 14 
+add
+pop temp 2 
+push constant 16384 
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 15 
+add
+pop temp 2 
+push constant 32767 
+neg
+push constant 1 
+sub
+push temp 2 
+pop pointer 1 
+pop that 0 
+push constant 0
+return
+
+function Math.abs 0
+// calculating if condition expression
+push argument 0     // x
+push constant 0 
+lt 
+not
+if-goto ELSE_0
+push argument 0     // x
+neg
+return
+goto FINISH_0
+label ELSE_0
+push argument 0     // x
+return
+label FINISH_0
+
+function Math.multiply 3
+push constant 0 
+pop local 0     // sum
+push constant 0 
+pop local 1     // index
+push argument 0     // x
+pop local 2     // shifteX
+label WHILE_0_EXP
+// calculating while condition expression
+push local 1     // index
+push constant 16 
+lt 
+not
+if-goto WHILE_0_END
+// calculating if condition expression
+push argument 1     // y
+push local 1     // index
+add
+pop pointer 1 
+push that 0 
+and 
+push constant 0 
+eq 
+not
+not
+if-goto ELSE_1
+push argument 0     // x
+call Output.printInt 1
+pop temp 0     // do call
+push constant 35 
+call Output.printChar 1
+pop temp 0     // do call
+push argument 1     // y
+call Output.printInt 1
+pop temp 0     // do call
+push constant 32 
+call Output.printChar 1
+pop temp 0     // do call
+push local 0     // sum
+push local 2     // shifteX
+add
+pop local 0     // sum
+label ELSE_1
+push local 2     // shifteX
+push local 2     // shifteX
+add
+pop local 2     // shifteX
+push local 1     // index
+push constant 1 
+add
+pop local 1     // index
+goto WHILE_0_EXP
+label WHILE_0_END
+push local 0     // sum
+return
+
+function Math.divide 1
+push constant 0 
+pop local 0     // negtive
+// calculating if condition expression
+push argument 0     // x
+push constant 0 
+lt 
+not
+if-goto ELSE_2
+push argument 0     // x
+neg
+pop argument 0     // x
+push constant 1 
+neg
+pop local 0     // negtive
+label ELSE_2
+// calculating if condition expression
+push argument 1     // y
+push constant 0 
+lt 
+not
+if-goto ELSE_3
+push argument 1     // y
+neg
+pop argument 1     // y
+push local 0     // negtive
+not
+pop local 0     // negtive
+label ELSE_3
+// calculating if condition expression
+push local 0     // negtive
+not
+if-goto ELSE_4
+push argument 0     // x
+push argument 1     // y
+call Math.divideAbs 2
+neg
+return
+goto FINISH_4
+label ELSE_4
+push argument 0     // x
+push argument 1     // y
+call Math.divideAbs 2
+return
+label FINISH_4
+
+function Math.divideAbs 1
+push constant 0 
+pop local 0     // q
+// calculating if condition expression
+push argument 1     // y
+push argument 0     // x
+gt 
+not
+if-goto ELSE_5
+push constant 0 
+return
+label ELSE_5
+push argument 0     // x
+push argument 1     // y
+push argument 1     // y
+add
+call Math.divide 2
+pop local 0     // q
+// calculating if condition expression
+push argument 0     // x
+push constant 2 
+push local 0     // q
+call Math.multiply 2
+push argument 1     // y
+call Math.multiply 2
+sub
+push argument 1     // y
+lt 
+not
+if-goto ELSE_6
+push local 0     // q
+push local 0     // q
+add
+return
+goto FINISH_6
+label ELSE_6
+push local 0     // q
+push local 0     // q
+add
+push constant 1 
+add
+return
+label FINISH_6
+
+function Math.min 0
+// calculating if condition expression
+push argument 0     // x
+push argument 1     // y
+lt 
+not
+if-goto ELSE_7
+push argument 0     // x
+return
+goto FINISH_7
+label ELSE_7
+push argument 1     // y
+return
+label FINISH_7
+
+function Math.max 0
+// calculating if condition expression
+push argument 0     // x
+push argument 1     // y
+gt 
+not
+if-goto ELSE_8
+push argument 0     // x
+return
+goto FINISH_8
+label ELSE_8
+push argument 1     // y
+return
+label FINISH_8
+
+function Math.sqrt 3
+push constant 0 
+pop local 0     // y
+push constant 7 
+pop local 1     // index
+label WHILE_1_EXP
+// calculating while condition expression
+push local 1     // index
+push constant 1 
+neg
+gt 
+not
+if-goto WHILE_1_END
+push local 0     // y
+push local 1     // index
+add
+pop pointer 1 
+push that 0 
+add
+pop local 2     // temp
+push local 2     // temp
+push local 2     // temp
+call Math.multiply 2
+pop local 2     // temp
+// calculating if condition expression
+push local 2     // temp
+push argument 0     // x
+gt 
+not
+if-goto ELSE_9
+goto FINISH_9
+label ELSE_9
+// calculating if condition expression
+push local 2     // temp
+push constant 0 
+gt 
+not
+if-goto ELSE_10
+push local 0     // y
+push local 1     // index
+add
+pop pointer 1 
+push that 0 
+add
+pop local 0     // y
+label ELSE_10
+label FINISH_9
+push local 1     // index
+push constant 1 
+sub
+pop local 1     // index
+goto WHILE_1_EXP
+label WHILE_1_END
+push local 0     // y
+return

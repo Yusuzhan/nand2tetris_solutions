@@ -1,0 +1,453 @@
+
+function Ball.new 0
+push constant 15 
+call Memory.alloc 1
+pop pointer 0     // set this pointer
+push argument 0     // Ax
+pop this 0     // x
+push argument 1     // Ay
+pop this 1     // y
+push argument 2     // AleftWall
+pop this 10     // leftWall
+push argument 3     // ArightWall
+push constant 6 
+sub
+pop this 11     // rightWall
+push argument 4     // AtopWall
+pop this 12     // topWall
+push argument 5     // AbottomWall
+push constant 6 
+sub
+pop this 13     // bottomWall
+push constant 0 
+pop this 14     // wall
+push pointer 0 
+call Ball.show 1
+pop temp 0     // do call
+push pointer 0 
+return
+
+function Ball.dispose 0
+push argument 0 
+pop pointer 0 
+push pointer 0 
+call Memory.deAlloc 1
+pop temp 0     // do call
+push constant 0
+return
+
+function Ball.show 0
+push argument 0 
+pop pointer 0 
+push constant 1 
+neg
+call Screen.setColor 1
+pop temp 0     // do call
+push pointer 0 
+call Ball.draw 1
+pop temp 0     // do call
+push constant 0
+return
+
+function Ball.hide 0
+push argument 0 
+pop pointer 0 
+push constant 0 
+call Screen.setColor 1
+pop temp 0     // do call
+push pointer 0 
+call Ball.draw 1
+pop temp 0     // do call
+push constant 0
+return
+
+function Ball.draw 0
+push argument 0 
+pop pointer 0 
+push this 0     // x
+push this 1     // y
+push this 0     // x
+push constant 5 
+add
+push this 1     // y
+push constant 5 
+add
+call Screen.drawRectangle 4
+pop temp 0     // do call
+push constant 0
+return
+
+function Ball.getLeft 0
+push argument 0 
+pop pointer 0 
+push this 0     // x
+return
+
+function Ball.getRight 0
+push argument 0 
+pop pointer 0 
+push this 0     // x
+push constant 5 
+add
+return
+
+function Ball.setDestination 3
+push argument 0 
+pop pointer 0 
+push argument 1     // destx
+push this 0     // x
+sub
+pop this 2     // lengthx
+push argument 2     // desty
+push this 1     // y
+sub
+pop this 3     // lengthy
+push this 2     // lengthx
+call Math.abs 1
+pop local 0     // dx
+push this 3     // lengthy
+call Math.abs 1
+pop local 1     // dy
+push local 0     // dx
+push local 1     // dy
+lt 
+pop this 7     // invert
+// calculating if condition expression
+push this 7     // invert
+not
+if-goto ELSE_0
+push local 0     // dx
+pop local 2     // temp
+push local 1     // dy
+pop local 0     // dx
+push local 2     // temp
+pop local 1     // dy
+push this 1     // y
+push argument 2     // desty
+lt 
+pop this 8     // positivex
+push this 0     // x
+push argument 1     // destx
+lt 
+pop this 9     // positivey
+goto FINISH_0
+label ELSE_0
+push this 0     // x
+push argument 1     // destx
+lt 
+pop this 8     // positivex
+push this 1     // y
+push argument 2     // desty
+lt 
+pop this 9     // positivey
+label FINISH_0
+push constant 2 
+push local 1     // dy
+call Math.multiply 2
+push local 0     // dx
+sub
+pop this 4     // d
+push constant 2 
+push local 1     // dy
+call Math.multiply 2
+pop this 5     // straightD
+push constant 2 
+push local 1     // dy
+push local 0     // dx
+sub
+call Math.multiply 2
+pop this 6     // diagonalD
+push constant 0
+return
+
+function Ball.move 0
+push argument 0 
+pop pointer 0 
+push pointer 0 
+call Ball.hide 1
+pop temp 0     // do call
+// calculating if condition expression
+push this 4     // d
+push constant 0 
+lt 
+not
+if-goto ELSE_1
+push this 4     // d
+push this 5     // straightD
+add
+pop this 4     // d
+goto FINISH_1
+label ELSE_1
+push this 4     // d
+push this 6     // diagonalD
+add
+pop this 4     // d
+// calculating if condition expression
+push this 9     // positivey
+not
+if-goto ELSE_2
+// calculating if condition expression
+push this 7     // invert
+not
+if-goto ELSE_3
+push this 0     // x
+push constant 4 
+add
+pop this 0     // x
+goto FINISH_3
+label ELSE_3
+push this 1     // y
+push constant 4 
+add
+pop this 1     // y
+label FINISH_3
+goto FINISH_2
+label ELSE_2
+// calculating if condition expression
+push this 7     // invert
+not
+if-goto ELSE_4
+push this 0     // x
+push constant 4 
+sub
+pop this 0     // x
+goto FINISH_4
+label ELSE_4
+push this 1     // y
+push constant 4 
+sub
+pop this 1     // y
+label FINISH_4
+label FINISH_2
+label FINISH_1
+// calculating if condition expression
+push this 8     // positivex
+not
+if-goto ELSE_5
+// calculating if condition expression
+push this 7     // invert
+not
+if-goto ELSE_6
+push this 1     // y
+push constant 4 
+add
+pop this 1     // y
+goto FINISH_6
+label ELSE_6
+push this 0     // x
+push constant 4 
+add
+pop this 0     // x
+label FINISH_6
+goto FINISH_5
+label ELSE_5
+// calculating if condition expression
+push this 7     // invert
+not
+if-goto ELSE_7
+push this 1     // y
+push constant 4 
+sub
+pop this 1     // y
+goto FINISH_7
+label ELSE_7
+push this 0     // x
+push constant 4 
+sub
+pop this 0     // x
+label FINISH_7
+label FINISH_5
+// calculating if condition expression
+push this 0     // x
+push this 10     // leftWall
+gt 
+not
+not
+if-goto ELSE_8
+push constant 1 
+pop this 14     // wall
+push this 10     // leftWall
+pop this 0     // x
+label ELSE_8
+// calculating if condition expression
+push this 0     // x
+push this 11     // rightWall
+lt 
+not
+not
+if-goto ELSE_9
+push constant 2 
+pop this 14     // wall
+push this 11     // rightWall
+pop this 0     // x
+label ELSE_9
+// calculating if condition expression
+push this 1     // y
+push this 12     // topWall
+gt 
+not
+not
+if-goto ELSE_10
+push constant 3 
+pop this 14     // wall
+push this 12     // topWall
+pop this 1     // y
+label ELSE_10
+// calculating if condition expression
+push this 1     // y
+push this 13     // bottomWall
+lt 
+not
+not
+if-goto ELSE_11
+push constant 4 
+pop this 14     // wall
+push this 13     // bottomWall
+pop this 1     // y
+label ELSE_11
+push pointer 0 
+call Ball.show 1
+pop temp 0     // do call
+push this 14     // wall
+return
+
+function Ball.bounce 5
+push argument 0 
+pop pointer 0 
+push this 2     // lengthx
+push constant 10 
+call Math.divide 2
+pop local 2     // divLengthx
+push this 3     // lengthy
+push constant 10 
+call Math.divide 2
+pop local 3     // divLengthy
+// calculating if condition expression
+push argument 1     // bouncingDirection
+push constant 0 
+eq 
+not
+if-goto ELSE_12
+push constant 10 
+pop local 4     // factor
+goto FINISH_12
+label ELSE_12
+// calculating if condition expression
+push this 2     // lengthx
+push constant 0 
+lt 
+not
+push argument 1     // bouncingDirection
+push constant 1 
+eq 
+and 
+push this 2     // lengthx
+push constant 0 
+lt 
+push argument 1     // bouncingDirection
+push constant 1 
+neg
+eq 
+and 
+not
+if-goto ELSE_13
+push constant 20 
+pop local 4     // factor
+goto FINISH_13
+label ELSE_13
+push constant 5 
+pop local 4     // factor
+label FINISH_13
+label FINISH_12
+// calculating if condition expression
+push this 14     // wall
+push constant 1 
+eq 
+not
+if-goto ELSE_14
+push constant 506 
+pop local 0     // newx
+push local 3     // divLengthy
+push constant 50 
+neg
+call Math.multiply 2
+push local 2     // divLengthx
+call Math.divide 2
+pop local 1     // newy
+push this 1     // y
+push local 1     // newy
+push local 4     // factor
+call Math.multiply 2
+add
+pop local 1     // newy
+goto FINISH_14
+label ELSE_14
+// calculating if condition expression
+push this 14     // wall
+push constant 2 
+eq 
+not
+if-goto ELSE_15
+push constant 0 
+pop local 0     // newx
+push local 3     // divLengthy
+push constant 50 
+call Math.multiply 2
+push local 2     // divLengthx
+call Math.divide 2
+pop local 1     // newy
+push this 1     // y
+push local 1     // newy
+push local 4     // factor
+call Math.multiply 2
+add
+pop local 1     // newy
+goto FINISH_15
+label ELSE_15
+// calculating if condition expression
+push this 14     // wall
+push constant 3 
+eq 
+not
+if-goto ELSE_16
+push constant 250 
+pop local 1     // newy
+push local 2     // divLengthx
+push constant 25 
+neg
+call Math.multiply 2
+push local 3     // divLengthy
+call Math.divide 2
+pop local 0     // newx
+push this 0     // x
+push local 0     // newx
+push local 4     // factor
+call Math.multiply 2
+add
+pop local 0     // newx
+goto FINISH_16
+label ELSE_16
+push constant 0 
+pop local 1     // newy
+push local 2     // divLengthx
+push constant 25 
+call Math.multiply 2
+push local 3     // divLengthy
+call Math.divide 2
+pop local 0     // newx
+push this 0     // x
+push local 0     // newx
+push local 4     // factor
+call Math.multiply 2
+add
+pop local 0     // newx
+label FINISH_16
+label FINISH_15
+label FINISH_14
+push pointer 0 
+push local 0     // newx
+push local 1     // newy
+call Ball.setDestination 3
+pop temp 0     // do call
+push constant 0
+return

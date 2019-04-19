@@ -55,7 +55,7 @@ if-goto WHILE_0_END
 push local 2     // i
 push local 0     // a
 add
-pop pointer 1 
+pop temp 2 
 push constant 23 
 call String.new 1
 push constant 69 
@@ -105,6 +105,8 @@ call String.appendChar 2
 push constant 32 
 call String.appendChar 2
 call Keyboard.readInt 1
+push temp 2 
+pop pointer 1 
 pop that 0 
 push local 2     // i
 push constant 1 

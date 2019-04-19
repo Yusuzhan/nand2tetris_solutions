@@ -1,0 +1,78 @@
+
+function Sys.init 0
+call Memory.init 0
+pop temp 0     // do call
+call Keyboard.init 0
+pop temp 0     // do call
+call Math.init 0
+pop temp 0     // do call
+call Output.init 0
+pop temp 0     // do call
+call Screen.init 0
+pop temp 0     // do call
+push constant 10 
+pop static 0     // coefficient
+call Main.main 0
+pop temp 0     // do call
+call Sys.halt 0
+pop temp 0     // do call
+push constant 0
+return
+
+function Sys.halt 0
+label WHILE_0_EXP
+// calculating while condition expression
+push constant 1 
+neg
+not
+if-goto WHILE_0_END
+goto WHILE_0_EXP
+label WHILE_0_END
+push constant 0
+return
+
+function Sys.wait 1
+push argument 0     // duration
+push static 0     // coefficient
+call Math.multiply 2
+pop local 0     // i
+label WHILE_1_EXP
+// calculating while condition expression
+push local 0     // i
+push constant 0 
+gt 
+not
+if-goto WHILE_1_END
+push local 0     // i
+push constant 1 
+sub
+pop local 0     // i
+goto WHILE_1_EXP
+label WHILE_1_END
+push constant 0
+return
+
+function Sys.error 0
+push constant 0 
+push constant 0 
+call Output.moveCursor 2
+pop temp 0     // do call
+push constant 4 
+call String.new 1
+push constant 69 
+call String.appendChar 2
+push constant 82 
+call String.appendChar 2
+push constant 82 
+call String.appendChar 2
+push constant 32 
+call String.appendChar 2
+call Output.printString 1
+pop temp 0     // do call
+push argument 0     // errorCode
+call Output.printInt 1
+pop temp 0     // do call
+call Sys.halt 0
+pop temp 0     // do call
+push constant 0
+return

@@ -1,0 +1,17 @@
+<tokens>
+	<keyword> class </keyword>
+	<identifier> Test </identifier>
+	<symbol> { </symbol>
+	<keyword> function </keyword>
+	<keyword> int </keyword>
+	<identifier> test </identifier>
+	<symbol> ( </symbol>
+	<symbol> ) </symbol>
+	<symbol> { </symbol>
+	<keyword> return </keyword>
+	<symbol> - </symbol>
+	<integerConstant> 1 </integerConstant>
+	<symbol> ; </symbol>
+	<symbol> } </symbol>
+	<symbol> } </symbol>
+</tokens>

@@ -23,8 +23,10 @@ pop local 2     // s
 push local 0     // i
 push local 3     // a
 add
-pop pointer 1 
+pop temp 2 
 push local 1     // j
+push temp 2 
+pop pointer 1 
 pop that 0 
 goto FINISH_0
 label ELSE_0
